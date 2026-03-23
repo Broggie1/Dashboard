@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaxReady UK - Simple MTD-Compliant Tax Tool for Self-Employed</title>
+    <meta name="description" content="The simplest MTD-compliant tax tool for UK small businesses. £79 one-time. No subscriptions. Launch offer: £59">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        
+        /* Header */
+        .hero { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+        .hero h1 { 
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        .hero p { 
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        
+        /* Alert Box */
+        .alert {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+        }
+        .alert strong { color: #856404; }
+        
+        /* Problem Section */
+        .problem {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .problem h2 { 
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+        .problem ul { 
+            list-style: none;
+            margin: 20px 0;
+        }
+        .problem li {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .problem li:last-child { border-bottom: none; }
+        .problem li::before {
+            content: "❌ ";
+            margin-right: 10px;
+        }
+        
+        /* Solution */
+        .solution {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .solution h2 { 
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #10b981;
+        }
+        .features {
+            display: grid;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .feature {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #10b981;
+        }
+        .feature h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .feature p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        /* Pricing Comparison */
+        .pricing {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .pricing h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .pricing-card {
+            padding: 30px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .pricing-card.highlight {
+            border-color: #667eea;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            transform: scale(1.05);
+        }
+        .pricing-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+        .pricing-card .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 20px 0;
+            color: #667eea;
+        }
+        .pricing-card .period {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .pricing-card ul {
+            text-align: left;
+            list-style: none;
+            margin: 20px 0;
+        }
+        .pricing-card li {
+            padding: 8px 0;
+            font-size: 0.9rem;
+        }
+        .pricing-card li::before {
+            content: "✓ ";
+            color: #10b981;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        /* CTA */
+        .cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .cta h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        .cta p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+        .cta form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .cta input {
+            width: 100%;
+            padding: 16px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .cta button {
+            width: 100%;
+            padding: 18px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .cta button:hover {
+            background: #059669;
+        }
+        .cta .discount {
+            background: rgba(255,255,255,0.2);
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin-top: 15px;
+            font-size: 0.95rem;
+        }
+        
+        /* FAQ */
+        .faq {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+        .faq h2 {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .faq-item {
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #eee;
+        }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-item h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+        .faq-item p {
+            color: #666;
+            line-height: 1.7;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 1.8rem; }
+            .hero p { font-size: 1.1rem; }
+            .pricing-card.highlight { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Hero -->
+        <div class="hero">
+            <div class="badge">🇬🇧 MTD-Compliant | UK Tax Year 2026/27</div>
+            <h1>TaxReady UK</h1>
+            <p>The simplest MTD-compliant tax tool for self-employed & small businesses</p>
+            <p style="font-size: 1rem; opacity: 0.9;">£79 one-time. No subscriptions. No accountant fees.</p>
+        </div>
+        
+        <!-- Alert -->
+        <div class="alert">
+            <strong>⚠️ April 2026 Deadline:</strong> If you earn over £50k, Making Tax Digital (MTD) becomes mandatory. You MUST keep digital records and submit quarterly updates. Don't get caught unprepared.
+        </div>
+        
+        <!-- Problem -->
+        <div class="problem">
+            <h2>The Problem With Current Tax Tools</h2>
+            <ul>
+                <li><strong>Accountants cost £500-2,000/year</strong> - Too expensive for most small businesses</li>
+                <li><strong>Software subscriptions add up</strong> - £240-600/year for features you don't need</li>
+                <li><strong>Basic spreadsheets aren't MTD-compliant</strong> - Risk HMRC penalties</li>
+                <li><strong>HMRC tools are confusing</strong> - Errors lead to stress and fines</li>
+                <li><strong>Most solutions are overcomplicated</strong> - Built for accountants, not you</li>
+            </ul>
+        </div>
+        
+        <!-- Solution -->
+        <div class="solution">
+            <h2>Introducing TaxReady UK</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 30px;">Everything you need for MTD compliance in one simple Excel spreadsheet. No learning curve. No monthly fees. Just works.</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <h3>✅ MTD-Compliant Record Keeping</h3>
+                    <p>HMRC-approved categories. Automatic quarterly summaries. Export ready for MTD portal. Stay compliant without the headache.</p>
+                </div>
+                
+                <div class="feature">
+                    <h3>💰 Smart Tax Calculators</h3>
+                    <p>Real-time tax estimates. Dividend vs salary optimizer. VAT threshold tracker. Know exactly what you owe, when you owe it.</p>
+                </div>
+                
+                <div class="feature">
+                    <h3>📊 Quarterly MTD Submissions</h3>
+                    <p>Pre-filled templates. Validation checks for errors. Plain English guidance. Submit to HMRC in 5 minutes, not 5 hours.</p>
+                </div>
+                
+                <div class="feature">
+                    <h3>🎓 No Accounting Experience Needed</h3>
+                    <p>Video walkthroughs. Built-in help text. Email support within 48 hours. We guide you every step.</p>
+                </div>
+                
+                <div class="feature">
+                    <h3>🇬🇧 100% UK-Specific</h3>
+                    <p>HMRC categories. UK tax year (April-April). Scottish tax bands. National Insurance. Self-assessment SA100 format.</p>
+                </div>
+                
+                <div class="feature">
+                    <h3>🔄 Free Updates for 3 Years</h3>
+                    <p>Tax laws change. We keep you updated. MTD compliance guaranteed through 2029. One purchase, three years covered.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Pricing Comparison -->
+        <div class="pricing">
+            <h2>Why Pay More?</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Accountant</h3>
+                    <div class="price">£500+</div>
+                    <div class="period">per year</div>
+                    <ul>
+                        <li>Expensive ongoing costs</li>
+                        <li>Slow turnaround</li>
+                        <li>Still need to track yourself</li>
+                        <li>Overkill for simple taxes</li>
+                    </ul>
+                </div>
+                
+                <div class="pricing-card">
+                    <h3>Software (Xero, QB)</h3>
+                    <div class="price">£240</div>
+                    <div class="period">per year (£20/mo)</div>
+                    <ul>
+                        <li>Subscription lock-in</li>
+                        <li>Overcomplicated features</li>
+                        <li>Learning curve</li>
+                        <li>Costs add up over time</li>
+                    </ul>
+                </div>
+                
+                <div class="pricing-card highlight">
+                    <h3>TaxReady UK ⭐</h3>
+                    <div class="price">£79</div>
+                    <div class="period">one-time</div>
+                    <ul>
+                        <li>No subscriptions, ever</li>
+                        <li>Simple & MTD-compliant</li>
+                        <li>3 years of free updates</li>
+                        <li>Email support included</li>
+                        <li>10-min setup</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="text-align: center; color: #666; font-size: 0.95rem;">
+                <strong>Save £161-421 in year 1 alone.</strong> Pay once, use for years.
+            </p>
+        </div>
+        
+        <!-- CTA -->
+        <div class="cta">
+            <h2>Join the Waitlist - Launch Offer</h2>
+            <p>Get early access + save £20 when we launch (March 20th)</p>
+            <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                <input type="email" name="email" placeholder="Enter your email" required>
+                <input type="text" name="name" placeholder="Your name (optional)">
+                <button type="submit">Join Waitlist - Get £20 Off</button>
+            </form>
+            <div class="discount">
+                💰 Launch price: £59 (normally £79) - Limited to first 100 customers
+            </div>
+        </div>
+        
+        <!-- FAQ -->
+        <div class="faq">
+            <h2>Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <h3>Is this really MTD-compliant?</h3>
+                <p>Yes. TaxReady UK follows HMRC's MTD for Income Tax requirements: digital record keeping, quarterly summaries, and timestamped audit trails. We update the spreadsheet whenever HMRC changes the rules (free for 3 years).</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Do I need Excel or can I use Google Sheets?</h3>
+                <p>Both! You get an Excel version (.xlsx) and a Google Sheets version. Use whichever you prefer. Works on Mac, Windows, and mobile.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>What if I make a mistake?</h3>
+                <p>The spreadsheet has built-in validation that flags common errors before you submit. Plus, we include plain English explanations for every field. And if you're stuck, email us - we reply within 48 hours.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Does it work for limited companies?</h3>
+                <p>Yes! It handles sole traders, freelancers, and small limited companies (1-2 directors). Includes dividend calculations, salary optimization, and corporation tax estimates.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>What about after the 3-year updates run out?</h3>
+                <p>You can keep using it indefinitely. The spreadsheet is yours forever. If you want continued updates after 3 years, it's £19/year (optional). No forced subscriptions.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Why not just use a free online calculator?</h3>
+                <p>Free calculators are one-off estimates - they don't track your income/expenses throughout the year, aren't MTD-compliant, and don't prepare quarterly submissions. TaxReady UK is a complete system.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>When does it launch?</h3>
+                <p>March 20th, 2026. Join the waitlist to get early access + the £20 launch discount (£59 instead of £79). Only the first 100 customers get this price.</p>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>TaxReady UK</strong> | Built for UK self-employed & small businesses</p>
+            <p style="margin-top: 10px; font-size: 0.85rem;">Not affiliated with HMRC. This is a digital tool to help organize your tax data. Final submission and accuracy is your responsibility. Consult an accountant if unsure.</p>
+            <p style="margin-top: 20px;">Questions? Email: hello@taxready.uk (placeholder)</p>
+        </div>
+    </div>
+</body>
+</html>

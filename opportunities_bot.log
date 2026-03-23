@@ -1,0 +1,10 @@
+2026-03-13 18:55:30,458 - INFO - Generate command started with count=5
+2026-03-13 18:55:30,650 - ERROR - Gemini API call failed: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]

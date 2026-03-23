@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mission Control Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="dashboard-header">
+    <h1>⚔️ Mission Control</h1>
+    <div class="header-meta">
+      <span id="last-updated">Last updated: --:--:--</span>
+    </div>
+  </header>
+
+  <main class="dashboard-main">
+    
+    <!-- Agents Section -->
+    <section class="panel agents-panel">
+      <h2>Active Agents <span class="badge" id="agents-count">0</span></h2>
+      <div id="agents-cards" class="cards-grid"></div>
+    </section>
+
+    <!-- Blockers Section -->
+    <section class="panel blockers-panel">
+      <h2>⚠️ Current Blockers <span class="badge badge-danger" id="blockers-count">0</span></h2>
+      <div id="blockers-cards" class="cards-grid"></div>
+    </section>
+
+    <!-- Kanban Section -->
+    <section class="panel kanban-panel">
+      <h2>📋 Kanban</h2>
+      <div class="kanban-grid">
+        <div class="kanban-column" data-column="Ideas">
+          <h3>Ideas <span class="badge" id="count-ideas">0</span></h3>
+          <div class="kanban-cards-list"></div>
+        </div>
+        <div class="kanban-column" data-column="Research">
+          <h3>Research <span class="badge" id="count-research">0</span></h3>
+          <div class="kanban-cards-list"></div>
+        </div>
+        <div class="kanban-column" data-column="Build">
+          <h3>Build <span class="badge" id="count-build">0</span></h3>
+          <div class="kanban-cards-list"></div>
+        </div>
+        <div class="kanban-column" data-column="Launch">
+          <h3>Launch <span class="badge" id="count-launch">0</span></h3>
+          <div class="kanban-cards-list"></div>
+        </div>
+        <div class="kanban-column" data-column="Revenue">
+          <h3>Revenue <span class="badge" id="count-revenue">0</span></h3>
+          <div class="kanban-cards-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- System Health Section -->
+    <section class="panel health-panel">
+      <h2>💚 System Health</h2>
+      <div class="health-grid">
+        <div class="health-item">
+          <div class="health-label">CPU Usage</div>
+          <div class="health-value" id="cpu-usage">--%</div>
+          <div class="progress-bar"><div class="progress-fill" id="cpu-bar"></div></div>
+        </div>
+        <div class="health-item">
+          <div class="health-label">Memory Usage</div>
+          <div class="health-value" id="memory-usage">--%</div>
+          <div class="progress-bar"><div class="progress-fill" id="memory-bar"></div></div>
+        </div>
+        <div class="health-item">
+          <div class="health-label">Disk Space</div>
+          <div class="health-value" id="disk-usage">--%</div>
+          <div class="progress-bar"><div class="progress-fill" id="disk-bar"></div></div>
+        </div>
+        <div class="health-item">
+          <div class="health-label">Gateway</div>
+          <div class="health-value" id="gateway-status">--</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
