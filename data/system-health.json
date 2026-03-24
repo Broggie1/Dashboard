@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-03-24T12:30:00Z",
+  "cpu": {
+    "usage": 35,
+    "status": "good",
+    "cores": 8,
+    "temperature": 52
+  },
+  "memory": {
+    "usage": 42,
+    "status": "good",
+    "total": "16 GB",
+    "used": "6.7 GB",
+    "available": "9.3 GB"
+  },
+  "disk": {
+    "usage": 18,
+    "status": "good",
+    "total": "500 GB",
+    "used": "90 GB",
+    "available": "410 GB"
+  },
+  "gateway": {
+    "status": "running",
+    "uptime": "7 days 14 hours",
+    "version": "1.2.3"
+  },
+  "network": {
+    "status": "connected",
+    "type": "WiFi",
+    "latency": "12ms"
+  }
+}

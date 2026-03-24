@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Morning Briefing",
+    "schedule": "0 8 * * *",
+    "description": "Daily morning briefing with weather, calendar, and email summary",
+    "status": "active",
+    "lastRun": "2026-03-24T08:00:00Z",
+    "nextRun": "2026-03-25T08:00:00Z",
+    "success": true
+  },
+  {
+    "id": 2,
+    "name": "Backup Check",
+    "schedule": "0 2 * * *",
+    "description": "Verify backup integrity and storage",
+    "status": "active",
+    "lastRun": "2026-03-24T02:00:00Z",
+    "nextRun": "2026-03-25T02:00:00Z",
+    "success": true
+  },
+  {
+    "id": 3,
+    "name": "System Health Monitor",
+    "schedule": "*/15 * * * *",
+    "description": "Monitor CPU, memory, and disk usage",
+    "status": "active",
+    "lastRun": "2026-03-24T12:15:00Z",
+    "nextRun": "2026-03-24T12:30:00Z",
+    "success": true
+  }
+]

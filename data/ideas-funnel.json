@@ -1,0 +1,83 @@
+{
+  "stages": {
+    "ideas": {
+      "count": 2,
+      "items": [
+        {
+          "id": 1,
+          "title": "AI Money-Making Research",
+          "created": "2026-03-20",
+          "priority": "high"
+        },
+        {
+          "id": 2,
+          "title": "Passive Income Research",
+          "created": "2026-03-20",
+          "priority": "high"
+        }
+      ]
+    },
+    "research": {
+      "count": 1,
+      "items": [
+        {
+          "id": 3,
+          "title": "KGB Financial Quiz",
+          "created": "2026-03-15",
+          "progress": 100,
+          "priority": "medium"
+        }
+      ]
+    },
+    "build": {
+      "count": 1,
+      "items": [
+        {
+          "id": 4,
+          "title": "Automated Backup System",
+          "created": "2026-03-21",
+          "progress": 40,
+          "priority": "high"
+        }
+      ]
+    },
+    "launch": {
+      "count": 2,
+      "items": [
+        {
+          "id": 5,
+          "title": "Mission Control",
+          "created": "2026-03-20",
+          "status": "soft-launch",
+          "priority": "high"
+        },
+        {
+          "id": 6,
+          "title": "TaxReady",
+          "created": "2026-03-15",
+          "status": "launched",
+          "priority": "high"
+        }
+      ]
+    },
+    "revenue": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "metrics": {
+    "totalIdeas": 6,
+    "conversionRates": {
+      "ideaToResearch": 50,
+      "researchToBuild": 100,
+      "buildToLaunch": 200,
+      "launchToRevenue": 0
+    },
+    "averageTimeInStage": {
+      "ideas": "3 days",
+      "research": "7 days",
+      "build": "14 days",
+      "launch": "ongoing"
+    }
+  }
+}

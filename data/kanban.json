@@ -1,0 +1,43 @@
+{
+  "Ideas": [
+    {
+      "id": 1,
+      "title": "AI Money-Making Research",
+      "created": "2026-03-20"
+    },
+    {
+      "id": 2,
+      "title": "Passive Income Research",
+      "created": "2026-03-20"
+    }
+  ],
+  "Research": [
+    {
+      "id": 3,
+      "title": "KGB Financial Quiz",
+      "progress": 100,
+      "created": "2026-03-15"
+    }
+  ],
+  "Build": [
+    {
+      "id": 4,
+      "title": "Automated Backup System",
+      "description": "Weekly full + Daily incremental to off-PC location",
+      "created": "2026-03-21"
+    }
+  ],
+  "Launch": [
+    {
+      "id": 5,
+      "title": "Mission Control",
+      "created": "2026-03-20"
+    },
+    {
+      "id": 6,
+      "title": "TaxReady",
+      "created": "2026-03-15"
+    }
+  ],
+  "Revenue": []
+}

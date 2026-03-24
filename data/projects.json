@@ -1,0 +1,54 @@
+[
+  {
+    "id": 1,
+    "name": "Mission Control Dashboard",
+    "status": "build",
+    "progress": 85,
+    "startDate": "2026-03-20",
+    "deadline": "2026-03-25",
+    "owner": "Lancelot",
+    "priority": "high",
+    "dependencies": [],
+    "description": "Comprehensive dashboard for managing all operations",
+    "statusBadge": "on-track"
+  },
+  {
+    "id": 2,
+    "name": "TaxReady Platform",
+    "status": "launch",
+    "progress": 100,
+    "startDate": "2026-03-01",
+    "deadline": "2026-03-20",
+    "owner": "Niall",
+    "priority": "high",
+    "dependencies": [],
+    "description": "Tax preparation and advisory platform",
+    "statusBadge": "on-track"
+  },
+  {
+    "id": 3,
+    "name": "Automated Backup System",
+    "status": "build",
+    "progress": 40,
+    "startDate": "2026-03-21",
+    "deadline": "2026-03-28",
+    "owner": "Lancelot",
+    "priority": "high",
+    "dependencies": ["GitHub SSH Setup"],
+    "description": "Weekly full + Daily incremental backups",
+    "statusBadge": "blocked"
+  },
+  {
+    "id": 4,
+    "name": "KGB Financial Quiz",
+    "status": "research",
+    "progress": 100,
+    "startDate": "2026-03-15",
+    "deadline": "2026-03-22",
+    "owner": "Research Team",
+    "priority": "medium",
+    "dependencies": [],
+    "description": "Financial literacy quiz platform research",
+    "statusBadge": "complete"
+  }
+]

@@ -1,0 +1,68 @@
+[
+  {
+    "name": "GitHub",
+    "status": "connected",
+    "health": "healthy",
+    "lastCheck": "2026-03-24T12:30:00Z",
+    "details": {
+      "authenticated": true,
+      "rateLimit": "4850/5000",
+      "repos": 12
+    }
+  },
+  {
+    "name": "Discord",
+    "status": "warning",
+    "health": "degraded",
+    "lastCheck": "2026-03-24T12:30:00Z",
+    "details": {
+      "authenticated": false,
+      "issue": "Token needs update",
+      "lastSuccess": "2026-03-20T14:20:00Z"
+    }
+  },
+  {
+    "name": "Telegram",
+    "status": "connected",
+    "health": "healthy",
+    "lastCheck": "2026-03-24T12:30:00Z",
+    "details": {
+      "authenticated": true,
+      "botActive": true,
+      "chats": 3
+    }
+  },
+  {
+    "name": "Email (Gmail)",
+    "status": "connected",
+    "health": "healthy",
+    "lastCheck": "2026-03-24T12:25:00Z",
+    "details": {
+      "authenticated": true,
+      "unread": 5,
+      "quotaUsed": "45%"
+    }
+  },
+  {
+    "name": "Google Calendar",
+    "status": "connected",
+    "health": "healthy",
+    "lastCheck": "2026-03-24T12:25:00Z",
+    "details": {
+      "authenticated": true,
+      "calendars": 4,
+      "upcomingEvents": 8
+    }
+  },
+  {
+    "name": "VPS (Gateway)",
+    "status": "connected",
+    "health": "healthy",
+    "lastCheck": "2026-03-24T12:30:00Z",
+    "details": {
+      "uptime": "7 days 14 hours",
+      "version": "1.2.3",
+      "load": "low"
+    }
+  }
+]

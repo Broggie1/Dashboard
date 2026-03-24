@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "title": "AI Money-Making Strategies",
+    "status": "in-progress",
+    "topic": "Revenue Generation",
+    "startDate": "2026-03-20",
+    "lastUpdated": "2026-03-24",
+    "summary": "Exploring AI-powered revenue streams including automation, content creation, and consulting services.",
+    "findings": [
+      "AI content generation for blogs/social media",
+      "Automated trading signals",
+      "AI-powered consulting services",
+      "White-label AI solutions"
+    ],
+    "nextSteps": ["Validate market demand", "Build MVP", "Test pricing models"]
+  },
+  {
+    "id": 2,
+    "title": "Passive Income Research",
+    "status": "in-progress",
+    "topic": "Revenue Generation",
+    "startDate": "2026-03-20",
+    "lastUpdated": "2026-03-24",
+    "summary": "Investigating passive income opportunities aligned with Verdewave goals.",
+    "findings": [
+      "Digital product sales (courses, templates)",
+      "Affiliate marketing automation",
+      "SaaS subscription models",
+      "Investment income streams"
+    ],
+    "nextSteps": ["Select top 3 opportunities", "Create implementation roadmap"]
+  },
+  {
+    "id": 3,
+    "title": "KGB Financial Quiz Platform",
+    "status": "complete",
+    "topic": "Product Development",
+    "startDate": "2026-03-15",
+    "completedDate": "2026-03-22",
+    "summary": "Comprehensive research on financial literacy quiz platforms, gamification, and monetization strategies.",
+    "findings": [
+      "Market gap for engaging financial education",
+      "Gamification increases completion rates by 60%",
+      "Multiple monetization paths: B2C subscriptions, B2B licensing, advertising",
+      "Tech stack: React, Node.js, PostgreSQL recommended"
+    ],
+    "report": "docs/kgb-financial-quiz-research.md"
+  }
+]

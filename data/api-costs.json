@@ -1,0 +1,62 @@
+{
+  "current": {
+    "daily": 2.45,
+    "monthly": 48.20,
+    "lastUpdated": "2026-03-24T12:30:00Z"
+  },
+  "budget": {
+    "daily": 10.00,
+    "monthly": 300.00,
+    "alerts": {
+      "dailyThreshold": 8.00,
+      "monthlyThreshold": 250.00
+    }
+  },
+  "breakdown": {
+    "models": [
+      {
+        "name": "claude-sonnet-4-5",
+        "provider": "anthropic",
+        "dailyCost": 1.85,
+        "monthlyCost": 38.50,
+        "requests": 145,
+        "tokens": 2450000
+      },
+      {
+        "name": "gpt-4o",
+        "provider": "openai",
+        "dailyCost": 0.45,
+        "monthlyCost": 7.20,
+        "requests": 23,
+        "tokens": 145000
+      },
+      {
+        "name": "gpt-4o-mini",
+        "provider": "openai",
+        "dailyCost": 0.15,
+        "monthlyCost": 2.50,
+        "requests": 87,
+        "tokens": 320000
+      }
+    ]
+  },
+  "history": {
+    "last7Days": [
+      { "date": "2026-03-18", "cost": 2.10 },
+      { "date": "2026-03-19", "cost": 2.35 },
+      { "date": "2026-03-20", "cost": 3.20 },
+      { "date": "2026-03-21", "cost": 2.80 },
+      { "date": "2026-03-22", "cost": 1.95 },
+      { "date": "2026-03-23", "cost": 2.60 },
+      { "date": "2026-03-24", "cost": 2.45 }
+    ]
+  },
+  "optimization": {
+    "recommendations": [
+      "Switch low-priority tasks to gpt-4o-mini (save ~30%)",
+      "Batch similar requests to reduce overhead",
+      "Implement response caching for repeated queries"
+    ],
+    "potentialSavings": 14.50
+  }
+}

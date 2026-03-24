@@ -3,82 +3,349 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mission Control Dashboard</title>
+  <title>⚔️ Mission Control Dashboard</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="dashboard-header">
-    <h1>⚔️ Mission Control</h1>
-    <div class="header-meta">
-      <span id="last-updated">Last updated: --:--:--</span>
+  
+  <!-- Left Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h1>⚔️ Mission Control</h1>
     </div>
-  </header>
-
-  <main class="dashboard-main">
     
-    <!-- Agents Section -->
-    <section class="panel agents-panel">
-      <h2>Active Agents <span class="badge" id="agents-count">0</span></h2>
-      <div id="agents-cards" class="cards-grid"></div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-view="agents">
+        <span class="nav-icon">🤖</span>
+        <span class="nav-label">Active Agents</span>
+        <span class="nav-badge" id="nav-agents-count">0</span>
+      </button>
+      
+      <button class="nav-item" data-view="blockers">
+        <span class="nav-icon">🚫</span>
+        <span class="nav-label">Current Blockers</span>
+        <span class="nav-badge badge-danger" id="nav-blockers-count">0</span>
+      </button>
+      
+      <button class="nav-item" data-view="kanban">
+        <span class="nav-icon">📋</span>
+        <span class="nav-label">Kanban Board</span>
+        <span class="nav-badge" id="nav-kanban-count">0</span>
+      </button>
+      
+      <button class="nav-item" data-view="logs">
+        <span class="nav-icon">📅</span>
+        <span class="nav-label">Daily Logs</span>
+      </button>
+      
+      <button class="nav-item" data-view="cron">
+        <span class="nav-icon">⏰</span>
+        <span class="nav-label">Cron Jobs</span>
+        <span class="nav-badge" id="nav-cron-count">0</span>
+      </button>
+      
+      <button class="nav-item" data-view="ideas">
+        <span class="nav-icon">💡</span>
+        <span class="nav-label">Ideas Workflow</span>
+        <span class="nav-badge" id="nav-ideas-count">0</span>
+      </button>
+      
+      <button class="nav-item" data-view="health">
+        <span class="nav-icon">💚</span>
+        <span class="nav-label">System Health</span>
+        <span class="nav-status" id="nav-health-status">●</span>
+      </button>
+      
+      <button class="nav-item" data-view="revenue">
+        <span class="nav-icon">🎯</span>
+        <span class="nav-label">Revenue Tracking</span>
+      </button>
+      
+      <button class="nav-item" data-view="projects">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Project Pipeline</span>
+      </button>
+      
+      <button class="nav-item" data-view="research">
+        <span class="nav-icon">🔍</span>
+        <span class="nav-label">Research Repository</span>
+      </button>
+      
+      <button class="nav-item" data-view="api-costs">
+        <span class="nav-icon">💰</span>
+        <span class="nav-label">API Cost Monitor</span>
+      </button>
+      
+      <button class="nav-item" data-view="automations">
+        <span class="nav-icon">⚙️</span>
+        <span class="nav-label">Automation Library</span>
+      </button>
+      
+      <button class="nav-item" data-view="backlog">
+        <span class="nav-icon">📝</span>
+        <span class="nav-label">Backlog Queue</span>
+      </button>
+      
+      <button class="nav-item" data-view="integrations">
+        <span class="nav-icon">🔗</span>
+        <span class="nav-label">Integration Status</span>
+      </button>
+      
+      <button class="nav-item" data-view="standup">
+        <span class="nav-icon">📅</span>
+        <span class="nav-label">Daily Standup</span>
+      </button>
+    </nav>
+    
+    <div class="sidebar-footer">
+      <div class="last-updated" id="last-updated">Last updated: --:--:--</div>
+    </div>
+  </aside>
+
+  <!-- Quick Actions Panel -->
+  <div class="quick-actions">
+    <button class="quick-action-btn" onclick="alert('Spawn Research Agent - Coming Soon!')">🔬 Research Agent</button>
+    <button class="quick-action-btn" onclick="alert('Run Backup - Coming Soon!')">💾 Run Backup</button>
+    <button class="quick-action-btn" onclick="alert('Generate Brief - Coming Soon!')">📰 Daily Brief</button>
+    <button class="quick-action-btn" onclick="refreshData()">🔄 Refresh All</button>
+    <button class="quick-action-btn" onclick="alert('Add Idea - Coming Soon!')">💡 Add Idea</button>
+  </div>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+    
+    <!-- 1. Active Agents View -->
+    <section id="view-agents" class="content-view active">
+      <div class="view-header">
+        <h2>🤖 Active Agents</h2>
+        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
+      </div>
+      <div class="agents-grid" id="agents-container"></div>
     </section>
 
-    <!-- Blockers Section -->
-    <section class="panel blockers-panel">
-      <h2>⚠️ Current Blockers <span class="badge badge-danger" id="blockers-count">0</span></h2>
-      <div id="blockers-cards" class="cards-grid"></div>
+    <!-- 2. Current Blockers View -->
+    <section id="view-blockers" class="content-view">
+      <div class="view-header">
+        <h2>🚫 Current Blockers</h2>
+        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
+      </div>
+      <div class="blockers-list" id="blockers-container"></div>
     </section>
 
-    <!-- Kanban Section -->
-    <section class="panel kanban-panel">
-      <h2>📋 Kanban</h2>
-      <div class="kanban-grid">
-        <div class="kanban-column" data-column="Ideas">
-          <h3>Ideas <span class="badge" id="count-ideas">0</span></h3>
-          <div class="kanban-cards-list"></div>
+    <!-- 3. Kanban Board View -->
+    <section id="view-kanban" class="content-view">
+      <div class="view-header">
+        <h2>📋 Kanban Board</h2>
+        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
+      </div>
+      <div class="kanban-board">
+        <div class="kanban-column" data-status="Ideas">
+          <div class="column-header">
+            <h3>💡 Ideas</h3>
+            <span class="column-count" id="col-ideas-count">0</span>
+          </div>
+          <div class="column-cards" id="col-ideas"></div>
         </div>
-        <div class="kanban-column" data-column="Research">
-          <h3>Research <span class="badge" id="count-research">0</span></h3>
-          <div class="kanban-cards-list"></div>
+        
+        <div class="kanban-column" data-status="Research">
+          <div class="column-header">
+            <h3>🔍 Research</h3>
+            <span class="column-count" id="col-research-count">0</span>
+          </div>
+          <div class="column-cards" id="col-research"></div>
         </div>
-        <div class="kanban-column" data-column="Build">
-          <h3>Build <span class="badge" id="count-build">0</span></h3>
-          <div class="kanban-cards-list"></div>
+        
+        <div class="kanban-column" data-status="Build">
+          <div class="column-header">
+            <h3>🔨 Build</h3>
+            <span class="column-count" id="col-build-count">0</span>
+          </div>
+          <div class="column-cards" id="col-build"></div>
         </div>
-        <div class="kanban-column" data-column="Launch">
-          <h3>Launch <span class="badge" id="count-launch">0</span></h3>
-          <div class="kanban-cards-list"></div>
+        
+        <div class="kanban-column" data-status="Launch">
+          <div class="column-header">
+            <h3>🚀 Launch</h3>
+            <span class="column-count" id="col-launch-count">0</span>
+          </div>
+          <div class="column-cards" id="col-launch"></div>
         </div>
-        <div class="kanban-column" data-column="Revenue">
-          <h3>Revenue <span class="badge" id="count-revenue">0</span></h3>
-          <div class="kanban-cards-list"></div>
+        
+        <div class="kanban-column" data-status="Revenue">
+          <div class="column-header">
+            <h3>💰 Revenue</h3>
+            <span class="column-count" id="col-revenue-count">0</span>
+          </div>
+          <div class="column-cards" id="col-revenue"></div>
         </div>
       </div>
     </section>
 
-    <!-- System Health Section -->
-    <section class="panel health-panel">
-      <h2>💚 System Health</h2>
+    <!-- 4. Daily Logs View -->
+    <section id="view-logs" class="content-view">
+      <div class="view-header">
+        <h2>📅 Daily Logs</h2>
+        <div class="date-selector">
+          <button class="btn-date-nav" onclick="changeLogDate(-1)">◀</button>
+          <input type="text" id="log-date" class="date-input" placeholder="DD-MM-YY" readonly>
+          <button class="btn-date-nav" onclick="changeLogDate(1)">▶</button>
+          <button class="btn-today" onclick="showTodayLogs()">Today</button>
+        </div>
+      </div>
+      <div class="logs-container" id="logs-container"></div>
+    </section>
+
+    <!-- 5. Cron Jobs View -->
+    <section id="view-cron" class="content-view">
+      <div class="view-header">
+        <h2>⏰ Cron Jobs & Status</h2>
+        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
+      </div>
+      <div class="cron-jobs-list" id="cron-container"></div>
+    </section>
+
+    <!-- 6. Ideas Workflow View -->
+    <section id="view-ideas" class="content-view">
+      <div class="view-header">
+        <h2>💡 Ideas Workflow</h2>
+        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
+      </div>
+      <div class="ideas-flow" id="ideas-container"></div>
+    </section>
+
+    <!-- 7. System Health View -->
+    <section id="view-health" class="content-view">
+      <div class="view-header">
+        <h2>💚 System Health</h2>
+        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
+      </div>
       <div class="health-grid">
-        <div class="health-item">
-          <div class="health-label">CPU Usage</div>
-          <div class="health-value" id="cpu-usage">--%</div>
-          <div class="progress-bar"><div class="progress-fill" id="cpu-bar"></div></div>
+        <div class="health-card">
+          <div class="health-icon">🖥️</div>
+          <div class="health-info">
+            <div class="health-label">CPU Usage</div>
+            <div class="health-value" id="health-cpu">--%</div>
+            <div class="health-bar">
+              <div class="health-bar-fill" id="health-cpu-bar"></div>
+            </div>
+            <div class="health-details" id="health-cpu-details"></div>
+          </div>
         </div>
-        <div class="health-item">
-          <div class="health-label">Memory Usage</div>
-          <div class="health-value" id="memory-usage">--%</div>
-          <div class="progress-bar"><div class="progress-fill" id="memory-bar"></div></div>
+        
+        <div class="health-card">
+          <div class="health-icon">💾</div>
+          <div class="health-info">
+            <div class="health-label">Memory Usage</div>
+            <div class="health-value" id="health-memory">--%</div>
+            <div class="health-bar">
+              <div class="health-bar-fill" id="health-memory-bar"></div>
+            </div>
+            <div class="health-details" id="health-memory-details"></div>
+          </div>
         </div>
-        <div class="health-item">
-          <div class="health-label">Disk Space</div>
-          <div class="health-value" id="disk-usage">--%</div>
-          <div class="progress-bar"><div class="progress-fill" id="disk-bar"></div></div>
+        
+        <div class="health-card">
+          <div class="health-icon">💿</div>
+          <div class="health-info">
+            <div class="health-label">Disk Space</div>
+            <div class="health-value" id="health-disk">--%</div>
+            <div class="health-bar">
+              <div class="health-bar-fill" id="health-disk-bar"></div>
+            </div>
+            <div class="health-details" id="health-disk-details"></div>
+          </div>
         </div>
-        <div class="health-item">
-          <div class="health-label">Gateway</div>
-          <div class="health-value" id="gateway-status">--</div>
+        
+        <div class="health-card">
+          <div class="health-icon">🌐</div>
+          <div class="health-info">
+            <div class="health-label">Gateway</div>
+            <div class="health-value" id="health-gateway">--</div>
+            <div class="health-details" id="health-gateway-details"></div>
+          </div>
+        </div>
+        
+        <div class="health-card">
+          <div class="health-icon">📡</div>
+          <div class="health-info">
+            <div class="health-label">Network</div>
+            <div class="health-value" id="health-network">--</div>
+            <div class="health-details" id="health-network-details"></div>
+          </div>
         </div>
       </div>
+    </section>
+
+    <!-- 8. Revenue Tracking View -->
+    <section id="view-revenue" class="content-view">
+      <div class="view-header">
+        <h2>🎯 Revenue Tracking Dashboard</h2>
+        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
+      </div>
+      <div id="revenue-container"></div>
+    </section>
+
+    <!-- 9. Project Pipeline View -->
+    <section id="view-projects" class="content-view">
+      <div class="view-header">
+        <h2>📊 Project Pipeline</h2>
+        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
+      </div>
+      <div id="projects-container"></div>
+    </section>
+
+    <!-- 10. Research Repository View -->
+    <section id="view-research" class="content-view">
+      <div class="view-header">
+        <h2>🔍 Research Repository</h2>
+        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
+      </div>
+      <div id="research-container"></div>
+    </section>
+
+    <!-- 11. API Cost Monitor View -->
+    <section id="view-api-costs" class="content-view">
+      <div class="view-header">
+        <h2>💰 API Cost Monitor</h2>
+        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
+      </div>
+      <div id="api-costs-container"></div>
+    </section>
+
+    <!-- 12. Automation Library View -->
+    <section id="view-automations" class="content-view">
+      <div class="view-header">
+        <h2>⚙️ Automation Library</h2>
+        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
+      </div>
+      <div id="automations-container"></div>
+    </section>
+
+    <!-- 13. Backlog Priority Queue View -->
+    <section id="view-backlog" class="content-view">
+      <div class="view-header">
+        <h2>📝 Backlog Priority Queue</h2>
+        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
+      </div>
+      <div id="backlog-container"></div>
+    </section>
+
+    <!-- 14. Integration Status View -->
+    <section id="view-integrations" class="content-view">
+      <div class="view-header">
+        <h2>🔗 Integration Status</h2>
+        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
+      </div>
+      <div id="integrations-container"></div>
+    </section>
+
+    <!-- 15. Daily Standup View -->
+    <section id="view-standup" class="content-view">
+      <div class="view-header">
+        <h2>📅 Daily Standup</h2>
+        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
+      </div>
+      <div id="standup-container"></div>
     </section>
 
   </main>

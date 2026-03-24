@@ -1,0 +1,50 @@
+{
+  "current": {
+    "mrr": 0,
+    "arr": 0,
+    "lastUpdated": "2026-03-24"
+  },
+  "targets": {
+    "threeMonth": {
+      "goal": 20000,
+      "current": 0,
+      "deadline": "2026-06-24",
+      "progress": 0
+    },
+    "sixMonth": {
+      "goal": 50000,
+      "current": 0,
+      "deadline": "2026-09-24",
+      "progress": 0
+    },
+    "oneYear": {
+      "goal": 1000000,
+      "current": 0,
+      "deadline": "2027-03-24",
+      "progress": 0
+    }
+  },
+  "streams": {
+    "passive": {
+      "total": 0,
+      "sources": []
+    },
+    "active": {
+      "total": 0,
+      "sources": []
+    }
+  },
+  "funnel": {
+    "ideas": 2,
+    "research": 1,
+    "build": 1,
+    "launch": 2,
+    "revenue": 0,
+    "conversionRate": {
+      "ideasToResearch": 50,
+      "researchToBuild": 100,
+      "buildToLaunch": 200,
+      "launchToRevenue": 0
+    }
+  }
+}

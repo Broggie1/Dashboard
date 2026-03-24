@@ -1,0 +1,25 @@
+[
+  {
+    "id": 1,
+    "title": "Setup GitHub Repo & SSH Key",
+    "description": "Click here for setup guide",
+    "link": "docs/backup-setup-instructions.md",
+    "priority": "high",
+    "status": "open",
+    "added": "2026-03-21"
+  },
+  {
+    "id": 2,
+    "title": "Discord token update",
+    "priority": "high",
+    "status": "open",
+    "added": "2026-03-20"
+  },
+  {
+    "id": 3,
+    "title": "Approve: Install email-handler skill",
+    "priority": "medium",
+    "status": "open",
+    "added": "2026-03-20"
+  }
+]
