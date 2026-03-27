@@ -1,409 +1,1417 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>⚔️ Mission Control Dashboard</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mission Control — Lancelot HQ</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #050508;
+  --bg2: #0a0a10;
+  --bg3: #0f0f18;
+  --glass: rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.07);
+  --accent: #7c6aff;
+  --accent2: #00e5c8;
+  --accent3: #ff6b6b;
+  --accent4: #ffd166;
+  --text: #e8e8f0;
+  --text2: #8888aa;
+  --text3: #555570;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --font-head: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:15px;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;top:0;left:0;right:0;height:100vh;background:radial-gradient(ellipse 80% 50% at 20% -10%,rgba(124,106,255,0.12) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 110%,rgba(0,229,200,0.08) 0%,transparent 60%);pointer-events:none;z-index:0}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(5,5,8,0.85);border-bottom:1px solid var(--glass-border);padding:0 2rem}
+.header-inner{max-width:1600px;margin:0 auto;display:flex;align-items:center;height:60px;gap:2rem}
+.logo{font-family:var(--font-head);font-size:18px;font-weight:800;letter-spacing:-0.5px;color:var(--text);white-space:nowrap}
+.logo span{color:var(--accent)}
+.nav-tabs{display:flex;gap:2px;flex:1;overflow-x:auto;scrollbar-width:none}
+.nav-tabs::-webkit-scrollbar{display:none}
+.tab-btn{background:none;border:none;color:var(--text2);font-family:var(--font-body);font-size:13px;padding:6px 14px;border-radius:var(--radius-sm);cursor:pointer;transition:var(--transition);white-space:nowrap;display:flex;align-items:center;gap:6px}
+.tab-btn:hover{color:var(--text);background:var(--glass)}
+.tab-btn.active{color:var(--text);background:rgba(124,106,255,0.15);font-weight:500}
+.header-right{display:flex;align-items:center;gap:12px;margin-left:auto}
+.status-dot{width:8px;height:8px;border-radius:50%;background:var(--accent2);box-shadow:0 0 8px var(--accent2);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+.weather-badge{font-size:12px;color:var(--text2);background:var(--glass);border:1px solid var(--glass-border);padding:4px 10px;border-radius:20px}
+.time-badge{font-family:var(--font-head);font-size:13px;font-weight:600;color:var(--text2)}
+
+/* MAIN */
+main{max-width:1600px;margin:0 auto;padding:2rem 2rem;position:relative;z-index:1}
+.tab-view{display:none;animation:fadeInUp 0.3s ease}
+.tab-view.active{display:block}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* CARDS */
+.card{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius);padding:1.5rem;backdrop-filter:blur(10px);transition:var(--transition)}
+.card:hover{border-color:rgba(255,255,255,0.12);transform:translateY(-1px)}
+.card-sm{padding:1rem 1.25rem}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.grid-auto{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+
+/* METRIC CARDS */
+.metric-card{position:relative;overflow:hidden}
+.metric-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius) var(--radius) 0 0}
+.metric-card.purple::before{background:var(--accent)}
+.metric-card.teal::before{background:var(--accent2)}
+.metric-card.red::before{background:var(--accent3)}
+.metric-card.yellow::before{background:var(--accent4)}
+.metric-icon{font-size:22px;margin-bottom:12px}
+.metric-label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--text2);margin-bottom:6px}
+.metric-value{font-family:var(--font-head);font-size:28px;font-weight:700;letter-spacing:-1px}
+.metric-trend{font-size:12px;color:var(--accent2);margin-top:4px}
+
+/* SECTION HEADERS */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.section-title{font-family:var(--font-head);font-size:16px;font-weight:700;letter-spacing:-0.3px}
+.section-title span{color:var(--text2);font-weight:400;font-size:13px;margin-left:8px}
+.btn{background:var(--accent);color:#fff;border:none;padding:8px 16px;border-radius:var(--radius-sm);font-family:var(--font-body);font-size:13px;font-weight:500;cursor:pointer;transition:var(--transition)}
+.btn:hover{opacity:0.85;transform:translateY(-1px)}
+.btn-ghost{background:var(--glass);color:var(--text);border:1px solid var(--glass-border)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn-sm{padding:5px 12px;font-size:12px}
+.btn-danger{background:rgba(255,107,107,0.15);color:var(--accent3);border:1px solid rgba(255,107,107,0.2)}
+
+/* WELCOME BAR */
+.welcome-bar{background:linear-gradient(135deg,rgba(124,106,255,0.1),rgba(0,229,200,0.05));border:1px solid rgba(124,106,255,0.2);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between}
+.welcome-greeting{font-family:var(--font-head);font-size:20px;font-weight:700}
+.welcome-date{font-size:13px;color:var(--text2)}
+.goal-progress{display:flex;align-items:center;gap:12px}
+.progress-bar-wrap{width:160px;height:6px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:3px;transition:width 0.6s ease}
+.progress-label{font-size:12px;color:var(--text2)}
+
+/* ACTIVITY FEED */
+.activity-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--glass-border)}
+.activity-item:last-child{border-bottom:none}
+.activity-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);margin-top:5px;flex-shrink:0}
+.activity-text{font-size:13px;flex:1}
+.activity-time{font-size:11px;color:var(--text3);white-space:nowrap}
+
+/* PRIORITY LIST */
+.priority-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--glass-border)}
+.priority-item:last-child{border-bottom:none}
+.priority-check{width:18px;height:18px;border-radius:5px;border:2px solid var(--glass-border);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:var(--transition)}
+.priority-check.checked{background:var(--accent);border-color:var(--accent)}
+.priority-text{flex:1;font-size:14px}
+.priority-text.done{text-decoration:line-through;color:var(--text3)}
+.priority-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:16px;padding:0 4px;transition:var(--transition)}
+.priority-del:hover{color:var(--accent3)}
+.add-input{width:100%;background:var(--bg3);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:8px 12px;color:var(--text);font-family:var(--font-body);font-size:14px;margin-top:8px}
+.add-input:focus{outline:none;border-color:var(--accent)}
+.add-input::placeholder{color:var(--text3)}
+
+/* KANBAN */
+.kanban-board{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.kanban-col{background:var(--bg2);border:1px solid var(--glass-border);border-radius:var(--radius);padding:1rem}
+.kanban-col-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.kanban-col-title{font-family:var(--font-head);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.kanban-badge{background:var(--glass);border:1px solid var(--glass-border);border-radius:20px;padding:2px 8px;font-size:11px;color:var(--text2)}
+.kanban-cards{min-height:100px;display:flex;flex-direction:column;gap:8px}
+.task-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:12px;cursor:pointer;transition:var(--transition)}
+.task-card:hover{border-color:var(--accent);transform:translateY(-1px)}
+.task-title{font-size:13px;font-weight:500;margin-bottom:6px}
+.task-desc{font-size:12px;color:var(--text2);margin-bottom:8px;line-height:1.4}
+.task-meta{display:flex;align-items:center;gap:8px}
+.priority-badge{font-size:10px;padding:2px 7px;border-radius:3px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+.priority-badge.high{background:rgba(255,107,107,0.15);color:var(--accent3)}
+.priority-badge.medium{background:rgba(255,209,102,0.15);color:var(--accent4)}
+.priority-badge.low{background:rgba(0,229,200,0.1);color:var(--accent2)}
+.task-date{font-size:11px;color:var(--text3);margin-left:auto}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--glass-border);border-radius:var(--radius);padding:1.5rem;width:100%;max-width:500px;animation:fadeInUp 0.2s ease}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.modal-title{font-family:var(--font-head);font-size:16px;font-weight:700}
+.modal-close{background:none;border:none;color:var(--text2);font-size:20px;cursor:pointer;line-height:1}
+.form-group{margin-bottom:1rem}
+.form-label{display:block;font-size:12px;color:var(--text2);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}
+.form-input,.form-select,.form-textarea{width:100%;background:var(--bg3);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:9px 12px;color:var(--text);font-family:var(--font-body);font-size:14px}
+.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--accent)}
+.form-select option{background:var(--bg2)}
+.form-textarea{resize:vertical;min-height:80px}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem}
+
+/* REVENUE */
+.gauge-wrap{display:flex;flex-direction:column;align-items:center;padding:1rem 0}
+.gauge-value{font-family:var(--font-head);font-size:36px;font-weight:800;letter-spacing:-2px}
+.gauge-label{font-size:13px;color:var(--text2);margin-top:4px}
+.revenue-bar{height:8px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;margin:8px 0}
+.revenue-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;transition:width 0.8s ease}
+.client-row{display:flex;align-items:center;padding:12px 0;border-bottom:1px solid var(--glass-border);gap:12px}
+.client-row:last-child{border-bottom:none}
+.client-name{flex:1;font-size:14px;font-weight:500}
+.client-value{font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--accent2)}
+.client-status{font-size:11px;padding:3px 8px;border-radius:3px}
+.client-status.active{background:rgba(0,229,200,0.1);color:var(--accent2)}
+.client-status.pending{background:rgba(255,209,102,0.1);color:var(--accent4)}
+.client-status.churned{background:rgba(255,107,107,0.1);color:var(--accent3)}
+.mrr-total{font-family:var(--font-head);font-size:32px;font-weight:800;letter-spacing:-1px;color:var(--accent2)}
+
+/* AGENTS */
+.agent-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem}
+.agent-card{position:relative;cursor:pointer;overflow:hidden}
+.agent-card::after{content:'';position:absolute;inset:0;border-radius:var(--radius);opacity:0;background:linear-gradient(135deg,rgba(124,106,255,0.05),transparent);transition:var(--transition)}
+.agent-card:hover::after{opacity:1}
+.agent-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.agent-avatar{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.agent-name{font-family:var(--font-head);font-size:15px;font-weight:700}
+.agent-role{font-size:12px;color:var(--text2)}
+.agent-status{display:flex;align-items:center;gap:6px;font-size:12px}
+.status-indicator{width:7px;height:7px;border-radius:50%}
+.status-indicator.online{background:var(--accent2);box-shadow:0 0 6px var(--accent2)}
+.status-indicator.busy{background:var(--accent4);box-shadow:0 0 6px var(--accent4)}
+.status-indicator.offline{background:var(--text3)}
+.agent-model{font-size:11px;color:var(--text3);background:var(--bg3);border:1px solid var(--glass-border);padding:3px 8px;border-radius:3px;margin-top:8px;display:inline-block}
+.agent-last{font-size:11px;color:var(--text3);margin-top:6px}
+
+/* SLIDE PANEL */
+.slide-panel{position:fixed;right:-420px;top:0;bottom:0;width:420px;background:var(--bg2);border-left:1px solid var(--glass-border);z-index:200;transition:right 0.3s cubic-bezier(0.4,0,0.2,1);overflow-y:auto;padding:1.5rem}
+.slide-panel.open{right:0}
+.panel-close{background:none;border:none;color:var(--text2);font-size:22px;cursor:pointer;float:right;margin-bottom:1rem}
+.panel-agent-name{font-family:var(--font-head);font-size:22px;font-weight:800;margin-bottom:4px}
+.panel-section{margin-top:1.5rem}
+.panel-section-title{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:10px}
+.capability-tag{display:inline-block;background:var(--glass);border:1px solid var(--glass-border);border-radius:4px;padding:4px 10px;font-size:12px;margin:3px}
+.activity-log{max-height:200px;overflow-y:auto}
+.log-item{font-size:12px;color:var(--text2);padding:6px 0;border-bottom:1px solid var(--glass-border)}
+.decision-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:12px;margin-bottom:8px}
+.decision-q{font-size:13px;font-weight:500;margin-bottom:6px}
+.decision-a{font-size:12px;color:var(--text2)}
+.decision-meta{font-size:11px;color:var(--text3);margin-top:6px}
+
+/* YOUTUBE */
+.pipeline-col{background:var(--bg2);border:1px solid var(--glass-border);border-radius:var(--radius);padding:1rem;min-height:200px}
+.pipeline-header{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;color:var(--text2)}
+.video-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:10px;margin-bottom:8px;cursor:pointer;transition:var(--transition)}
+.video-card:hover{border-color:var(--accent)}
+.video-title{font-size:13px;font-weight:500;margin-bottom:4px}
+.video-topic{font-size:11px;color:var(--text2)}
+.video-date{font-size:11px;color:var(--text3);margin-top:4px}
+.xp-bar-wrap{height:12px;background:rgba(255,255,255,0.06);border-radius:6px;overflow:hidden}
+.xp-bar-fill{height:100%;background:linear-gradient(90deg,#ff6b6b,#ffd166);border-radius:6px;transition:width 0.8s ease}
+.milestone-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--glass-border)}
+.milestone-title{font-size:13px;font-weight:500;flex:1}
+.milestone-count{font-family:var(--font-head);font-size:13px;font-weight:700;color:var(--text2)}
+.milestone-check{font-size:16px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:11px;border-radius:6px;background:var(--glass);color:var(--text2)}
+.cal-day.has-video{background:rgba(124,106,255,0.2);color:var(--accent);font-weight:600;cursor:pointer}
+.cal-day.today{background:var(--accent);color:#fff}
+.cal-header-day{font-size:10px;text-align:center;color:var(--text3);padding:4px 0;text-transform:uppercase;letter-spacing:0.5px}
+
+/* MEETINGS */
+.meeting-card{cursor:pointer;transition:var(--transition)}
+.meeting-card:hover{border-color:var(--accent)}
+.meeting-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
+.meeting-title{font-family:var(--font-head);font-size:15px;font-weight:700}
+.meeting-type{font-size:11px;padding:3px 8px;border-radius:3px;background:rgba(124,106,255,0.15);color:var(--accent)}
+.meeting-time{font-size:13px;color:var(--text2);margin-bottom:4px}
+.meeting-attendees{font-size:12px;color:var(--text3)}
+.meeting-expand{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--glass-border)}
+.meeting-expand.open{display:block}
+.checklist-item{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:13px}
+.checklist-check{width:16px;height:16px;border-radius:4px;border:2px solid var(--glass-border);cursor:pointer;flex-shrink:0;transition:var(--transition)}
+.checklist-check.checked{background:var(--accent2);border-color:var(--accent2)}
+.countdown-badge{background:rgba(255,209,102,0.15);color:var(--accent4);padding:3px 8px;border-radius:3px;font-size:12px;font-weight:500}
+
+/* INTEL */
+.intel-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem}
+.filter-btn{background:var(--glass);border:1px solid var(--glass-border);color:var(--text2);padding:5px 12px;border-radius:20px;font-size:12px;cursor:pointer;transition:var(--transition)}
+.filter-btn.active{background:rgba(124,106,255,0.15);border-color:var(--accent);color:var(--accent)}
+.intel-item{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:12px;margin-bottom:8px;transition:var(--transition)}
+.intel-item:hover{border-color:rgba(255,255,255,0.12)}
+.intel-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:6px}
+.intel-importance{font-size:16px;flex-shrink:0}
+.intel-title{font-size:14px;font-weight:500;flex:1}
+.intel-cat{font-size:10px;padding:2px 7px;border-radius:3px;background:var(--bg3);color:var(--text2);text-transform:uppercase;letter-spacing:0.5px}
+.intel-summary{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:8px}
+.intel-meta{display:flex;gap:12px;font-size:11px;color:var(--text3)}
+.intel-link{color:var(--accent);text-decoration:none;font-size:12px}
+.intel-link:hover{text-decoration:underline}
+.daily-brief{background:linear-gradient(135deg,rgba(124,106,255,0.08),rgba(0,229,200,0.04));border:1px solid rgba(124,106,255,0.2);border-radius:var(--radius);padding:1.25rem;margin-bottom:1.5rem}
+.brief-title{font-family:var(--font-head);font-size:14px;font-weight:700;margin-bottom:10px;color:var(--accent)}
+.brief-item{display:flex;align-items:flex-start;gap:8px;padding:6px 0;font-size:13px;color:var(--text2)}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:2rem}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--accent),transparent)}
+.timeline-item{position:relative;margin-bottom:2rem}
+.timeline-dot{position:absolute;left:-1.7rem;top:4px;width:14px;height:14px;border-radius:50%;background:var(--bg2);border:2px solid var(--accent);transition:var(--transition)}
+.timeline-item.current .timeline-dot{background:var(--accent);box-shadow:0 0 12px var(--accent)}
+.timeline-phase{font-family:var(--font-head);font-size:16px;font-weight:700;margin-bottom:4px}
+.timeline-dates{font-size:12px;color:var(--text2);margin-bottom:8px}
+.timeline-desc{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:10px}
+.milestone-list{list-style:none}
+.milestone-list li{display:flex;align-items:center;gap:8px;font-size:13px;padding:4px 0;color:var(--text2)}
+.milestone-list li.done{color:var(--accent2)}
+.milestone-list li::before{content:'○';color:var(--text3)}
+.milestone-list li.done::before{content:'●';color:var(--accent2)}
+
+/* NOTES */
+.notes-wrap{position:relative}
+.notes-area{width:100%;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius);padding:1.25rem;color:var(--text);font-family:var(--font-body);font-size:14px;line-height:1.8;resize:none;min-height:500px}
+.notes-area:focus{outline:none;border-color:var(--accent)}
+.notes-footer{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:11px;color:var(--text3)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .grid-4{grid-template-columns:1fr 1fr}
+  .kanban-board{grid-template-columns:1fr}
+  .grid-2,.grid-3{grid-template-columns:1fr}
+  main{padding:1rem}
+  header{padding:0 1rem}
+  .welcome-bar{flex-direction:column;gap:12px;align-items:flex-start}
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,0.2)}
+
+/* OVERLAY BG */
+.overlay-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:150}
+.overlay-bg.open{display:block}
+</style>
 </head>
 <body>
-  
-  <!-- Left Sidebar Navigation -->
-  <aside class="sidebar">
-    <div class="sidebar-header">
-      <h1>⚔️ Mission Control</h1>
-    </div>
-    
-    <nav class="sidebar-nav">
-      <button class="nav-item active" data-view="agents">
-        <span class="nav-icon">🤖</span>
-        <span class="nav-label">Active Agents</span>
-        <span class="nav-badge" id="nav-agents-count">0</span>
-      </button>
-      
-      <button class="nav-item" data-view="blockers">
-        <span class="nav-icon">🚫</span>
-        <span class="nav-label">Current Blockers</span>
-        <span class="nav-badge badge-danger" id="nav-blockers-count">0</span>
-      </button>
-      
-      <button class="nav-item" data-view="kanban">
-        <span class="nav-icon">📋</span>
-        <span class="nav-label">Kanban Board</span>
-        <span class="nav-badge" id="nav-kanban-count">0</span>
-      </button>
-      
-      <button class="nav-item" data-view="logs">
-        <span class="nav-icon">📅</span>
-        <span class="nav-label">Daily Logs</span>
-      </button>
-      
-      <button class="nav-item" data-view="cron">
-        <span class="nav-icon">⏰</span>
-        <span class="nav-label">Cron Jobs</span>
-        <span class="nav-badge" id="nav-cron-count">0</span>
-      </button>
-      
-      <button class="nav-item" data-view="ideas">
-        <span class="nav-icon">💡</span>
-        <span class="nav-label">Ideas Workflow</span>
-        <span class="nav-badge" id="nav-ideas-count">0</span>
-      </button>
-      
-      <button class="nav-item" data-view="health">
-        <span class="nav-icon">💚</span>
-        <span class="nav-label">System Health</span>
-        <span class="nav-status" id="nav-health-status">●</span>
-      </button>
-      
-      <button class="nav-item" data-view="revenue">
-        <span class="nav-icon">🎯</span>
-        <span class="nav-label">Revenue Tracking</span>
-      </button>
-      
-      <button class="nav-item" data-view="projects">
-        <span class="nav-icon">📊</span>
-        <span class="nav-label">Project Pipeline</span>
-      </button>
-      
-      <button class="nav-item" data-view="research">
-        <span class="nav-icon">🔍</span>
-        <span class="nav-label">Research Repository</span>
-      </button>
-      
-      <button class="nav-item" data-view="api-costs">
-        <span class="nav-icon">💰</span>
-        <span class="nav-label">API Cost Monitor</span>
-      </button>
-      
-      <button class="nav-item" data-view="automations">
-        <span class="nav-icon">⚙️</span>
-        <span class="nav-label">Automation Library</span>
-      </button>
-      
-      <button class="nav-item" data-view="backlog">
-        <span class="nav-icon">📝</span>
-        <span class="nav-label">Backlog Queue</span>
-      </button>
-      
-      <button class="nav-item" data-view="integrations">
-        <span class="nav-icon">🔗</span>
-        <span class="nav-label">Integration Status</span>
-      </button>
-      
-      <button class="nav-item" data-view="standup">
-        <span class="nav-icon">📅</span>
-        <span class="nav-label">Daily Standup</span>
-      </button>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">⚔️ <span>Mission</span> Control</div>
+    <nav class="nav-tabs" id="navTabs">
+      <button class="tab-btn active" data-tab="dashboard">📊 Dashboard</button>
+      <button class="tab-btn" data-tab="projects">📋 Projects</button>
+      <button class="tab-btn" data-tab="timeline">📅 Timeline</button>
+      <button class="tab-btn" data-tab="notes">📝 Notes</button>
+      <button class="tab-btn" data-tab="revenue">💰 Revenue</button>
+      <button class="tab-btn" data-tab="agents">🏢 Agents</button>
+      <button class="tab-btn" data-tab="youtube">🎬 YouTube</button>
+      <button class="tab-btn" data-tab="meetings">📞 Meetings</button>
+      <button class="tab-btn" data-tab="intel">📡 Intel</button>
     </nav>
-    
-    <div class="sidebar-footer">
-      <div class="last-updated" id="last-updated">Last updated: --:--:--</div>
-    </div>
-  </aside>
-
-  <!-- Quick Actions Panel -->
-  <div class="quick-actions">
-    <button class="quick-action-btn" onclick="alert('Spawn Research Agent - Coming Soon!')">🔬 Research Agent</button>
-    <button class="quick-action-btn" onclick="alert('Run Backup - Coming Soon!')">💾 Run Backup</button>
-    <button class="quick-action-btn" onclick="alert('Generate Brief - Coming Soon!')">📰 Daily Brief</button>
-    <button class="quick-action-btn" onclick="refreshData()">🔄 Refresh All</button>
-    <button class="quick-action-btn" onclick="alert('Add Idea - Coming Soon!')">💡 Add Idea</button>
-  </div>
-
-  <!-- Main Content Area -->
-  <main class="main-content">
-    
-    <!-- 1. Active Agents View -->
-    <section id="view-agents" class="content-view active">
-      <div class="view-header">
-        <h2>🤖 Active Agents</h2>
-        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
-      </div>
-      <div class="agents-grid" id="agents-container"></div>
-    </section>
-
-    <!-- 2. Current Blockers View -->
-    <section id="view-blockers" class="content-view">
-      <div class="view-header">
-        <h2>🚫 Current Blockers</h2>
-        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
-      </div>
-      <div class="blockers-list" id="blockers-container"></div>
-    </section>
-
-    <!-- 3. Kanban Board View -->
-    <section id="view-kanban" class="content-view">
-      <div class="view-header">
-        <h2>📋 Kanban Board</h2>
-        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
-      </div>
-      <div class="kanban-board">
-        <div class="kanban-column" data-status="Ideas">
-          <div class="column-header">
-            <h3>💡 Ideas</h3>
-            <span class="column-count" id="col-ideas-count">0</span>
-          </div>
-          <div class="column-cards" id="col-ideas"></div>
-        </div>
-        
-        <div class="kanban-column" data-status="Research">
-          <div class="column-header">
-            <h3>🔍 Research</h3>
-            <span class="column-count" id="col-research-count">0</span>
-          </div>
-          <div class="column-cards" id="col-research"></div>
-        </div>
-        
-        <div class="kanban-column" data-status="Build">
-          <div class="column-header">
-            <h3>🔨 Build</h3>
-            <span class="column-count" id="col-build-count">0</span>
-          </div>
-          <div class="column-cards" id="col-build"></div>
-        </div>
-        
-        <div class="kanban-column" data-status="Launch">
-          <div class="column-header">
-            <h3>🚀 Launch</h3>
-            <span class="column-count" id="col-launch-count">0</span>
-          </div>
-          <div class="column-cards" id="col-launch"></div>
-        </div>
-        
-        <div class="kanban-column" data-status="Revenue">
-          <div class="column-header">
-            <h3>💰 Revenue</h3>
-            <span class="column-count" id="col-revenue-count">0</span>
-          </div>
-          <div class="column-cards" id="col-revenue"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 4. Daily Logs View -->
-    <section id="view-logs" class="content-view">
-      <div class="view-header">
-        <h2>📅 Daily Logs</h2>
-        <div class="date-selector">
-          <button class="btn-date-nav" onclick="changeLogDate(-1)">◀</button>
-          <input type="text" id="log-date" class="date-input" placeholder="DD-MM-YY" readonly>
-          <button class="btn-date-nav" onclick="changeLogDate(1)">▶</button>
-          <button class="btn-today" onclick="showTodayLogs()">Today</button>
-        </div>
-      </div>
-      <div class="logs-container" id="logs-container"></div>
-    </section>
-
-    <!-- 5. Cron Jobs View -->
-    <section id="view-cron" class="content-view">
-      <div class="view-header">
-        <h2>⏰ Cron Jobs & Status</h2>
-        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
-      </div>
-      <div class="cron-jobs-list" id="cron-container"></div>
-    </section>
-
-    <!-- 6. Ideas Workflow View -->
-    <section id="view-ideas" class="content-view">
-      <div class="view-header">
-        <h2>💡 Ideas Workflow</h2>
-        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
-      </div>
-      <div class="ideas-flow" id="ideas-container"></div>
-    </section>
-
-    <!-- 7. System Health View -->
-    <section id="view-health" class="content-view">
-      <div class="view-header">
-        <h2>💚 System Health</h2>
-        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
-      </div>
-      <div class="health-grid">
-        <div class="health-card">
-          <div class="health-icon">🖥️</div>
-          <div class="health-info">
-            <div class="health-label">CPU Usage</div>
-            <div class="health-value" id="health-cpu">--%</div>
-            <div class="health-bar">
-              <div class="health-bar-fill" id="health-cpu-bar"></div>
-            </div>
-            <div class="health-details" id="health-cpu-details"></div>
-          </div>
-        </div>
-        
-        <div class="health-card">
-          <div class="health-icon">💾</div>
-          <div class="health-info">
-            <div class="health-label">Memory Usage</div>
-            <div class="health-value" id="health-memory">--%</div>
-            <div class="health-bar">
-              <div class="health-bar-fill" id="health-memory-bar"></div>
-            </div>
-            <div class="health-details" id="health-memory-details"></div>
-          </div>
-        </div>
-        
-        <div class="health-card">
-          <div class="health-icon">💿</div>
-          <div class="health-info">
-            <div class="health-label">Disk Space</div>
-            <div class="health-value" id="health-disk">--%</div>
-            <div class="health-bar">
-              <div class="health-bar-fill" id="health-disk-bar"></div>
-            </div>
-            <div class="health-details" id="health-disk-details"></div>
-          </div>
-        </div>
-        
-        <div class="health-card">
-          <div class="health-icon">🌐</div>
-          <div class="health-info">
-            <div class="health-label">Gateway</div>
-            <div class="health-value" id="health-gateway">--</div>
-            <div class="health-details" id="health-gateway-details"></div>
-          </div>
-        </div>
-        
-        <div class="health-card">
-          <div class="health-icon">📡</div>
-          <div class="health-info">
-            <div class="health-label">Network</div>
-            <div class="health-value" id="health-network">--</div>
-            <div class="health-details" id="health-network-details"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 8. Revenue Tracking View -->
-    <section id="view-revenue" class="content-view">
-      <div class="view-header">
-        <h2>🎯 Revenue Tracking Dashboard</h2>
-        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
-      </div>
-      <div id="revenue-container"></div>
-    </section>
-
-    <!-- 9. Project Pipeline View -->
-    <section id="view-projects" class="content-view">
-      <div class="view-header">
-        <h2>📊 Project Pipeline</h2>
-        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
-      </div>
-      <div id="projects-container"></div>
-    </section>
-
-    <!-- 10. Research Repository View -->
-    <section id="view-research" class="content-view">
-      <div class="view-header">
-        <h2>🔍 Research Repository</h2>
-        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
-      </div>
-      <div id="research-container"></div>
-    </section>
-
-    <!-- 11. API Cost Monitor View -->
-    <section id="view-api-costs" class="content-view">
-      <div class="view-header">
-        <h2>💰 API Cost Monitor</h2>
-        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
-      </div>
-      <div id="api-costs-container"></div>
-    </section>
-
-    <!-- 12. Automation Library View -->
-    <section id="view-automations" class="content-view">
-      <div class="view-header">
-        <h2>⚙️ Automation Library</h2>
-        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
-      </div>
-      <div id="automations-container"></div>
-    </section>
-
-    <!-- 13. Backlog Priority Queue View -->
-    <section id="view-backlog" class="content-view">
-      <div class="view-header">
-        <h2>📝 Backlog Priority Queue</h2>
-        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
-      </div>
-      <div id="backlog-container"></div>
-    </section>
-
-    <!-- 14. Integration Status View -->
-    <section id="view-integrations" class="content-view">
-      <div class="view-header">
-        <h2>🔗 Integration Status</h2>
-        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
-      </div>
-      <div id="integrations-container"></div>
-    </section>
-
-    <!-- 15. Daily Standup View -->
-    <section id="view-standup" class="content-view">
-      <div class="view-header">
-        <h2>📅 Daily Standup</h2>
-        <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
-      </div>
-      <div id="standup-container"></div>
-    </section>
-
-  </main>
-
-  <script src="app.js"></script>
-
-<!-- AGENTS SECTION -->
-<section id="agents-section" style="padding:20px;margin-top:20px;">
-  <h2 style="color:#fff;font-family:Inter,sans-serif;margin-bottom:16px;">🤖 Agent Team</h2>
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;">
-    <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:16px;backdrop-filter:blur(10px);">
-      <div style="font-size:24px">🔍</div><h3 style="color:#fff;margin:8px 0 4px;font-size:14px;">Athena</h3>
-      <p style="color:#888;font-size:12px;margin:0 0 12px;">Analyst</p>
-      <span style="background:#00c896;color:#000;padding:3px 8px;border-radius:4px;font-size:10px;">READY</span>
-    </div>
-    <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:16px;backdrop-filter:blur(10px);">
-      <div style="font-size:24px">📚</div><h3 style="color:#fff;margin:8px 0 4px;font-size:14px;">Guinevere</h3>
-      <p style="color:#888;font-size:12px;margin:0 0 12px;">Researcher</p>
-      <span style="background:#00c896;color:#000;padding:3px 8px;border-radius:4px;font-size:10px;">READY</span>
-    </div>
-    <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:16px;backdrop-filter:blur(10px);">
-      <div style="font-size:24px">📋</div><h3 style="color:#fff;margin:8px 0 4px;font-size:14px;">Percival</h3>
-      <p style="color:#888;font-size:12px;margin:0 0 12px;">Planner</p>
-      <span style="background:#00c896;color:#000;padding:3px 8px;border-radius:4px;font-size:10px;">READY</span>
-    </div>
-    <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:16px;backdrop-filter:blur(10px);">
-      <div style="font-size:24px">⚙️</div><h3 style="color:#fff;margin:8px 0 4px;font-size:14px;">Merlin</h3>
-      <p style="color:#888;font-size:12px;margin:0 0 12px;">Developer</p>
-      <span style="background:#00c896;color:#000;padding:3px 8px;border-radius:4px;font-size:10px;">READY</span>
-    </div>
-    <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:16px;backdrop-filter:blur(10px);">
-      <div style="font-size:24px">🎨</div><h3 style="color:#fff;margin:8px 0 4px;font-size:14px;">Viviane</h3>
-      <p style="color:#888;font-size:12px;margin:0 0 12px;">Designer</p>
-      <span style="background:#00c896;color:#000;padding:3px 8px;border-radius:4px;font-size:10px;">READY</span>
-    </div>
-    <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:16px;backdrop-filter:blur(10px);">
-      <div style="font-size:24px">🔧</div><h3 style="color:#fff;margin:8px 0 4px;font-size:14px;">Forge</h3>
-      <p style="color:#888;font-size:12px;margin:0 0 12px;">Executor</p>
-      <span style="background:#00c896;color:#000;padding:3px 8px;border-radius:4px;font-size:10px;">READY</span>
-    </div>
-    <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:16px;backdrop-filter:blur(10px);">
-      <div style="font-size:24px">🧪</div><h3 style="color:#fff;margin:8px 0 4px;font-size:14px;">Bedivere</h3>
-      <p style="color:#888;font-size:12px;margin:0 0 12px;">QA</p>
-      <span style="background:#00c896;color:#000;padding:3px 8px;border-radius:4px;font-size:10px;">READY</span>
-    </div>
-    <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:16px;backdrop-filter:blur(10px);">
-      <div style="font-size:24px">⚖️</div><h3 style="color:#fff;margin:8px 0 4px;font-size:14px;">Gawain</h3>
-      <p style="color:#888;font-size:12px;margin:0 0 12px;">Reviewer</p>
-      <span style="background:#00c896;color:#000;padding:3px 8px;border-radius:4px;font-size:10px;">READY</span>
-    </div>
-    <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:16px;backdrop-filter:blur(10px);">
-      <div style="font-size:24px">🔎</div><h3 style="color:#fff;margin:8px 0 4px;font-size:14px;">Galahad</h3>
-      <p style="color:#888;font-size:12px;margin:0 0 12px;">SEO</p>
-      <span style="background:#00c896;color:#000;padding:3px 8px;border-radius:4px;font-size:10px;">READY</span>
+    <div class="header-right">
+      <span class="weather-badge" id="weatherBadge">☁️ --°C</span>
+      <span class="time-badge" id="timeBadge">--:--</span>
+      <div class="status-dot" title="System Online"></div>
     </div>
   </div>
-</section>
-<!-- END AGENTS SECTION -->
+</header>
 
+<main>
+
+<!-- DASHBOARD TAB -->
+<div class="tab-view active" id="tab-dashboard">
+  <div class="welcome-bar">
+    <div>
+      <div class="welcome-greeting" id="welcomeGreeting">Good morning, Niall ⚔️</div>
+      <div class="welcome-date" id="welcomeDate"></div>
+    </div>
+    <div class="goal-progress">
+      <div>
+        <div class="progress-label" style="margin-bottom:4px">Goal Progress — £1M Revenue</div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" id="goalProgressBar" style="width:0%"></div></div>
+        <div class="progress-label" id="goalProgressLabel" style="margin-top:4px">£0 / £1,000,000</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-4" style="margin-bottom:1.5rem">
+    <div class="card metric-card purple">
+      <div class="metric-icon">💷</div>
+      <div class="metric-label">Monthly Revenue</div>
+      <div class="metric-value" id="metricMRR">£0</div>
+      <div class="metric-trend" id="metricMRRTrend">Target: £20k by 3mo</div>
+    </div>
+    <div class="card metric-card teal">
+      <div class="metric-icon">🚀</div>
+      <div class="metric-label">Active Projects</div>
+      <div class="metric-value" id="metricProjects">0</div>
+      <div class="metric-trend">In progress</div>
+    </div>
+    <div class="card metric-card red">
+      <div class="metric-icon">✅</div>
+      <div class="metric-label">Tasks Today</div>
+      <div class="metric-value" id="metricTasks">0</div>
+      <div class="metric-trend">Priorities</div>
+    </div>
+    <div class="card metric-card yellow">
+      <div class="metric-icon">⏳</div>
+      <div class="metric-label">Days to 3mo Goal</div>
+      <div class="metric-value" id="metricDays">--</div>
+      <div class="metric-trend">£20k target</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="section-header">
+        <div class="section-title">Activity Feed</div>
+        <button class="btn btn-ghost btn-sm" onclick="clearActivity()">Clear</button>
+      </div>
+      <div id="activityFeed" style="max-height:300px;overflow-y:auto">
+        <div style="color:var(--text3);font-size:13px;text-align:center;padding:2rem 0">No activity yet</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-header">
+        <div class="section-title">Top Priorities</div>
+        <button class="btn btn-sm" onclick="showAddPriority()">+ Add</button>
+      </div>
+      <div id="priorityList"></div>
+      <input class="add-input" id="priorityInput" placeholder="Add priority and press Enter..." style="display:none" onkeydown="if(event.key==='Enter')addPriority(this.value)">
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS TAB -->
+<div class="tab-view" id="tab-projects">
+  <div class="section-header" style="margin-bottom:1.5rem">
+    <div class="section-title">Kanban Board</div>
+    <button class="btn" onclick="openTaskModal()">+ Add Task</button>
+  </div>
+  <div class="kanban-board">
+    <div class="kanban-col">
+      <div class="kanban-col-header">
+        <span class="kanban-col-title" style="color:var(--text2)">Backlog</span>
+        <span class="kanban-badge" id="badge-backlog">0</span>
+      </div>
+      <div class="kanban-cards" id="col-backlog"></div>
+    </div>
+    <div class="kanban-col">
+      <div class="kanban-col-header">
+        <span class="kanban-col-title" style="color:var(--accent4)">In Progress</span>
+        <span class="kanban-badge" id="badge-inprogress">0</span>
+      </div>
+      <div class="kanban-cards" id="col-inprogress"></div>
+    </div>
+    <div class="kanban-col">
+      <div class="kanban-col-header">
+        <span class="kanban-col-title" style="color:var(--accent2)">Done</span>
+        <span class="kanban-badge" id="badge-done">0</span>
+      </div>
+      <div class="kanban-cards" id="col-done"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TIMELINE TAB -->
+<div class="tab-view" id="tab-timeline">
+  <div class="section-header" style="margin-bottom:1.5rem">
+    <div class="section-title">Goal Roadmap</div>
+    <button class="btn btn-ghost btn-sm" onclick="openTimelineModal()">+ Add Phase</button>
+  </div>
+  <div class="timeline" id="timelineContainer"></div>
+</div>
+
+<!-- NOTES TAB -->
+<div class="tab-view" id="tab-notes">
+  <div class="section-header" style="margin-bottom:1rem">
+    <div class="section-title">Notes</div>
+  </div>
+  <div class="notes-wrap">
+    <textarea class="notes-area" id="notesArea" placeholder="Start writing... supports markdown-style formatting."></textarea>
+    <div class="notes-footer">
+      <span id="notesCount">0 characters</span>
+      <span id="notesSaved">Not saved yet</span>
+    </div>
+  </div>
+</div>
+
+<!-- REVENUE TAB -->
+<div class="tab-view" id="tab-revenue">
+  <div class="grid-2" style="margin-bottom:1.5rem">
+    <div class="card">
+      <div class="section-title" style="margin-bottom:1rem">Monthly Recurring Revenue</div>
+      <div class="gauge-wrap">
+        <div class="mrr-total" id="mrrDisplay">£0</div>
+        <div class="gauge-label">Current MRR</div>
+        <div style="width:100%;margin-top:16px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2);margin-bottom:6px">
+            <span>£0</span><span>£20,000 goal</span>
+          </div>
+          <div class="revenue-bar"><div class="revenue-bar-fill" id="mrrBar" style="width:0%"></div></div>
+          <div style="font-size:12px;color:var(--text2);margin-top:6px" id="mrrPercent">0% of monthly goal</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-title" style="margin-bottom:1rem">Revenue Projections</div>
+      <div id="projections" style="font-size:13px;color:var(--text2);line-height:2">
+        <div>📅 <strong>Annual (current pace):</strong> <span id="projAnnual" style="color:var(--accent)">£0</span></div>
+        <div>📈 <strong>Monthly growth needed:</strong> <span id="projGrowth" style="color:var(--accent4)">--</span></div>
+        <div>🎯 <strong>£1M target:</strong> <span id="projMillion" style="color:var(--accent2)">--</span></div>
+        <div>⏱ <strong>At current rate:</strong> <span id="projTime" style="color:var(--text)">--</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="section-header">
+      <div class="section-title">Clients <span id="clientCount"></span></div>
+      <button class="btn btn-sm" onclick="openClientModal()">+ Add Client</button>
+    </div>
+    <div id="clientList"></div>
+  </div>
+</div>
+
+<!-- AGENTS TAB -->
+<div class="tab-view" id="tab-agents">
+  <div class="section-header" style="margin-bottom:1.5rem">
+    <div class="section-title">Command Centre</div>
+    <button class="btn btn-sm" onclick="openAgentModal()">+ Add Agent</button>
+  </div>
+  <div class="agent-grid" id="agentGrid"></div>
+
+  <div style="margin-top:2rem">
+    <div class="section-header">
+      <div class="section-title">Executive Decisions</div>
+      <button class="btn btn-ghost btn-sm" onclick="openDecisionModal()">+ Log Decision</button>
+    </div>
+    <div id="decisionList"></div>
+  </div>
+</div>
+
+<!-- YOUTUBE TAB -->
+<div class="tab-view" id="tab-youtube">
+  <div class="grid-2" style="margin-bottom:1.5rem">
+    <div class="card">
+      <div class="section-title" style="margin-bottom:12px">Channel Growth</div>
+      <div style="font-family:var(--font-head);font-size:36px;font-weight:800;letter-spacing:-2px" id="subCount">0</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:12px">Subscribers</div>
+      <div id="milestoneName" style="font-size:13px;color:var(--accent);margin-bottom:8px">Starting Out</div>
+      <div class="xp-bar-wrap"><div class="xp-bar-fill" id="xpBar" style="width:0%"></div></div>
+      <div style="font-size:11px;color:var(--text3);margin-top:6px" id="xpLabel">0 / 1,000 to next milestone</div>
+    </div>
+    <div class="card">
+      <div class="section-title" style="margin-bottom:12px">Milestones</div>
+      <div id="milestoneList"></div>
+    </div>
+  </div>
+
+  <div class="section-header" style="margin-bottom:1rem">
+    <div class="section-title">Content Pipeline</div>
+    <button class="btn btn-sm" onclick="openVideoModal()">+ Add Idea</button>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-bottom:1.5rem" id="pipelineBoard"></div>
+
+  <div class="card">
+    <div class="section-title" style="margin-bottom:1rem">Content Calendar — <span style="color:var(--text2)" id="calMonthLabel"></span></div>
+    <div class="cal-grid" style="margin-bottom:8px">
+      <div class="cal-header-day">Mon</div><div class="cal-header-day">Tue</div><div class="cal-header-day">Wed</div>
+      <div class="cal-header-day">Thu</div><div class="cal-header-day">Fri</div><div class="cal-header-day">Sat</div><div class="cal-header-day">Sun</div>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+  </div>
+</div>
+
+<!-- MEETINGS TAB -->
+<div class="tab-view" id="tab-meetings">
+  <div id="todayMeetings" style="margin-bottom:1.5rem"></div>
+  <div class="section-header" style="margin-bottom:1rem">
+    <div class="section-title">Upcoming Meetings</div>
+    <button class="btn btn-sm" onclick="openMeetingModal()">+ Add Meeting</button>
+  </div>
+  <div id="meetingList"></div>
+  <div style="margin-top:2rem">
+    <div class="section-title" style="margin-bottom:1rem;color:var(--text2)">Past Meetings</div>
+    <div id="pastMeetingList"></div>
+  </div>
+</div>
+
+<!-- INTEL TAB -->
+<div class="tab-view" id="tab-intel">
+  <div class="daily-brief">
+    <div class="brief-title">⚡ Daily Brief</div>
+    <div id="dailyBrief"></div>
+  </div>
+  <div class="intel-filters" id="intelFilters">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="AI News">🤖 AI News</button>
+    <button class="filter-btn" data-filter="Industry">📊 Industry</button>
+    <button class="filter-btn" data-filter="Competitor">👁 Competitors</button>
+    <button class="filter-btn" data-filter="Opportunity">💡 Opportunities</button>
+  </div>
+  <div class="section-header" style="margin-bottom:1rem">
+    <div class="section-title">Intel Feed</div>
+    <button class="btn btn-sm" onclick="openIntelModal()">+ Add Intel</button>
+  </div>
+  <div id="intelList"></div>
+</div>
+
+</main>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="taskModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add Task</div>
+      <button class="modal-close" onclick="closeModal('taskModal')">×</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Title</label>
+      <input class="form-input" id="taskTitle" placeholder="Task title">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Description</label>
+      <textarea class="form-textarea" id="taskDesc" placeholder="Brief description"></textarea>
+    </div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label class="form-label">Priority</label>
+        <select class="form-select" id="taskPriority">
+          <option value="high">High</option>
+          <option value="medium" selected>Medium</option>
+          <option value="low">Low</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Column</label>
+        <select class="form-select" id="taskCol">
+          <option value="backlog">Backlog</option>
+          <option value="inprogress">In Progress</option>
+          <option value="done">Done</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('taskModal')">Cancel</button>
+      <button class="btn" onclick="saveTask()">Add Task</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="clientModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add Client</div>
+      <button class="modal-close" onclick="closeModal('clientModal')">×</button>
+    </div>
+    <div class="form-group"><label class="form-label">Client Name</label><input class="form-input" id="clientName" placeholder="Name"></div>
+    <div class="form-group"><label class="form-label">Monthly Value (£)</label><input class="form-input" id="clientValue" type="number" placeholder="0"></div>
+    <div class="form-group">
+      <label class="form-label">Status</label>
+      <select class="form-select" id="clientStatus">
+        <option value="active">Active</option>
+        <option value="pending">Pending</option>
+        <option value="churned">Churned</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('clientModal')">Cancel</button>
+      <button class="btn" onclick="saveClient()">Add Client</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="agentModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add Agent</div>
+      <button class="modal-close" onclick="closeModal('agentModal')">×</button>
+    </div>
+    <div class="form-group"><label class="form-label">Name</label><input class="form-input" id="agentName" placeholder="Agent name"></div>
+    <div class="form-group"><label class="form-label">Role</label><input class="form-input" id="agentRole" placeholder="Role / title"></div>
+    <div class="form-group"><label class="form-label">Model</label><input class="form-input" id="agentModelInput" placeholder="e.g. gemini-2.5-flash-lite"></div>
+    <div class="form-group">
+      <label class="form-label">Status</label>
+      <select class="form-select" id="agentStatusInput">
+        <option value="online">Online</option>
+        <option value="busy">Busy</option>
+        <option value="offline">Offline</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Capabilities (comma separated)</label><input class="form-input" id="agentCaps" placeholder="Analysis, Research, Planning"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('agentModal')">Cancel</button>
+      <button class="btn" onclick="saveAgent()">Add Agent</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="decisionModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Log Decision</div>
+      <button class="modal-close" onclick="closeModal('decisionModal')">×</button>
+    </div>
+    <div class="form-group"><label class="form-label">Question Asked</label><input class="form-input" id="decisionQ" placeholder="What was the question?"></div>
+    <div class="form-group"><label class="form-label">Decision Summary</label><textarea class="form-textarea" id="decisionA" placeholder="What was decided?"></textarea></div>
+    <div class="form-group"><label class="form-label">Agents Consulted</label><input class="form-input" id="decisionAgents" placeholder="e.g. Athena, Guinevere"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('decisionModal')">Cancel</button>
+      <button class="btn" onclick="saveDecision()">Log It</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="videoModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add Video Idea</div>
+      <button class="modal-close" onclick="closeModal('videoModal')">×</button>
+    </div>
+    <div class="form-group"><label class="form-label">Title</label><input class="form-input" id="videoTitle" placeholder="Video title"></div>
+    <div class="form-group"><label class="form-label">Topic</label><input class="form-input" id="videoTopic" placeholder="Main topic"></div>
+    <div class="form-group">
+      <label class="form-label">Status</label>
+      <select class="form-select" id="videoStatus">
+        <option value="idea">Idea</option>
+        <option value="scripting">Scripting</option>
+        <option value="filming">Filming</option>
+        <option value="editing">Editing</option>
+        <option value="published">Published</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Target Date</label><input class="form-input" id="videoDate" type="date"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('videoModal')">Cancel</button>
+      <button class="btn" onclick="saveVideo()">Add Idea</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="meetingModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add Meeting</div>
+      <button class="modal-close" onclick="closeModal('meetingModal')">×</button>
+    </div>
+    <div class="form-group"><label class="form-label">Title</label><input class="form-input" id="meetingTitle" placeholder="Meeting title"></div>
+    <div class="form-group"><label class="form-label">Date & Time</label><input class="form-input" id="meetingDatetime" type="datetime-local"></div>
+    <div class="form-group"><label class="form-label">Attendees</label><input class="form-input" id="meetingAttendees" placeholder="Who's attending?"></div>
+    <div class="form-group">
+      <label class="form-label">Type</label>
+      <select class="form-select" id="meetingType">
+        <option value="call">Call</option>
+        <option value="zoom">Zoom</option>
+        <option value="in-person">In Person</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Prep Notes</label><textarea class="form-textarea" id="meetingPrep" placeholder="What to prepare?"></textarea></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('meetingModal')">Cancel</button>
+      <button class="btn" onclick="saveMeeting()">Add Meeting</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="intelModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add Intel</div>
+      <button class="modal-close" onclick="closeModal('intelModal')">×</button>
+    </div>
+    <div class="form-group"><label class="form-label">Title</label><input class="form-input" id="intelTitle" placeholder="Intel title"></div>
+    <div class="form-group"><label class="form-label">Summary</label><textarea class="form-textarea" id="intelSummary" placeholder="Key points"></textarea></div>
+    <div class="form-group"><label class="form-label">Source URL</label><input class="form-input" id="intelSource" placeholder="https://..."></div>
+    <div class="form-group">
+      <label class="form-label">Category</label>
+      <select class="form-select" id="intelCat">
+        <option value="AI News">AI News</option>
+        <option value="Industry">Industry</option>
+        <option value="Competitor">Competitor</option>
+        <option value="Opportunity">Opportunity</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Importance</label>
+      <select class="form-select" id="intelImportance">
+        <option value="🔥">🔥 Hot</option>
+        <option value="⚡">⚡ Notable</option>
+        <option value="📌">📌 Reference</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('intelModal')">Cancel</button>
+      <button class="btn" onclick="saveIntel()">Add Intel</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="sendTaskModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Send Task to <span id="sendTaskAgentName"></span></div>
+      <button class="modal-close" onclick="closeModal('sendTaskModal')">×</button>
+    </div>
+    <div class="form-group"><label class="form-label">Task Description</label><textarea class="form-textarea" id="sendTaskText" placeholder="Describe the task..." style="min-height:120px"></textarea></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('sendTaskModal')">Cancel</button>
+      <button class="btn" onclick="sendAgentTask()">Send Task</button>
+    </div>
+  </div>
+</div>
+
+<!-- AGENT SLIDE PANEL -->
+<div class="overlay-bg" id="panelOverlay" onclick="closePanel()"></div>
+<div class="slide-panel" id="agentPanel">
+  <button class="panel-close" onclick="closePanel()">×</button>
+  <div id="panelContent"></div>
+</div>
+
+<script>
+// ============================================================
+// STATE & STORAGE
+// ============================================================
+const LS = {
+  get: (k, def) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : def; } catch { return def; } },
+  set: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+};
+
+let state = {
+  tasks: LS.get('mc_tasks', []),
+  priorities: LS.get('mc_priorities', [
+    { id: 1, text: 'Set up autonomous agent crons', done: false },
+    { id: 2, text: 'Identify first KDP niche', done: false },
+    { id: 3, text: 'Research UK companies for acquisition', done: false }
+  ]),
+  activity: LS.get('mc_activity', []),
+  clients: LS.get('mc_clients', []),
+  agents: LS.get('mc_agents', [
+    { id: 1, name: 'Athena', role: 'Analyst', status: 'online', model: 'gemini-2.5-flash-lite', emoji: '🔍', caps: ['Pattern Analysis','Data Synthesis','Insights'], log: ['Spawned successfully','Ready for tasks'], lastActive: new Date().toISOString() },
+    { id: 2, name: 'Guinevere', role: 'Researcher', status: 'online', model: 'gemini-2.5-flash-lite', emoji: '📚', caps: ['Web Research','Source Evaluation','Synthesis'], log: ['Monitoring opportunities'], lastActive: new Date().toISOString() },
+    { id: 3, name: 'Percival', role: 'Planner', status: 'online', model: 'gemini-2.5-flash-lite', emoji: '📋', caps: ['Task Planning','Priority Setting','Dependencies'], log: ['Ready to plan'], lastActive: new Date().toISOString() },
+    { id: 4, name: 'Merlin', role: 'Developer', status: 'idle', model: 'gemini-2.5-flash-lite', emoji: '⚙️', caps: ['Code Generation','Prototyping','Debugging'], log: ['Standing by'], lastActive: new Date().toISOString() },
+    { id: 5, name: 'Viviane', role: 'Designer', status: 'idle', model: 'gemini-2.5-flash-lite', emoji: '🎨', caps: ['UI/UX Design','Visual Systems','Prototyping'], log: ['Standing by'], lastActive: new Date().toISOString() },
+    { id: 6, name: 'Forge', role: 'Executor', status: 'online', model: 'gemini-2.5-flash-lite', emoji: '🔧', caps: ['API Calls','File Operations','Script Running'], log: ['Executing tasks'], lastActive: new Date().toISOString() },
+    { id: 7, name: 'Bedivere', role: 'QA', status: 'idle', model: 'gemini-2.5-flash-lite', emoji: '🧪', caps: ['Testing','Edge Cases','Quality Review'], log: ['Ready to QA'], lastActive: new Date().toISOString() },
+    { id: 8, name: 'Gawain', role: 'Reviewer', status: 'idle', model: 'gemini-2.5-flash-lite', emoji: '⚖️', caps: ['Logic Review','Alignment Check','Critique'], log: ['Standing by'], lastActive: new Date().toISOString() },
+    { id: 9, name: 'Galahad', role: 'SEO', status: 'online', model: 'gemini-2.5-flash-lite', emoji: '🔎', caps: ['SEO Audit','AISO','Keyword Research','Reports'], log: ['Monitoring rankings'], lastActive: new Date().toISOString() }
+  ]),
+  decisions: LS.get('mc_decisions', []),
+  videos: LS.get('mc_videos', []),
+  subs: LS.get('mc_subs', 0),
+  meetings: LS.get('mc_meetings', []),
+  intel: LS.get('mc_intel', []),
+  notes: LS.get('mc_notes', ''),
+  timeline: LS.get('mc_timeline', [
+    { id: 1, phase: 'Phase 1 — Foundation', dates: 'Mar–Apr 2026', desc: 'Set up autonomous agent system, identify first revenue streams, establish daily workflows.', milestones: ['Agent system operational', 'First KDP book researched', 'Mission Control live'], current: true },
+    { id: 2, phase: 'Phase 2 — £20k/mo', dates: 'May–Jun 2026', desc: 'Scale first revenue streams to £20,000 monthly passive income.', milestones: ['3+ passive income streams', 'KDP publishing live', 'First consulting client'], current: false },
+    { id: 3, phase: 'Phase 3 — £50k/mo', dates: 'Jul–Sep 2026', desc: 'Multiply working channels, explore acquisition targets.', milestones: ['Acquisition targets shortlisted', 'Revenue portfolio diversified', '£50k MRR achieved'], current: false },
+    { id: 4, phase: 'Phase 4 — £1M Revenue', dates: 'Oct 2026+', desc: 'Scale to £1,000,000 annual revenue through acquisitions and scaled systems.', milestones: ['Company acquisition completed', '£1M annual revenue', 'Full passive income achieved'], current: false }
+  ]),
+  currentAgentId: null
+};
+
+function save() {
+  LS.set('mc_tasks', state.tasks);
+  LS.set('mc_priorities', state.priorities);
+  LS.set('mc_activity', state.activity.slice(0, 100));
+  LS.set('mc_clients', state.clients);
+  LS.set('mc_agents', state.agents);
+  LS.set('mc_decisions', state.decisions);
+  LS.set('mc_videos', state.videos);
+  LS.set('mc_subs', state.subs);
+  LS.set('mc_meetings', state.meetings);
+  LS.set('mc_intel', state.intel);
+  LS.set('mc_notes', state.notes);
+  LS.set('mc_timeline', state.timeline);
+}
+
+function addActivity(text) {
+  state.activity.unshift({ text, time: new Date().toISOString() });
+  save();
+  renderActivity();
+}
+
+// ============================================================
+// TAB NAVIGATION
+// ============================================================
+document.getElementById('navTabs').addEventListener('click', e => {
+  const btn = e.target.closest('.tab-btn');
+  if (!btn) return;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+});
+
+// ============================================================
+// CLOCK & DATE
+// ============================================================
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours();
+  document.getElementById('timeBadge').textContent = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+  const greeting = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+  document.getElementById('welcomeGreeting').textContent = greeting + ', Niall ⚔️';
+  document.getElementById('welcomeDate').textContent = now.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
+  // Days to 3mo goal (90 days from Jan 1)
+  const goal3mo = new Date('2026-06-27');
+  const daysLeft = Math.ceil((goal3mo - now) / 86400000);
+  document.getElementById('metricDays').textContent = daysLeft > 0 ? daysLeft : '🎯';
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ============================================================
+// WEATHER (via wttr.in)
+// ============================================================
+async function fetchWeather() {
+  try {
+    const r = await fetch('https://wttr.in/Ashford,Kent?format=3');
+    const t = await r.text();
+    document.getElementById('weatherBadge').textContent = t.trim().split(': ')[1] || t.trim();
+  } catch { document.getElementById('weatherBadge').textContent = '🌤 Kent'; }
+}
+fetchWeather();
+setInterval(fetchWeather, 300000);
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+function renderDashboard() {
+  const mrr = state.clients.filter(c => c.status === 'active').reduce((s, c) => s + Number(c.value), 0);
+  document.getElementById('metricMRR').textContent = '£' + mrr.toLocaleString();
+  document.getElementById('metricProjects').textContent = state.tasks.filter(t => t.col === 'inprogress').length;
+  document.getElementById('metricTasks').textContent = state.priorities.filter(p => !p.done).length;
+  const pct = Math.min((mrr / 1000000) * 100, 100);
+  document.getElementById('goalProgressBar').style.width = pct + '%';
+  document.getElementById('goalProgressLabel').textContent = '£' + mrr.toLocaleString() + ' / £1,000,000';
+}
+
+function renderActivity() {
+  const feed = document.getElementById('activityFeed');
+  if (!state.activity.length) {
+    feed.innerHTML = '<div style="color:var(--text3);font-size:13px;text-align:center;padding:2rem 0">No activity yet</div>';
+    return;
+  }
+  feed.innerHTML = state.activity.slice(0, 20).map(a => `
+    <div class="activity-item">
+      <div class="activity-dot"></div>
+      <div class="activity-text">${a.text}</div>
+      <div class="activity-time">${new Date(a.time).toLocaleTimeString('en-GB', {hour:'2-digit',minute:'2-digit'})}</div>
+    </div>`).join('');
+}
+
+function clearActivity() { state.activity = []; save(); renderActivity(); }
+
+function renderPriorities() {
+  const list = document.getElementById('priorityList');
+  list.innerHTML = state.priorities.map(p => `
+    <div class="priority-item">
+      <div class="priority-check ${p.done ? 'checked' : ''}" onclick="togglePriority(${p.id})">${p.done ? '✓' : ''}</div>
+      <div class="priority-text ${p.done ? 'done' : ''}">${p.text}</div>
+      <button class="priority-del" onclick="delPriority(${p.id})">×</button>
+    </div>`).join('') || '<div style="color:var(--text3);font-size:13px;padding:1rem 0">No priorities yet</div>';
+}
+
+function showAddPriority() {
+  const inp = document.getElementById('priorityInput');
+  inp.style.display = inp.style.display === 'none' ? 'block' : 'none';
+  if (inp.style.display === 'block') inp.focus();
+}
+
+function addPriority(text) {
+  if (!text.trim()) return;
+  state.priorities.push({ id: Date.now(), text: text.trim(), done: false });
+  document.getElementById('priorityInput').value = '';
+  document.getElementById('priorityInput').style.display = 'none';
+  save(); renderPriorities(); renderDashboard();
+  addActivity('Priority added: ' + text.trim());
+}
+
+function togglePriority(id) {
+  const p = state.priorities.find(x => x.id === id);
+  if (p) { p.done = !p.done; save(); renderPriorities(); renderDashboard(); }
+}
+
+function delPriority(id) {
+  state.priorities = state.priorities.filter(x => x.id !== id);
+  save(); renderPriorities(); renderDashboard();
+}
+
+// ============================================================
+// KANBAN
+// ============================================================
+function renderKanban() {
+  ['backlog', 'inprogress', 'done'].forEach(col => {
+    const cards = state.tasks.filter(t => t.col === col);
+    document.getElementById('col-' + col).innerHTML = cards.map(t => `
+      <div class="task-card" onclick="editTask(${t.id})">
+        <div class="task-title">${t.title}</div>
+        <div class="task-desc">${t.desc || ''}</div>
+        <div class="task-meta">
+          <span class="priority-badge ${t.priority}">${t.priority}</span>
+          <span class="task-date">${new Date(t.created).toLocaleDateString('en-GB')}</span>
+          <button onclick="event.stopPropagation();moveTask(${t.id})" style="background:none;border:none;color:var(--accent);font-size:12px;cursor:pointer;margin-left:4px">→</button>
+          <button onclick="event.stopPropagation();delTask(${t.id})" style="background:none;border:none;color:var(--accent3);font-size:12px;cursor:pointer">×</button>
+        </div>
+      </div>`).join('') || '<div style="color:var(--text3);font-size:12px;text-align:center;padding:1.5rem 0">Empty</div>';
+    document.getElementById('badge-' + col).textContent = cards.length;
+  });
+  renderDashboard();
+}
+
+function openTaskModal() { document.getElementById('taskModal').classList.add('open'); }
+function saveTask() {
+  const title = document.getElementById('taskTitle').value.trim();
+  if (!title) return;
+  state.tasks.push({ id: Date.now(), title, desc: document.getElementById('taskDesc').value, priority: document.getElementById('taskPriority').value, col: document.getElementById('taskCol').value, created: new Date().toISOString() });
+  closeModal('taskModal');
+  document.getElementById('taskTitle').value = '';
+  document.getElementById('taskDesc').value = '';
+  save(); renderKanban();
+  addActivity('Task added: ' + title);
+}
+
+function editTask(id) {}
+function moveTask(id) {
+  const t = state.tasks.find(x => x.id === id);
+  if (!t) return;
+  const cols = ['backlog', 'inprogress', 'done'];
+  t.col = cols[(cols.indexOf(t.col) + 1) % 3];
+  save(); renderKanban();
+  addActivity('Task moved: ' + t.title + ' → ' + t.col);
+}
+
+function delTask(id) {
+  state.tasks = state.tasks.filter(x => x.id !== id);
+  save(); renderKanban();
+}
+
+// ============================================================
+// TIMELINE
+// ============================================================
+function renderTimeline() {
+  document.getElementById('timelineContainer').innerHTML = state.timeline.map(p => `
+    <div class="timeline-item ${p.current ? 'current' : ''}">
+      <div class="timeline-dot"></div>
+      <div class="timeline-phase">${p.phase}</div>
+      <div class="timeline-dates">📅 ${p.dates}</div>
+      <div class="timeline-desc">${p.desc}</div>
+      <ul class="milestone-list">
+        ${p.milestones.map((m, i) => `<li class="${p.current && i === 0 ? 'done' : ''}">${m}</li>`).join('')}
+      </ul>
+    </div>`).join('');
+}
+
+function openTimelineModal() {}
+
+// ============================================================
+// NOTES
+// ============================================================
+const notesArea = document.getElementById('notesArea');
+notesArea.value = state.notes;
+notesArea.addEventListener('input', () => {
+  state.notes = notesArea.value;
+  save();
+  document.getElementById('notesCount').textContent = state.notes.length + ' characters';
+  document.getElementById('notesSaved').textContent = 'Saved ' + new Date().toLocaleTimeString('en-GB', {hour:'2-digit',minute:'2-digit'});
+});
+document.getElementById('notesCount').textContent = state.notes.length + ' characters';
+
+// ============================================================
+// REVENUE
+// ============================================================
+function renderRevenue() {
+  const clients = state.clients;
+  const mrr = clients.filter(c => c.status === 'active').reduce((s, c) => s + Number(c.value), 0);
+  document.getElementById('mrrDisplay').textContent = '£' + mrr.toLocaleString();
+  const pct = Math.min((mrr / 20000) * 100, 100);
+  document.getElementById('mrrBar').style.width = pct + '%';
+  document.getElementById('mrrPercent').textContent = pct.toFixed(1) + '% of £20k monthly goal';
+  document.getElementById('projAnnual').textContent = '£' + (mrr * 12).toLocaleString();
+  const monthsTo1M = mrr > 0 ? (1000000 / (mrr * 12) * 12).toFixed(1) : '∞';
+  document.getElementById('projTime').textContent = mrr > 0 ? monthsTo1M + ' months to £1M' : 'No revenue yet';
+  const growthNeeded = mrr > 0 ? Math.ceil((20000 - mrr)) : 20000;
+  document.getElementById('projGrowth').textContent = '£' + growthNeeded.toLocaleString() + '/mo needed';
+  document.getElementById('projMillion').textContent = mrr > 0 ? monthsTo1M + ' months at current rate' : 'Start generating revenue';
+  document.getElementById('clientCount').textContent = '<span style="color:var(--text2)">' + clients.length + ' clients</span>';
+
+  document.getElementById('clientList').innerHTML = clients.length ? clients.map((c, i) => `
+    <div class="client-row">
+      <div class="client-name">${c.name}</div>
+      <div class="client-value">£${Number(c.value).toLocaleString()}</div>
+      <span class="client-status ${c.status}">${c.status}</span>
+      <button onclick="delClient(${i})" class="btn btn-ghost btn-sm btn-danger" style="margin-left:auto">Remove</button>
+    </div>`).join('') : '<div style="color:var(--text3);font-size:13px;padding:1rem 0">No clients yet — add your first!</div>';
+
+  renderDashboard();
+}
+
+function openClientModal() { document.getElementById('clientModal').classList.add('open'); }
+function saveClient() {
+  const name = document.getElementById('clientName').value.trim();
+  if (!name) return;
+  state.clients.push({ name, value: document.getElementById('clientValue').value || 0, status: document.getElementById('clientStatus').value, start: new Date().toISOString() });
+  closeModal('clientModal');
+  document.getElementById('clientName').value = '';
+  document.getElementById('clientValue').value = '';
+  save(); renderRevenue();
+  addActivity('Client added: ' + name);
+}
+
+function delClient(i) { state.clients.splice(i, 1); save(); renderRevenue(); }
+
+// ============================================================
+// AGENTS
+// ============================================================
+function renderAgents() {
+  document.getElementById('agentGrid').innerHTML = state.agents.map(a => `
+    <div class="card agent-card" onclick="openAgentPanel(${a.id})">
+      <div class="agent-header">
+        <div class="agent-avatar">${a.emoji || '🤖'}</div>
+        <div>
+          <div class="agent-name">${a.name}</div>
+          <div class="agent-role">${a.role}</div>
+        </div>
+      </div>
+      <div class="agent-status">
+        <div class="status-indicator ${a.status}"></div>
+        <span style="color:var(--text2)">${a.status.charAt(0).toUpperCase() + a.status.slice(1)}</span>
+      </div>
+      <div class="agent-model">${a.model}</div>
+      <div class="agent-last">Last active: ${new Date(a.lastActive).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</div>
+    </div>`).join('');
+
+  document.getElementById('decisionList').innerHTML = state.decisions.length ? state.decisions.map((d, i) => `
+    <div class="decision-card">
+      <div class="decision-q">❓ ${d.q}</div>
+      <div class="decision-a">${d.a}</div>
+      <div class="decision-meta">👥 ${d.agents} · 📅 ${new Date(d.date).toLocaleDateString('en-GB')}
+        <button onclick="delDecision(${i})" style="background:none;border:none;color:var(--accent3);cursor:pointer;margin-left:8px;font-size:12px">Remove</button>
+      </div>
+    </div>`).join('') : '<div style="color:var(--text3);font-size:13px;padding:1rem 0">No decisions logged yet</div>';
+}
+
+function openAgentPanel(id) {
+  const a = state.agents.find(x => x.id === id);
+  if (!a) return;
+  state.currentAgentId = id;
+  document.getElementById('panelContent').innerHTML = `
+    <div class="panel-agent-name">${a.emoji || '🤖'} ${a.name}</div>
+    <div style="color:var(--text2);font-size:14px;margin-bottom:4px">${a.role}</div>
+    <div class="agent-status" style="margin-bottom:12px">
+      <div class="status-indicator ${a.status}"></div>
+      <span style="color:var(--text2)">${a.status}</span>
+    </div>
+    <button class="btn" style="width:100%;margin-bottom:8px" onclick="closePanel();document.getElementById('sendTaskAgentName').textContent='${a.name}';document.getElementById('sendTaskModal').classList.add('open')">📤 Send Task</button>
+    <div class="panel-section">
+      <div class="panel-section-title">Capabilities</div>
+      <div>${(a.caps || []).map(c => `<span class="capability-tag">${c}</span>`).join('')}</div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-section-title">Activity Log</div>
+      <div class="activity-log">${(a.log || []).map(l => `<div class="log-item">${l}</div>`).join('') || '<div style="color:var(--text3);font-size:12px">No activity</div>'}</div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-section-title">Model</div>
+      <div class="agent-model">${a.model}</div>
+    </div>`;
+  document.getElementById('agentPanel').classList.add('open');
+  document.getElementById('panelOverlay').classList.add('open');
+}
+
+function closePanel() {
+  document.getElementById('agentPanel').classList.remove('open');
+  document.getElementById('panelOverlay').classList.remove('open');
+}
+
+function sendAgentTask() {
+  const text = document.getElementById('sendTaskText').value.trim();
+  if (!text || !state.currentAgentId) return;
+  const a = state.agents.find(x => x.id === state.currentAgentId);
+  if (a) {
+    if (!a.log) a.log = [];
+    a.log.unshift('Task: ' + text.substring(0, 60) + (text.length > 60 ? '...' : ''));
+    a.lastActive = new Date().toISOString();
+    save(); renderAgents();
+    addActivity('Task sent to ' + a.name + ': ' + text.substring(0, 50));
+  }
+  document.getElementById('sendTaskText').value = '';
+  closeModal('sendTaskModal');
+}
+
+function openAgentModal() { document.getElementById('agentModal').classList.add('open'); }
+function saveAgent() {
+  const name = document.getElementById('agentName').value.trim();
+  if (!name) return;
+  state.agents.push({ id: Date.now(), name, role: document.getElementById('agentRole').value, model: document.getElementById('agentModelInput').value, status: document.getElementById('agentStatusInput').value, emoji: '🤖', caps: document.getElementById('agentCaps').value.split(',').map(s => s.trim()), log: ['Created'], lastActive: new Date().toISOString() });
+  closeModal('agentModal');
+  document.getElementById('agentName').value = '';
+  save(); renderAgents();
+  addActivity('Agent added: ' + name);
+}
+
+function openDecisionModal() { document.getElementById('decisionModal').classList.add('open'); }
+function saveDecision() {
+  const q = document.getElementById('decisionQ').value.trim();
+  if (!q) return;
+  state.decisions.unshift({ q, a: document.getElementById('decisionA').value, agents: document.getElementById('decisionAgents').value, date: new Date().toISOString() });
+  closeModal('decisionModal');
+  document.getElementById('decisionQ').value = '';
+  document.getElementById('decisionA').value = '';
+  document.getElementById('decisionAgents').value = '';
+  save(); renderAgents();
+  addActivity('Decision logged: ' + q);
+}
+
+function delDecision(i) { state.decisions.splice(i, 1); save(); renderAgents(); }
+
+// ============================================================
+// YOUTUBE
+// ============================================================
+const MILESTONES = [
+  { title: 'Just Getting Started', count: 0 },
+  { title: 'Rising Creator', count: 1000 },
+  { title: 'Growth Engine', count: 10000 },
+  { title: 'Established Voice', count: 50000 },
+  { title: 'Major Creator', count: 100000 },
+  { title: 'YouTube Legend', count: 1000000 }
+];
+
+const PIPELINE_COLS = ['idea', 'scripting', 'filming', 'editing', 'published'];
+
+function renderYouTube() {
+  const subs = state.subs;
+  document.getElementById('subCount').textContent = subs.toLocaleString();
+  const current = MILESTONES.filter(m => m.count <= subs).pop();
+  const next = MILESTONES.find(m => m.count > subs);
+  document.getElementById('milestoneName').textContent = current ? current.title : 'Starting Out';
+  if (next) {
+    const pct = ((subs - (current?.count || 0)) / (next.count - (current?.count || 0))) * 100;
+    document.getElementById('xpBar').style.width = pct + '%';
+    document.getElementById('xpLabel').textContent = subs.toLocaleString() + ' / ' + next.count.toLocaleString() + ' to ' + next.title;
+  }
+
+  document.getElementById('milestoneList').innerHTML = MILESTONES.slice(1).map(m => `
+    <div class="milestone-row">
+      <span class="milestone-check">${subs >= m.count ? '✅' : '⭕'}</span>
+      <span class="milestone-title">${m.title}</span>
+      <span class="milestone-count">${m.count.toLocaleString()}</span>
+    </div>`).join('');
+
+  document.getElementById('pipelineBoard').innerHTML = PIPELINE_COLS.map(col => {
+    const vids = state.videos.filter(v => v.status === col);
+    return `<div class="pipeline-col">
+      <div class="pipeline-header">${col.toUpperCase()} <span style="color:var(--text3)">(${vids.length})</span></div>
+      ${vids.map(v => `<div class="video-card">
+        <div class="video-title">${v.title}</div>
+        <div class="video-topic">${v.topic}</div>
+        <div class="video-date">${v.date || ''}</div>
+        <div style="display:flex;gap:4px;margin-top:8px">
+          <button onclick="moveVideo(${v.id})" class="btn btn-ghost btn-sm" style="flex:1">→</button>
+          <button onclick="delVideo(${v.id})" class="btn btn-ghost btn-sm btn-danger">×</button>
+        </div>
+      </div>`).join('')}
+    </div>`;
+  }).join('');
+
+  renderCalendar();
+}
+
+function openVideoModal() { document.getElementById('videoModal').classList.add('open'); }
+function saveVideo() {
+  const title = document.getElementById('videoTitle').value.trim();
+  if (!title) return;
+  state.videos.push({ id: Date.now(), title, topic: document.getElementById('videoTopic').value, status: document.getElementById('videoStatus').value, date: document.getElementById('videoDate').value });
+  closeModal('videoModal');
+  document.getElementById('videoTitle').value = '';
+  save(); renderYouTube();
+  addActivity('Video idea added: ' + title);
+}
+
+function moveVideo(id) {
+  const v = state.videos.find(x => x.id === id);
+  if (!v) return;
+  const i = PIPELINE_COLS.indexOf(v.status);
+  v.status = PIPELINE_COLS[Math.min(i + 1, PIPELINE_COLS.length - 1)];
+  save(); renderYouTube();
+}
+
+function delVideo(id) { state.videos = state.videos.filter(x => x.id !== id); save(); renderYouTube(); }
+
+function renderCalendar() {
+  const now = new Date();
+  document.getElementById('calMonthLabel').textContent = now.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+  const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).getDay();
+  const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  const publishedDates = state.videos.filter(v => v.date).map(v => new Date(v.date).getDate());
+  const offset = (firstDay + 6) % 7;
+  let html = Array(offset).fill('<div class="cal-day" style="opacity:0"></div>').join('');
+  for (let d = 1; d <= daysInMonth; d++) {
+    const isToday = d === now.getDate();
+    const hasVideo = publishedDates.includes(d);
+    html += `<div class="cal-day ${isToday ? 'today' : ''} ${hasVideo && !isToday ? 'has-video' : ''}">${d}</div>`;
+  }
+  document.getElementById('calGrid').innerHTML = html;
+}
+
+// ============================================================
+// MEETINGS
+// ============================================================
+function renderMeetings() {
+  const now = new Date();
+  const upcoming = state.meetings.filter(m => new Date(m.datetime) >= now).sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+  const past = state.meetings.filter(m => new Date(m.datetime) < now).sort((a, b) => new Date(b.datetime) - new Date(a.datetime));
+  const today = upcoming.filter(m => {
+    const d = new Date(m.datetime);
+    return d.getDate() === now.getDate() && d.getMonth() === now.getMonth();
+  });
+
+  const todayDiv = document.getElementById('todayMeetings');
+  if (today.length) {
+    todayDiv.innerHTML = `<div class="card" style="border-color:rgba(255,209,102,0.3);margin-bottom:1rem">
+      <div class="section-title" style="color:var(--accent4);margin-bottom:1rem">📅 Today's Meetings</div>
+      ${today.map(m => meetingCardHTML(m, true)).join('')}
+    </div>`;
+  } else todayDiv.innerHTML = '';
+
+  document.getElementById('meetingList').innerHTML = upcoming.filter(m => !today.includes(m)).map(m => meetingCardHTML(m, false)).join('') ||
+    '<div style="color:var(--text3);font-size:13px;padding:1rem 0">No upcoming meetings</div>';
+
+  document.getElementById('pastMeetingList').innerHTML = past.slice(0, 5).map(m => `
+    <div class="card card-sm" style="margin-bottom:8px;opacity:0.6">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:14px">${m.title}</span>
+        <span style="font-size:12px;color:var(--text3)">${new Date(m.datetime).toLocaleDateString('en-GB')}</span>
+      </div>
+    </div>`).join('') || '<div style="color:var(--text3);font-size:13px">No past meetings</div>';
+}
+
+function meetingCardHTML(m, isToday) {
+  const dt = new Date(m.datetime);
+  const countdown = Math.ceil((dt - new Date()) / 60000);
+  return `<div class="card meeting-card" style="margin-bottom:8px" onclick="this.querySelector('.meeting-expand').classList.toggle('open')">
+    <div class="meeting-header">
+      <div>
+        <div class="meeting-title">${m.title}</div>
+        <div class="meeting-time">📅 ${dt.toLocaleDateString('en-GB')} at ${dt.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</div>
+        <div class="meeting-attendees">👥 ${m.attendees}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+        <span class="meeting-type">${m.type}</span>
+        ${isToday && countdown > 0 ? `<span class="countdown-badge">in ${countdown}m</span>` : ''}
+        <button onclick="event.stopPropagation();delMeeting(${m.id})" class="btn btn-ghost btn-sm btn-danger">Remove</button>
+      </div>
+    </div>
+    <div class="meeting-expand">
+      ${m.prep ? `<div style="font-size:13px;color:var(--text2);margin-bottom:8px">📋 ${m.prep}</div>` : ''}
+    </div>
+  </div>`;
+}
+
+function openMeetingModal() { document.getElementById('meetingModal').classList.add('open'); }
+function saveMeeting() {
+  const title = document.getElementById('meetingTitle').value.trim();
+  if (!title) return;
+  state.meetings.push({ id: Date.now(), title, datetime: document.getElementById('meetingDatetime').value, attendees: document.getElementById('meetingAttendees').value, type: document.getElementById('meetingType').value, prep: document.getElementById('meetingPrep').value });
+  closeModal('meetingModal');
+  document.getElementById('meetingTitle').value = '';
+  save(); renderMeetings();
+  addActivity('Meeting added: ' + title);
+}
+
+function delMeeting(id) { state.meetings = state.meetings.filter(x => x.id !== id); save(); renderMeetings(); }
+
+// ============================================================
+// INTEL
+// ============================================================
+let intelFilter = 'all';
+
+function renderIntel() {
+  const filtered = intelFilter === 'all' ? state.intel : state.intel.filter(i => i.cat === intelFilter);
+  const hot = state.intel.filter(i => i.importance === '🔥').slice(0, 5);
+  
+  document.getElementById('dailyBrief').innerHTML = hot.length ? hot.map(i => `
+    <div class="brief-item">
+      <span>${i.importance}</span>
+      <span><strong>${i.title}</strong> — ${i.summary.substring(0, 100)}${i.summary.length > 100 ? '...' : ''}</span>
+    </div>`).join('') : '<div style="color:var(--text3);font-size:13px">No hot intel yet — add some!</div>';
+
+  document.getElementById('intelList').innerHTML = filtered.length ? filtered.map((item, i) => `
+    <div class="intel-item">
+      <div class="intel-header">
+        <div class="intel-importance">${item.importance}</div>
+        <div class="intel-title">${item.title}</div>
+        <span class="intel-cat">${item.cat}</span>
+        <button onclick="delIntel(${i})" style="background:none;border:none;color:var(--accent3);cursor:pointer;font-size:16px;margin-left:8px">×</button>
+      </div>
+      <div class="intel-summary">${item.summary}</div>
+      <div class="intel-meta">
+        <span>📅 ${new Date(item.date).toLocaleDateString('en-GB')}</span>
+        ${item.source ? `<a href="${item.source}" target="_blank" class="intel-link">🔗 Source</a>` : ''}
+      </div>
+    </div>`).join('') : '<div style="color:var(--text3);font-size:13px;padding:1rem 0">No intel in this category yet</div>';
+}
+
+document.getElementById('intelFilters').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  intelFilter = btn.dataset.filter;
+  renderIntel();
+});
+
+function openIntelModal() { document.getElementById('intelModal').classList.add('open'); }
+function saveIntel() {
+  const title = document.getElementById('intelTitle').value.trim();
+  if (!title) return;
+  state.intel.unshift({ title, summary: document.getElementById('intelSummary').value, source: document.getElementById('intelSource').value, cat: document.getElementById('intelCat').value, importance: document.getElementById('intelImportance').value, date: new Date().toISOString() });
+  closeModal('intelModal');
+  document.getElementById('intelTitle').value = '';
+  document.getElementById('intelSummary').value = '';
+  document.getElementById('intelSource').value = '';
+  save(); renderIntel();
+  addActivity('Intel added: ' + title);
+}
+
+function delIntel(i) { state.intel.splice(i, 1); save(); renderIntel(); }
+
+// ============================================================
+// MODAL HELPERS
+// ============================================================
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); }));
+
+// Keyboard shortcut
+document.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    e.preventDefault();
+    document.querySelectorAll('.tab-btn')[0].focus();
+  }
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open'));
+    closePanel();
+  }
+});
+
+// ============================================================
+// INIT
+// ============================================================
+function init() {
+  renderDashboard();
+  renderActivity();
+  renderPriorities();
+  renderKanban();
+  renderTimeline();
+  renderRevenue();
+  renderAgents();
+  renderYouTube();
+  renderMeetings();
+  renderIntel();
+  addActivity('Mission Control loaded');
+}
+
+init();
+</script>
 </body>
 </html>
