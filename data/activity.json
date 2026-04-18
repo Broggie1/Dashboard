@@ -1,11 +1,21 @@
 [
   {
-    "time": "2026-04-18 17:39",
+    "time": "2026-04-18 17:44",
+    "title": "Dashboard data generator updated",
+    "detail": "Added explicit merging of manual backlog items into operating-board.json and refined agent/activity data generation."
+  },
+  {
+    "time": "2026-04-18 17:37",
+    "title": "Dashboard reverted to stable state",
+    "detail": "Reverted recent changes that caused rendering issues."
+  },
+  {
+    "time": "2026-04-18 17:34",
     "title": "Dashboard data generator added",
     "detail": "Mission Control pages can now be regenerated from workspace state using a shared script."
   },
   {
-    "time": "2026-04-18 17:39",
+    "time": "2026-04-18 17:34",
     "title": "Operating board unified",
     "detail": "Mission Control and Projects now share a single operating-board.json source."
   },

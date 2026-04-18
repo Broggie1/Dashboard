@@ -2,20 +2,20 @@
   "primaryGoal": "\u00a320,000 passive income in 3 months",
   "systemStatus": "Operational",
   "metrics": {
-    "ideas": 12,
-    "research": 4,
-    "launch": 4,
+    "ideas": 18,
+    "research": 5,
+    "launch": 5,
     "mrr": "\u00a30"
   },
   "priorities": [
-    "1) finish sellable digital products",
-    "2) launch checkout and landing pages",
-    "3) wire follow-up email flow"
+    "finish sellable digital products",
+    "launch checkout and landing pages",
+    "wire follow-up email flow"
   ],
   "quickStatus": {
     "hosting": "GitHub Pages",
     "primaryModel": "GPT 5.4",
     "projects": "Shared operating board",
-    "refresh": "2-hour job"
+    "refresh": "Data regeneration script"
   }
 }
