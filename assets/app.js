@@ -11,6 +11,7 @@ async function loadJson(path, fallback) {
 function nav(active) {
   const items = [
     ['index.html','Overview'],
+    ['mission-control.html','Mission Control'],
     ['agents.html','Agents'],
     ['projects.html','Projects'],
     ['daily-logs.html','Daily logs'],
