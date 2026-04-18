@@ -423,6 +423,54 @@
       padding: 10px 4px;
     }
 
+    .log-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .log-item {
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      overflow: hidden;
+    }
+
+    .log-summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .log-summary::-webkit-details-marker { display: none; }
+
+    .log-date {
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .log-preview {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .log-content {
+      margin: 0;
+      padding: 0 16px 16px;
+      color: #d7deee;
+      white-space: pre-wrap;
+      font-size: 13px;
+      line-height: 1.6;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+    }
+
     .actions li, .list li {
       color: var(--muted);
       line-height: 1.6;
@@ -476,6 +524,7 @@
         <a href="#revenue">Revenue</a>
         <a href="#next-steps">Next steps</a>
         <a href="#projects">Projects</a>
+        <a href="#daily-logs">Daily logs</a>
         <a href="#pipeline">Pipeline</a>
         <a href="#blockers">Blockers</a>
         <a href="#links">Links</a>
@@ -678,6 +727,16 @@
             </div>
             <div class="project-list" data-column="done"></div>
           </div>
+        </div>
+      </section>
+
+      <section class="card" id="daily-logs" style="margin-top:18px;">
+        <div class="section-title">
+          <h2>Daily log summary</h2>
+          <span class="pill">Latest 20</span>
+        </div>
+        <div class="log-list" id="dailyLogsList">
+          <div class="project-empty">Loading daily logs...</div>
         </div>
       </section>
 
@@ -908,6 +967,35 @@
     });
 
     renderProjects();
+
+    async function loadDailyLogs() {
+      const container = document.getElementById('dailyLogsList');
+      try {
+        const response = await fetch('./data/daily-logs.json', { cache: 'no-store' });
+        if (!response.ok) throw new Error('Failed to load logs');
+        const logs = await response.json();
+        if (!logs.length) {
+          container.innerHTML = '<div class="project-empty">No daily logs found.</div>';
+          return;
+        }
+        container.innerHTML = logs.slice().reverse().map(log => `
+          <details class="log-item">
+            <summary class="log-summary">
+              <div>
+                <div class="log-date">${escapeHtml(log.date)}</div>
+                <div class="log-preview">${escapeHtml(log.summary || 'No summary available.')}</div>
+              </div>
+              <span class="pill">Expand</span>
+            </summary>
+            <pre class="log-content">${escapeHtml(log.content || '')}</pre>
+          </details>
+        `).join('');
+      } catch (error) {
+        container.innerHTML = '<div class="project-empty">Unable to load daily logs.</div>';
+      }
+    }
+
+    loadDailyLogs();
   </script>
 </body>
 </html>

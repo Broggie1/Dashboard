@@ -1,46 +1,122 @@
-{
-  "24-03-26": {
-    "date": "2026-03-24",
-    "entries": [
-      {
-        "time": "08:05",
-        "type": "info",
-        "message": "Morning briefing completed",
-        "details": "Weather: Sunny, 15°C. Calendar: 2 meetings today. Email: 5 unread."
-      },
-      {
-        "time": "09:30",
-        "type": "task",
-        "message": "Started Mission Control dashboard redesign",
-        "agent": "subagent-2571cd51"
-      },
-      {
-        "time": "12:15",
-        "type": "success",
-        "message": "System health check: All systems operational",
-        "details": "CPU: 35%, Memory: 42%, Disk: 18%"
-      }
-    ]
+[
+  {
+    "date": "2026-03-21",
+    "file": "2026-03-21.md",
+    "summary": "- Explore legal advisory startups for acquisition.",
+    "content": "## Ideas for Future Projects:\n\n- Explore legal advisory startups for acquisition.\n- Develop a tax-efficient wealth management service.\n- Invest in automation tech for financial firms.\n- Create a platform for business buyouts.\n- Offer consulting for startups seeking UK market entry.\n\n*New ideas logged as per user input.*"
   },
-  "23-03-26": {
+  {
     "date": "2026-03-23",
-    "entries": [
-      {
-        "time": "08:00",
-        "type": "info",
-        "message": "Morning briefing completed"
-      },
-      {
-        "time": "14:30",
-        "type": "task",
-        "message": "Researched backup solutions",
-        "agent": "Lancelot"
-      },
-      {
-        "time": "18:45",
-        "type": "warning",
-        "message": "High memory usage detected: 78%"
-      }
-    ]
+    "file": "2026-03-23.md",
+    "summary": "**Mission Control Dashboard Fix:**",
+    "content": "## 2026-03-23 - Agent Progress Updates\n\n**Mission Control Dashboard Fix:**\n- **Status:** Debugging Vercel deployment issues. Agent is analyzing build logs and JavaScript execution.\n- **Progress:** Blocked on identifying Vercel-specific issue. Current estimated completion: N/A (debugging).\n- **Next Steps:** Continue debugging, test locally, redeploy.\n\n**KGB Financial Lead Gen Research:**\n- **Status:** Actively progressing.\n- **Details:** Research agent using Brave Search, analyzing competitors, compiling FAQ, designing user journey.\n- **Progress:** ~30% complete (research phase).\n- **Next Steps:** Continue research, present strategic brief, await MVP decision.\n\n**General Notes:**\n- Continuing to monitor costs and optimize model usage (Gemini for coordinator).\n- Discord integration confirmed working.\n- Backup system spec drafted, awaiting GitHub setup from Niall.\n\n**Priorities:** Fix Mission Control data visibility, then proceed with KGB research findings."
+  },
+  {
+    "date": "2026-03-24",
+    "file": "2026-03-24.md",
+    "summary": "- **Action:** Main coordinator model switched from `google/gemini-2.5-flash-lite` to `openai/gpt-4o`",
+    "content": "# 2026-03-24 Daily Log\n\n## Coordinator Model Switched to GPT-4o (11:32 GMT)\n- **Action:** Main coordinator model switched from `google/gemini-2.5-flash-lite` to `openai/gpt-4o`\n- **API Key:** OpenRouter key configured (OPENAI_KEY_REDACTED)\n- **Config update:** `openclaw config set agents.defaults.model.primary openai/gpt-4o`\n- **Gateway:** Restarted successfully at 11:32 GMT\n- **Cost implications:** GPT-4o incurs token costs via OpenRouter; sub-agents remain on free models (DeepSeek, Qwen, Gemini-lite)\n- **Effective:** Next coordinator session will use GPT-4o for improved reasoning and complex task handling\n\n## Hourly Progress Reports Configured (17:24 GMT, 2026-03-23)\n- **Cron job:** `hourly-progress-report` scheduled to run at 5 minutes past every hour\n- **Task:** Review active tasks, agent statuses, progress percentages, blockers, and recent discussions\n- **Output:** Saves to `memory/hourly-updates.md`\n- **Delivery:** Discord #automations channel (1485296459502059672)\n- **Model:** GPT-4.1-nano (cost-effective)\n\n## Daily Briefing Summary Configured (17:24 GMT, 2026-03-23)\n- **Cron job:** `daily-briefing-summary` scheduled to run at 5:00 AM daily\n- **Task:** Summarize main aims, project priorities, backlog status, progress, and blockers\n- **Output:** Saves to `memory/YYYY-MM-DD.md` under 'Daily Briefing' header\n- **Delivery:** Discord #general channel (1485296218530648076)\n- **Model:** GPT-4.1-nano\n\n## Current Project Status (as of 11:40 GMT)\n\n### Mission Control Dashboard\n- **Status:** Critical - Vercel deployment debugging ongoing\n- **Issue:** Local code works; live data not rendering on Vercel (JavaScript execution/asset serving problem)\n- **Progress:** Coder agent actively investigating; GitHub Pages being considered as fallback\n- **Blocker:** Vercel build environment configuration\n\n### KGB Financial Lead Gen Research\n- **Status:** Progressing with web search limitations\n- **Progress:** ~50% complete (research phase)\n- **Tools:** Using Brave Search (with sporadic API reliability issues)\n- **Next:** Synthesis into strategic brief once data gathering complete\n\n### Backup System\n- **Status:** Spec complete, awaiting implementation\n- **Blocker:** Requires GitHub repo creation and SSH key setup from Niall\n- **Spec location:** BACKUP-SPEC.md\n\n## Active APIs and Models\n- **Main Coordinator:** openai/gpt-4o (via OpenRouter, paid)\n- **Sub-agents:** All free models via OpenRouter\n  - Researcher: deepseek/deepseek-chat-v3-0324\n  - Writer: google/gemini-2.5-flash-lite\n  - Coder: qwen/qwen3-coder:free\n  - QA: deepseek/deepseek-chat-v3.1\n  - Briefing: google/gemini-2.5-flash-lite\n  - Dashboard: google/gemini-2.5-flash-lite\n  - Reasoning: deepseek/deepseek-r1\n- **Web Search:** Brave Search (primary), Tavily (skill), Exa (free fallback)\n\n## Key Learnings & Process Improvements\n- **Proactive Updates:** Niall emphasized need for regular, unprompted progress updates\n- **Solution:** Implemented hourly progress reports and daily briefings via cron jobs\n- **Communication:** Clear preference for concise, actionable updates with percentage completion where possible\n- **Hosting Strategy:** Considering dual-path approach (Vercel + GitHub Pages) for Mission Control reliability"
+  },
+  {
+    "date": "2026-03-25",
+    "file": "2026-03-25.md",
+    "summary": "- **Mission Control Display Issue:** Acknowledged Niall's concern about Mission Control not updating with current data, even after refres...",
+    "content": "### 2026-03-25 Morning Update\n- **Mission Control Display Issue:** Acknowledged Niall's concern about Mission Control not updating with current data, even after refreshes. My immediate action is to investigate the backend data synchronization and front-end rendering logic to resolve this.\n- **Agent Framework Progress:** Defined the SOLEMD (Scope, Objectives, Limits, Evidence, Methodology, Deliverables) for the specialized agents (Niche Scout, Content Optimizer, Productivity Coach, Micro-App Concept Generator, Domain Strategist). Added the \"AI Team Dashboard\" to Mission Control's development backlog.\n- **Initiated Research:** Began broad online income trend research (YouTube, Reddit) and started exploring the potential of Niall's unused domain names.\n- **Next Steps:** Awaiting Niall's list of unused domain names to fully task the Domain Strategist Agent. Will provide a Mission Control status update after investigation."
+  },
+  {
+    "date": "2026-03-26",
+    "file": "2026-03-26.md",
+    "summary": "**Mission Control Status:**",
+    "content": "## Memory Entry - March 26th, 2026\n\n**Mission Control Status:**\n- Mission Control fixed by user, Niall, at 17:20.\n- Cron jobs have been left unchanged at user's request.\n\n**Diagnostics and Actions:**\n- Conducted memory and system diagnostics.\n- Gateway restarted to reduce memory load several times today.\n- Current system snapshot: Gateway uses ~31% CPU and around 700-750 MB RAM.\n\n**Tools Used:** \n- Functions were utilized to run diagnostics and manage cron jobs.\n\n**Notes:**\n- All tasks related to Mission Control are successfully completed for the day.\n- No further actions are required unless specified by the user.\n\n**Next Steps:**\n- Await user confirmations for any additional tasks or diagnostics if needed."
+  },
+  {
+    "date": "2026-03-27",
+    "file": "2026-03-27.md",
+    "summary": "**Memory Flush: 2026-03-27**",
+    "content": "**Memory Flush: 2026-03-27**\n\n*   Agreed on a plan to refine the debugging skill proposal by incorporating advanced principles (scenario planning, self-critique, tool integration, task decomposition, constraint awareness) and then research tools (n8n, Nango, skill-creator) for implementation.\n*   Drafted the refined core functionalities for the debugging skill, integrating these advanced principles.\n*   Saved 'Core Principles for a Smart, Effective Bot' to `MEMORY.md` and a new file `agent principles`."
+  },
+  {
+    "date": "2026-03-28",
+    "file": "2026-03-28.md",
+    "summary": "- **[19:27]** Initiated git backup before refactoring Mission Control files. Followed workflow for safe editing and committed backup: 'ba...",
+    "content": "- **[19:27]** Initiated git backup before refactoring Mission Control files. Followed workflow for safe editing and committed backup: 'backup before changes'.\n- Logged instructions to append or modify tags in index.html without removing existing tags.\n- Noted guidelines to restore files using `git checkout` if needed.\n- Defined workflow steps in detail for Mission Control edits."
+  },
+  {
+    "date": "2026-03-31",
+    "file": "2026-03-31.md",
+    "summary": "1. **Secure Stack Enhancements:**",
+    "content": "### Autonomous Action Plan for March 31, 2026\n\n1. **Secure Stack Enhancements:**\n   - Implement Hashicorp Vault for secrets management.\n   - Configure UFW Firewall for increased network security.\n\n2. **Project Finalization:**\n   - Complete strategic briefing for KGB Financial Quiz with GDPR compliance.\n   - Launch the TaxReady UK landing page.\n\n3. **Process Automation:**\n   - Automate CPU, memory, and disk usage monitoring.\n   - Set up script for Discord and Telegram notifications on project statuses.\n\n4. **New Initiatives Exploration:**\n   - Investigate further open-source tools to enhance the secure stack.\n   - Develop phased plans targeting lead generation through interactive quizzes.\n\n5. **Revenue Goals Review:**\n   - Quarterly review and adjust goals to maintain progress towards targets.\n\nThese actions are designed to align with your goals and enable proactive progression without waiting for external inputs."
+  },
+  {
+    "date": "2026-04-02",
+    "file": "2026-04-02.md",
+    "summary": "**Goals:**",
+    "content": "### Plan to Identify Qualified Opportunities\n\n**Goals:**\n1. Use sub-agents and free APIs to identify and assess new income-generating opportunities.\n2. Reference \"previous ideas.md\" for past projects and learning points.\n3. Include insights from \"MISSION.md\" for mission control improvements.\n\n**Tasks:**\n- Review and analyze past project strategies to inform current opportunity evaluation.\n- Utilize free API models to expand on identified opportunities.\n- Employ mission control strategies for ongoing process improvement.\n\n**Next Steps:**\n- Execute sub-agent tasks for comprehensive opportunity assessment.\n- Prepare a qualified set of opportunities for selection upon your return.\n- Integrate findings into mission control for enhanced strategic alignment.\n\nThis plan sets the stage for systematic evaluation and strategic progression in generating income while prioritizing learning from past experiences."
+  },
+  {
+    "date": "2026-04-03",
+    "file": "2026-04-03.md",
+    "summary": "**Mission Control Enhancements Completed:**",
+    "content": "### Summary of Final Setup and Next Steps\n\n**Mission Control Enhancements Completed:**\n- **Process Automation Through n8n:** Automated workflows and set up Web-UI for accessible management.\n- **Link Provided:** Ready for Niall's review upon completion.\n\n**Opportunity Stack Finalization:**\n- **Focus on Researchable and Strategic Approaches:** Ensure ideas in the opportunity stack follow clear, evidence-based methodologies.\n- **Implementation of Proven Strategies:** Prioritize and begin executing on validated opportunities.\n\nNiall expressed anticipation for review and progress tracking of Mission Control work. Next steps involve consolidating actionable ideas and maintaining strategic focus."
+  },
+  {
+    "date": "2026-04-04",
+    "file": "2026-04-04.md",
+    "summary": "**GoHighLevel Insights:**",
+    "content": "### Finalized Strategy for Directory Service Expansion\n\n**GoHighLevel Insights:**\n- Recognized as an effective template for a powerful client opportunity platform due to its white-label capabilities and comprehensive sales/marketing features.\n- However, the complexity is unnecessary for our aims focused on a simpler execution model.\n\n**Proposed Strategy:**\n- Focus on creating a simple niche directory, targeting an under-served area with complete information of services available.\n- Avoid the complexity of comprehensive platforms, prioritizing usability and accessibility.\n\n**Next Steps Using Sub-agents:**\n- Identify ideal niche and target area based on market analysis.\n- Develop a straightforward directory model leveraging existing website frameworks to host detailed service information.\n- Integrate features like user reviews and search functionality for added value.\n\nThese steps align with the goal of a streamlined and efficient directory service offering and are stored for strategic implementation."
+  },
+  {
+    "date": "2026-04-05-1616",
+    "file": "2026-04-05-1616.md",
+    "summary": "- **Session Key**: agent:main:telegram:direct:973548668",
+    "content": "# Session: 2026-04-05 16:16:57 UTC\n\n- **Session Key**: agent:main:telegram:direct:973548668\n- **Session ID**: 43183583-a406-4b9a-b3da-6e0aa3114315\n- **Source**: telegram\n\n## Conversation Summary\n\nassistant: ✅ New session started · model: openrouter/openai/gpt-4o\nuser: A new session was started via /new or /reset. Run your Session Startup sequence - read the required files before responding to the user. Then greet the user in your configured persona, if one is provided. Be yourself - use your defined voice, mannerisms, and mood. Keep it to 1-3 sentences and ask what they want to do. If the runtime model differs from default_model in the system prompt, mention the default model. Do not mention internal steps, files, tools, or reasoning.\nCurrent time: Sunday, April 5th, 2026 — 5:16 PM (Europe/London) / 2026-04-05 16:16 UTC\nuser: A new session was started via /new or /reset. Run your Session Startup sequence - read the required files before responding to the user. Then greet the user in your configured persona, if one is provided. Be yourself - use your defined voice, mannerisms, and mood. Keep it to 1-3 sentences and ask what they want to do. If the runtime model differs from default_model in the system prompt, mention the default model. Do not mention internal steps, files, tools, or reasoning.\nCurrent time: Sunday, April 5th, 2026 — 5:16 PM (Europe/London) / 2026-04-05 16:16 UTC\nuser: A new session was started via /new or /reset. Run your Session Startup sequence - read the required files before responding to the user. Then greet the user in your configured persona, if one is provided. Be yourself - use your defined voice, mannerisms, and mood. Keep it to 1-3 sentences and ask what they want to do. If the runtime model differs from default_model in the system prompt, mention the default model. Do not mention internal steps, files, tools, or reasoning.\nCurrent time: Sunday, April 5th, 2026 — 5:16 PM (Europe/London) / 2026-04-05 16:16 UTC"
+  },
+  {
+    "date": "2026-04-05",
+    "file": "2026-04-05.md",
+    "summary": "- Summarize the following files and store insights into memory and today’s log:",
+    "content": "## Action Plan for Week 1\n\n### Summarization and Archival\n- Summarize the following files and store insights into memory and today’s log:\n  - SirLancelot. commentary - Day 1, Day 2, Day 3\n  - Design Principles.md\n  - Layout Principles.md\n  - WebsiteDomain.md\n  - OpenClaw Bot Operating Manual.md\n  - OpenClaw Bot Self-Improvement Checklist.md\n\n### Continuous Review\n- Regularly review files and form an action plan based on content.\n\n### R&D Team Setup\n- Establish a 24/7 Research and Development team of 5 AI models.\n\n### Proactive Night Tasks\n- Establish an automated system to evaluate tasks every night at 2 AM.\n\n### Daily Memory System\n- Implement a system for daily logs, integrate with Mission Control.\n\n### Daily Microapp Development\n- Begin developing daily microapps using free API models. Log outcomes into Discord channel 1485296218530648076.\n\n### n8n Workflow Improvements\n- Employ `n8n` automation for repetitive tasks. Study:\n  - `N8N_ARCHITECTURE.md`\n  - `N8N_CORE_WORKFLOWS.md`\n  - `N8N_INCOME_WORKFLOWS.md`\n\n### Advanced Prompt Application\n- Apply insights from:\n  - `25_ADVANCED_PROMPTS.md`\n  - `30_ENHANCEMENT_PROMPTS.md`\n\n### Schedule Weekly Actions\n- Plan and schedule tasks for the upcoming week based on:\n  - `DAY_07.md`\n  - `DAY_08.md`\n  - `DAY_09.md`\n  - `DAY_10.md`\n  - `DAY_11.md`\n  - `DAY_12.md`\n\nThis action plan will enhance ongoing processes and establish a structured approach to managing weekly goals.\n- Added GitHub repo https://github.com/Broggie1/Dashboard as remote for Mission Control dashboard.\n- Received PAT token (GITHUB_TOKEN_REDACTED) from user; advised revoking and using env variable.\n- Created environment variable \"Mission control\" (unspecified value) per user.\n- Prepared to push project files (mission-control.html, server.js, data JSONs) to GitHub.\n- Planned cron job \"mission-control-data-feed\" to push updates.\n- Current status: Dashboard built, running at http://localhost:8899, server active.\n- Next steps: configure git push using env var, set up cron for automatic pushes."
+  },
+  {
+    "date": "2026-04-10",
+    "file": "2026-04-10.md",
+    "summary": "- Coordinator: openai/gpt-4o (via OpenRouter)",
+    "content": "# 2026-04-10 Daily Log\n\n## Model Policy Change (14:01 GMT, approved by Niall)\n- Coordinator: openai/gpt-4o (via OpenRouter)\n- All sub-agents: google/gemini-2.5-flash-lite (free) or other free models\n- BLOCKED: GPT-5 Nano, Claude Opus 4.6\n- Saved to SOUL.md as permanent policy override\n\n## MVP Sprint Launched (20:35 GMT)\n3 sub-agents spawned (all free Gemini 2.5 Flash Lite), all completed successfully:\n\n### Deliverable 1: Notion Templates MVP Plan\n- Location: products/notion-templates/MVP-PLAN.md\n- 5 templates defined: Personal Finance Hub (£15), UK Tax Navigator (£25), Investment Command Centre (£29), Business Cash Flow Forecaster (£29), Financial Freedom Planner (£19)\n- Bundle price: £49\n- Gumroad landing page copy written\n- 3-email welcome sequence outlined\n\n### Deliverable 2: Tax Spreadsheets MVP Plan\n- Location: products/tax-spreadsheets/MVP-PLAN.md\n- 2 products: TaxMaster UK Self-Assessment Calculator (£39), Director's Tax Optimiser (£49)\n- Bundle: £79\n- Gumroad landing copy with FAQ written\n- 3-email upsell sequence outlined\n- Affiliate programme outline (30% commission for accountants)\n\n### Deliverable 3: Revenue & Pipeline Reporting\n- products/REVENUE-TRACKER.md: MRR tracker, weekly/monthly templates, milestone targets\n- products/PROJECT-PIPELINE.md: 6 active projects with status, ETA, dependencies\n- products/WEEKLY-STANDUP.md: Standup template with metrics\n\n## Next Steps\n- Niall to review MVP plans and confirm pricing/positioning\n- Build actual Notion templates and Excel spreadsheets\n- Set up Gumroad store\n- Create landing pages\n- Wire email automation\n- Launch affiliate outreach"
+  },
+  {
+    "date": "2026-04-11",
+    "file": "2026-04-11.md",
+    "summary": "Date: 2026-04-11",
+    "content": "Date: 2026-04-11\nInitiative Title: Market Research for Acquisition Targets\nObjective: Identified potential acquisition targets in legal, financial, and tax advisory sectors, including a £10M turnover law firm, to support revenue growth.\nNext Steps: Follow up with brokers and refine searches for financial advisory firms."
+  },
+  {
+    "date": "2026-04-12",
+    "file": "2026-04-12.md",
+    "summary": "Initiative: Market Research: Identify UK Tax Advisory Firms with £5-10M Turnover for Potential Acquisition",
+    "content": "Initiative: Market Research: Identify UK Tax Advisory Firms with £5-10M Turnover for Potential Acquisition\nOutcome: Initial web search provided general information about major UK accountancy and tax advisory firms. Specific firms within the target £5-10M turnover range for acquisition were not immediately identifiable. Further refinement is needed.\nNext Steps: Conduct more targeted searches and investigate lists of mid-tier firms."
+  },
+  {
+    "date": "2026-04-13",
+    "file": "2026-04-13.md",
+    "summary": "**Objective Progress Summary:**",
+    "content": "# 2026-04-13 Daily Log\n\n**Objective Progress Summary:**\n\n*   **Notion Templates MVP:** All 5 templates generated and saved. Gumroad landing page copy and email sequences ready.\n*   **Tax Spreadsheets MVP:** Plan complete, landing page copy, email sequence, and affiliate program outline saved. Actual spreadsheet files require manual creation.\n*   **Reporting Infrastructure:** Revenue Tracking Dashboard, Project Pipeline View, and Weekly Standup Template structures created and saved.\n\n**Current Status:**\n*   MVP plans and content are finalized. GPT-4o is the coordinator default, sub-agents use free models. Weekly review cadence scheduled.\n*   The critical next step is turning plans into functional products (especially Tax Spreadsheets) and setting up the sales funnel.\n\n**Recommendations for Next Steps (Prioritized):**\n\n1.  **ACTION A (PRIORITY 1): Build Functional Tax Spreadsheets**\n    *   Task: Spawn an agent to create the actual TaxMaster UK Self-Assessment Calculator and Director's Tax Optimiser spreadsheets based on the MVP plan.\n2.  **ACTION B: Implement Gumroad Store & Landing Pages**\n    *   Task: Manually create Gumroad store, upload generated content, configure pricing, bundles, and affiliate links.\n3.  **ACTION C: Deploy Dashboards & Host Content**\n    *   Task: Decide on hosting for Revenue Tracker and Project Pipeline (GitHub Pages recommended).\n4.  **ACTION D: Ensure Weekly Cadence Active**\n    *   Task: Confirm cron job for weekly review (Mondays 9 AM London) is running.\n\n**User Confirmation Needed:**\n*   Proceed with spawning agent for Tax Spreadsheets creation.\n*   Guidance on Gumroad setup steps.\n*   Decision on dashboard hosting (GitHub Pages or internal).\n\nThis log entry summarizes the current state of MVP development and outlines the proposed next steps for achieving passive income objectives."
+  },
+  {
+    "date": "2026-04-15",
+    "file": "2026-04-15.md",
+    "summary": "- Value prop: Quick, automated ESG risk/opportunity scan for UK SMBs with a one-page executive summary and prioritized remediation list",
+    "content": "# 2026-04-15 Daily Log\n\n## Proposed MVP Briefs & Pilots (AI-ESG Scout & Automated ESG Reporting)\n\n### MVP Brief 1 — AI-ESG Compliance Scout\n- Value prop: Quick, automated ESG risk/opportunity scan for UK SMBs with a one-page executive summary and prioritized remediation list\n- Target customers: UK SMBs, freelancers, small service firms with ESG reporting needs\n- MVP scope: inputs: company profile, sector, location, basic ESG data sources; outputs: risk flags, remediation checklist, suggested templates\n- Revenue model options: per-scan fee or monthly bundle; add-ons include detailed report + action plan\n- Success metrics: scans per month, report adoption rate, time to complete, renewal rate\n- 4-week plan: week 1 scoping, week 2 MVP feature spec, week 3 pilot with 5 SMBs, week 4 analyze & plan next; owners: AI-Tooling + Automation squads\n- Logging: to memory/PROJECT-PIPELINE as Proposed with ETA 2 weeks for initial pilot\n\n### MVP Brief 2 — Automated ESG Reporting Assistant for SMBs\n- Value prop: turnkey ESG report generator for small businesses; exportable PDFs, templates, compliance-ready\n- Target customers: UK SMBs needing simple ESG reporting for lenders/regulators\n- MVP scope: inputs: company data, sector, period; outputs: basic ESG report, checklist, templates; automation: data imports from spreadsheets\n- Revenue model: monthly or per-report, bundle with ESG scan option\n- Success metrics: reports generated per week, customer satisfaction, renewal rate\n- 4-week plan: week 1 MVP spec, week 2 build basic report generator, week 3 pilot with 5 SMBs, week 4 evaluation and plan rollout\n- Owners: AI-Tooling + Finance Governance squads\n\n### Action items\n- Create two 1-page MVP briefs and two 2-week pilot plans\n- Log briefs and pilots in memory & update PROJECT-PIPELINE with status “Proposed” and ETA\n\nNext steps: please confirm if you want me to draft the two briefs in formal docs and kick off the pilots. If yes, I’ll produce the actual briefs and save them to the paths above."
+  },
+  {
+    "date": "2026-04-17",
+    "file": "2026-04-17.md",
+    "summary": "- Loaded cron job details for Mission Control governance surface and dashboard wiring.",
+    "content": "## 2026-04-17 — Mission Control cron job context\n- Loaded cron job details for Mission Control governance surface and dashboard wiring.\n- Noted jobs relevant to Mission Control:\n  - Daily Opportunities Ranking: runs every 24h, sends to Telegram, model Gemini-2.5, status OK.\n  - hourly-progress-report: hourly summary, writes to memory hourly-updates.md, uses systemEvent with Gemini; delivery not requested publicly.\n  - Progress Updates for Options 1,3 & Mission Control: every 4h, sends to Discord channel 1485296538686193755.\n  - Continuous Opportunity Engine: every 6h, spawns Guinevere to search for opportunities with GPT-4o, results posted to Discord channel 1485296459502059672.\n  - session-cleanup: daily at 00:00 Europe/London; cleans sessions, posts to Discord on success.\n  - Read all daily logs before starting any actions today.: daily check aligned with memory/daily log ingest.\n  - autonomous-daily-initiative: runs at 02:00, runs a high-impact task chooser for revenue goals; outputs to daily log and Discord channel.\n  - Daily memory-prune: prune memory arching; consolidates to MEMORY.md; reports to Discord.\n- Actions: ensure OpenAI main API routing is in place; confirm GitHub Pages hosting plan for Mission Control dashboard; confirm that security key rotation reminder is tracked.\n- Next steps for governance: finalize dashboard HTML, publish to GitHub Pages, and wire cron-driven updates to memory and dashboards."
+  },
+  {
+    "date": "2026-04-18",
+    "file": "2026-04-18.md",
+    "summary": "Initiative: Researched UK financial advisory M&A landscape and potential acquisition targets.",
+    "content": "Initiative: Researched UK financial advisory M&A landscape and potential acquisition targets.\nOutcome: Identified market trends and a preliminary shortlist of 3 firms fitting Niall's criteria.\nNext Steps: Proceed with deeper due diligence on these shortlisted firms."
   }
-}
+]
