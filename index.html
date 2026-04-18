@@ -22,6 +22,7 @@
       --bad: #ef4444;
       --shadow: 0 20px 50px rgba(0,0,0,0.35);
       --radius: 22px;
+      --sidebar-width: 240px;
     }
 
     * { box-sizing: border-box; }
@@ -37,13 +38,17 @@
         linear-gradient(180deg, #07070c 0%, var(--bg) 100%);
     }
 
-    .wrap {
-      width: min(1280px, calc(100% - 32px));
+    .layout {
+      width: min(1440px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 28px 0 56px;
+      padding: 24px 0 56px;
+      display: grid;
+      grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
     }
 
-    .hero, .card {
+    .sidebar, .hero, .card {
       background: var(--panel);
       border: 1px solid var(--border);
       backdrop-filter: blur(10px);
@@ -52,15 +57,19 @@
       border-radius: var(--radius);
     }
 
-    .hero {
-      padding: 28px;
-      display: grid;
-      grid-template-columns: 1.5fr 1fr;
-      gap: 20px;
-      align-items: end;
+    .sidebar {
+      position: sticky;
+      top: 18px;
+      padding: 18px;
     }
 
-    .eyebrow {
+    .brand {
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      margin-bottom: 18px;
+    }
+
+    .brand .eyebrow {
       display: inline-flex;
       gap: 8px;
       align-items: center;
@@ -74,8 +83,66 @@
       text-transform: uppercase;
     }
 
+    .brand h1 {
+      font-size: 28px;
+      line-height: 1.02;
+      margin: 14px 0 8px;
+      letter-spacing: -0.04em;
+    }
+
+    .brand p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    .nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    .nav a {
+      display: block;
+      padding: 12px 14px;
+      border-radius: 14px;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid transparent;
+      transition: 0.2s ease;
+      font-weight: 600;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: white;
+      border-color: rgba(0,188,212,0.22);
+      background: rgba(0,188,212,0.12);
+    }
+
+    .sidebar-foot {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .wrap {
+      min-width: 0;
+    }
+
+    .hero {
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 20px;
+      align-items: end;
+    }
+
     h1, h2, h3, p { margin: 0; }
-    h1 {
+    .hero h1 {
       font-size: clamp(34px, 6vw, 64px);
       line-height: 0.96;
       margin-top: 14px;
@@ -110,7 +177,7 @@
       margin-bottom: 8px;
     }
 
-    .mini .value {
+    .mini .value, .kpi .value {
       font-size: 18px;
       font-weight: 700;
     }
@@ -127,6 +194,7 @@
 
     .card {
       padding: 22px;
+      scroll-margin-top: 18px;
     }
 
     .metric-value {
@@ -297,236 +365,265 @@
     }
 
     @media (max-width: 1100px) {
-      .hero, .metrics, .two-col, .kanban { grid-template-columns: 1fr; }
+      .layout,
+      .hero,
+      .metrics,
+      .two-col,
+      .kanban { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <section class="hero">
-      <div>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
         <div class="eyebrow">Mission Control • Niall</div>
-        <h1>Personal command centre for life, revenue, and product execution.</h1>
-        <p class="sub">GitHub Pages deployment for Mission Control. This version is tuned for fast scanning, with live clock refresh, revenue targets, active initiatives, governance status, and immediate next steps.</p>
+        <h1>Control</h1>
+        <p>Fast scan navigation for the dashboard. Left tabs jump to each section.</p>
       </div>
-      <div class="hero-side">
-        <div class="mini">
-          <div class="label">Current time</div>
-          <div class="value" id="clock">Loading...</div>
-        </div>
-        <div class="mini">
-          <div class="label">System status</div>
-          <div class="value">Operational</div>
-        </div>
-        <div class="mini">
-          <div class="label">Primary goal</div>
-          <div class="value">£20,000 passive income in 3 months</div>
-        </div>
+      <nav class="nav" id="nav">
+        <a href="#overview" class="active">Overview</a>
+        <a href="#initiatives">Initiatives</a>
+        <a href="#governance">Governance</a>
+        <a href="#revenue">Revenue</a>
+        <a href="#next-steps">Next steps</a>
+        <a href="#pipeline">Pipeline</a>
+        <a href="#blockers">Blockers</a>
+        <a href="#links">Links</a>
+      </nav>
+      <div class="sidebar-foot">
+        Recommended refresh cadence, <strong>hourly</strong>.<br>
+        Current mode, <strong>manual push</strong> until I wire repo-backed data updates.
       </div>
-    </section>
+    </aside>
 
-    <section class="grid metrics">
-      <div class="card">
-        <div class="label">Ideas</div>
-        <div class="metric-value">2</div>
-        <div class="metric-foot">Top of funnel opportunities being reviewed</div>
-      </div>
-      <div class="card">
-        <div class="label">Research</div>
-        <div class="metric-value">1</div>
-        <div class="metric-foot">Validated concept in active research</div>
-      </div>
-      <div class="card">
-        <div class="label">Launch</div>
-        <div class="metric-value">2</div>
-        <div class="metric-foot">Mission Control and TaxReady are in launch lane</div>
-      </div>
-      <div class="card">
-        <div class="label">MRR</div>
-        <div class="metric-value">£0</div>
-        <div class="metric-foot">Revenue tracking baseline, last updated 2026-03-24</div>
-      </div>
-    </section>
-
-    <section class="grid two-col">
-      <div class="card">
-        <div class="section-title">
-          <h2>Key initiatives</h2>
-          <span class="pill status-warn">Execution in progress</span>
+    <main class="wrap">
+      <section class="hero" id="overview">
+        <div>
+          <div class="eyebrow">Mission Control • Niall</div>
+          <h1>Personal command centre for life, revenue, and product execution.</h1>
+          <p class="sub">GitHub Pages deployment for Mission Control. This version is tuned for fast scanning, with live clock refresh, revenue targets, active initiatives, governance status, and immediate next steps.</p>
         </div>
+        <div class="hero-side">
+          <div class="mini">
+            <div class="label">Current time</div>
+            <div class="value" id="clock">Loading...</div>
+          </div>
+          <div class="mini">
+            <div class="label">System status</div>
+            <div class="value">Operational</div>
+          </div>
+          <div class="mini">
+            <div class="label">Primary goal</div>
+            <div class="value">£20,000 passive income in 3 months</div>
+          </div>
+        </div>
+      </section>
 
-        <div class="initiative">
-          <div class="initiative-head">
-            <div>
-              <h3>AI-ESG Compliance Scout</h3>
-              <p>Quick automated ESG risk scan for UK SMBs with executive summary and remediation prompts.</p>
+      <section class="grid metrics">
+        <div class="card">
+          <div class="label">Ideas</div>
+          <div class="metric-value">2</div>
+          <div class="metric-foot">Top of funnel opportunities being reviewed</div>
+        </div>
+        <div class="card">
+          <div class="label">Research</div>
+          <div class="metric-value">1</div>
+          <div class="metric-foot">Validated concept in active research</div>
+        </div>
+        <div class="card">
+          <div class="label">Launch</div>
+          <div class="metric-value">2</div>
+          <div class="metric-foot">Mission Control and TaxReady are in launch lane</div>
+        </div>
+        <div class="card">
+          <div class="label">MRR</div>
+          <div class="metric-value">£0</div>
+          <div class="metric-foot">Revenue tracking baseline, last updated 2026-03-24</div>
+        </div>
+      </section>
+
+      <section class="grid two-col">
+        <div class="card" id="initiatives">
+          <div class="section-title">
+            <h2>Key initiatives</h2>
+            <span class="pill status-warn">Execution in progress</span>
+          </div>
+
+          <div class="initiative">
+            <div class="initiative-head">
+              <div>
+                <h3>AI-ESG Compliance Scout</h3>
+                <p>Quick automated ESG risk scan for UK SMBs with executive summary and remediation prompts.</p>
+              </div>
+              <span class="pill status-good">MVP defined</span>
             </div>
-            <span class="pill status-good">MVP defined</span>
+            <div class="links">
+              <a href="https://github.com/Broggie1/Dashboard/tree/main/Templates" target="_blank" rel="noreferrer">Related repo content</a>
+              <a href="https://github.com/Broggie1/Dashboard/blob/main/SPEC.md" target="_blank" rel="noreferrer">Mission Control spec</a>
+            </div>
+          </div>
+
+          <div class="initiative">
+            <div class="initiative-head">
+              <div>
+                <h3>Automated ESG Reporting Assistant</h3>
+                <p>Turnkey reporting assistant for SMBs, aimed at generating a clean starter ESG report and compliance checklist.</p>
+              </div>
+              <span class="pill status-good">Pilot outlined</span>
+            </div>
+            <div class="links">
+              <a href="https://github.com/Broggie1/Dashboard/tree/main/TaxReady" target="_blank" rel="noreferrer">TaxReady folder</a>
+              <a href="https://github.com/Broggie1/Dashboard/tree/main/Research" target="_blank" rel="noreferrer">Research notes</a>
+            </div>
+          </div>
+
+          <div class="initiative">
+            <div class="initiative-head">
+              <div>
+                <h3>Mission Control dashboard</h3>
+                <p>GitHub Pages deployment is the chosen hosting path. The repo exists, Pages is active, and this single-file dashboard is the web surface.</p>
+              </div>
+              <span class="pill status-good">Live on Pages</span>
+            </div>
+            <div class="links">
+              <a href="https://github.com/Broggie1/Dashboard" target="_blank" rel="noreferrer">GitHub repository</a>
+              <a href="https://broggie1.github.io/Dashboard/" target="_blank" rel="noreferrer">Live dashboard URL</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" id="governance">
+          <div class="section-title">
+            <h2>Governance and infrastructure</h2>
+            <span class="pill status-good">GitHub Pages</span>
+          </div>
+          <div class="list">
+            <li>Hosting path confirmed, <strong>Broggie1/Dashboard</strong>, GitHub Pages root.</li>
+            <li>Primary Discord channel in cron workflows, <strong>1485296459502059672</strong>.</li>
+            <li>Earlier failing cron jobs were moved off the broken OpenRouter route.</li>
+            <li>Active Memory is enabled for the main agent only, recent mode, balanced prompt style, 15 second timeout.</li>
+          </div>
+
+          <div class="kpi-grid">
+            <div class="kpi">
+              <div class="label">Hosting</div>
+              <div class="value">GitHub Pages</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Primary model</div>
+              <div class="value">GPT 5.4</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Dashboard type</div>
+              <div class="value">Single HTML file</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Refresh model</div>
+              <div class="value">Hourly target</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid two-col">
+        <div class="card" id="revenue">
+          <div class="section-title">
+            <h2>Revenue targets</h2>
+            <span class="pill">Current baseline</span>
+          </div>
+          <div class="progress-block">
+            <div class="progress-row">
+              <div class="progress-head"><span>3 month target</span><span>£0 / £20,000</span></div>
+              <div class="bar"><span style="width:0%"></span></div>
+            </div>
+            <div class="progress-row">
+              <div class="progress-head"><span>6 month target</span><span>£0 / £50,000</span></div>
+              <div class="bar"><span style="width:0%"></span></div>
+            </div>
+            <div class="progress-row">
+              <div class="progress-head"><span>12 month target</span><span>£0 / £1,000,000</span></div>
+              <div class="bar"><span style="width:0%"></span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" id="next-steps">
+          <div class="section-title">
+            <h2>Immediate next steps</h2>
+            <span class="pill status-warn">Actionable now</span>
+          </div>
+          <ul class="actions">
+            <li>Wire dashboard sections to repo-backed JSON or markdown for lighter updates.</li>
+            <li>Add automated publishing so cron summaries can update visible dashboard state hourly.</li>
+            <li>Replace placeholder ESG links with committed briefs inside the Dashboard repo if you want them public.</li>
+            <li>Decide whether to keep this GitHub Pages version public or move to private later.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="card" id="pipeline" style="margin-top:18px;">
+        <div class="section-title">
+          <h2>Workflow pipeline</h2>
+          <span class="pill">Snapshot</span>
+        </div>
+        <div class="kanban">
+          <div class="col">
+            <h3>Ideas</h3>
+            <div class="item">AI Money-Making Research<small>Created 2026-03-20</small></div>
+            <div class="item">Passive Income Research<small>Created 2026-03-20</small></div>
+          </div>
+          <div class="col">
+            <h3>Research</h3>
+            <div class="item">KGB Financial Quiz<small>Progress 100%, created 2026-03-15</small></div>
+          </div>
+          <div class="col">
+            <h3>Build</h3>
+            <div class="item">Automated Backup System<small>Weekly full + daily incremental, created 2026-03-21</small></div>
+          </div>
+          <div class="col">
+            <h3>Launch</h3>
+            <div class="item">Mission Control<small>Created 2026-03-20</small></div>
+            <div class="item">TaxReady<small>Created 2026-03-15</small></div>
+          </div>
+          <div class="col">
+            <h3>Revenue</h3>
+            <div class="item">No live revenue entries yet<small>Waiting on launch conversion</small></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid two-col">
+        <div class="card" id="blockers">
+          <div class="section-title">
+            <h2>Open blockers</h2>
+            <span class="pill status-bad">3 open</span>
+          </div>
+          <div class="list">
+            <li><strong>Setup GitHub Repo & SSH Key</strong>, high priority.</li>
+            <li><strong>Discord token update</strong>, high priority.</li>
+            <li><strong>Approve: Install email-handler skill</strong>, medium priority.</li>
+          </div>
+        </div>
+        <div class="card" id="links">
+          <div class="section-title">
+            <h2>Useful links</h2>
+            <span class="pill">Repo sources</span>
           </div>
           <div class="links">
-            <a href="https://github.com/Broggie1/Dashboard/tree/main/Templates" target="_blank" rel="noreferrer">Related repo content</a>
-            <a href="https://github.com/Broggie1/Dashboard/blob/main/SPEC.md" target="_blank" rel="noreferrer">Mission Control spec</a>
+            <a href="https://github.com/Broggie1/Dashboard/blob/main/README.md" target="_blank" rel="noreferrer">README</a>
+            <a href="https://github.com/Broggie1/Dashboard/blob/main/SETUP.md" target="_blank" rel="noreferrer">Setup guide</a>
+            <a href="https://github.com/Broggie1/Dashboard/blob/main/SPEC.md" target="_blank" rel="noreferrer">Technical spec</a>
+            <a href="https://github.com/Broggie1/Dashboard/tree/main/data" target="_blank" rel="noreferrer">Data folder</a>
           </div>
         </div>
+      </section>
 
-        <div class="initiative">
-          <div class="initiative-head">
-            <div>
-              <h3>Automated ESG Reporting Assistant</h3>
-              <p>Turnkey reporting assistant for SMBs, aimed at generating a clean starter ESG report and compliance checklist.</p>
-            </div>
-            <span class="pill status-good">Pilot outlined</span>
-          </div>
-          <div class="links">
-            <a href="https://github.com/Broggie1/Dashboard/tree/main/TaxReady" target="_blank" rel="noreferrer">TaxReady folder</a>
-            <a href="https://github.com/Broggie1/Dashboard/tree/main/Research" target="_blank" rel="noreferrer">Research notes</a>
-          </div>
-        </div>
-
-        <div class="initiative">
-          <div class="initiative-head">
-            <div>
-              <h3>Mission Control dashboard</h3>
-              <p>GitHub Pages deployment is now the chosen hosting path. The repo exists, Pages is active, and this single-file dashboard is the new web surface.</p>
-            </div>
-            <span class="pill status-good">Live on Pages</span>
-          </div>
-          <div class="links">
-            <a href="https://github.com/Broggie1/Dashboard" target="_blank" rel="noreferrer">GitHub repository</a>
-            <a href="https://broggie1.github.io/Dashboard/" target="_blank" rel="noreferrer">Live dashboard URL</a>
-          </div>
-        </div>
+      <div class="footer">
+        Mission Control, GitHub Pages deployment, built for Niall. Last refreshed in browser time.
       </div>
-
-      <div class="card">
-        <div class="section-title">
-          <h2>Governance and infrastructure</h2>
-          <span class="pill status-good">GitHub Pages</span>
-        </div>
-        <div class="list">
-          <li>Hosting path confirmed, <strong>Broggie1/Dashboard</strong>, GitHub Pages root.</li>
-          <li>Primary Discord channel in cron workflows, <strong>1485296459502059672</strong>.</li>
-          <li>Earlier failing cron jobs were moved off the broken OpenRouter route.</li>
-          <li>Active Memory is enabled for the main agent only, recent mode, balanced prompt style, 15 second timeout.</li>
-        </div>
-
-        <div class="kpi-grid">
-          <div class="kpi">
-            <div class="label">Hosting</div>
-            <div class="value">GitHub Pages</div>
-          </div>
-          <div class="kpi">
-            <div class="label">Primary model</div>
-            <div class="value">GPT 5.4</div>
-          </div>
-          <div class="kpi">
-            <div class="label">Dashboard type</div>
-            <div class="value">Single HTML file</div>
-          </div>
-          <div class="kpi">
-            <div class="label">Refresh model</div>
-            <div class="value">Manual updates for now</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="grid two-col">
-      <div class="card">
-        <div class="section-title">
-          <h2>Revenue targets</h2>
-          <span class="pill">Current baseline</span>
-        </div>
-        <div class="progress-block">
-          <div class="progress-row">
-            <div class="progress-head"><span>3 month target</span><span>£0 / £20,000</span></div>
-            <div class="bar"><span style="width:0%"></span></div>
-          </div>
-          <div class="progress-row">
-            <div class="progress-head"><span>6 month target</span><span>£0 / £50,000</span></div>
-            <div class="bar"><span style="width:0%"></span></div>
-          </div>
-          <div class="progress-row">
-            <div class="progress-head"><span>12 month target</span><span>£0 / £1,000,000</span></div>
-            <div class="bar"><span style="width:0%"></span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="section-title">
-          <h2>Immediate next steps</h2>
-          <span class="pill status-warn">Actionable now</span>
-        </div>
-        <ul class="actions">
-          <li>Wire dashboard sections to repo-backed JSON or markdown for lighter updates.</li>
-          <li>Add automated publishing hooks so cron summaries can update visible dashboard state.</li>
-          <li>Replace placeholder ESG links with committed briefs inside the Dashboard repo if you want them public.</li>
-          <li>Decide whether to keep this GitHub Pages version public or move to private/Vercel later.</li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="card" style="margin-top:18px;">
-      <div class="section-title">
-        <h2>Workflow pipeline</h2>
-        <span class="pill">Snapshot</span>
-      </div>
-      <div class="kanban">
-        <div class="col">
-          <h3>Ideas</h3>
-          <div class="item">AI Money-Making Research<small>Created 2026-03-20</small></div>
-          <div class="item">Passive Income Research<small>Created 2026-03-20</small></div>
-        </div>
-        <div class="col">
-          <h3>Research</h3>
-          <div class="item">KGB Financial Quiz<small>Progress 100%, created 2026-03-15</small></div>
-        </div>
-        <div class="col">
-          <h3>Build</h3>
-          <div class="item">Automated Backup System<small>Weekly full + daily incremental, created 2026-03-21</small></div>
-        </div>
-        <div class="col">
-          <h3>Launch</h3>
-          <div class="item">Mission Control<small>Created 2026-03-20</small></div>
-          <div class="item">TaxReady<small>Created 2026-03-15</small></div>
-        </div>
-        <div class="col">
-          <h3>Revenue</h3>
-          <div class="item">No live revenue entries yet<small>Waiting on launch conversion</small></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="grid two-col">
-      <div class="card">
-        <div class="section-title">
-          <h2>Open blockers</h2>
-          <span class="pill status-bad">3 open</span>
-        </div>
-        <div class="list">
-          <li><strong>Setup GitHub Repo & SSH Key</strong>, high priority.</li>
-          <li><strong>Discord token update</strong>, high priority.</li>
-          <li><strong>Approve: Install email-handler skill</strong>, medium priority.</li>
-        </div>
-      </div>
-      <div class="card">
-        <div class="section-title">
-          <h2>Useful links</h2>
-          <span class="pill">Repo sources</span>
-        </div>
-        <div class="links">
-          <a href="https://github.com/Broggie1/Dashboard/blob/main/README.md" target="_blank" rel="noreferrer">README</a>
-          <a href="https://github.com/Broggie1/Dashboard/blob/main/SETUP.md" target="_blank" rel="noreferrer">Setup guide</a>
-          <a href="https://github.com/Broggie1/Dashboard/blob/main/SPEC.md" target="_blank" rel="noreferrer">Technical spec</a>
-          <a href="https://github.com/Broggie1/Dashboard/tree/main/data" target="_blank" rel="noreferrer">Data folder</a>
-        </div>
-      </div>
-    </section>
-
-    <div class="footer">
-      Mission Control, GitHub Pages deployment, built for Niall. Last refreshed in browser time.
-    </div>
+    </main>
   </div>
 
   <script>
@@ -540,6 +637,21 @@
     }
     tick();
     setInterval(tick, 1000);
+
+    const navLinks = [...document.querySelectorAll('#nav a')];
+    const sections = navLinks
+      .map(link => document.querySelector(link.getAttribute('href')))
+      .filter(Boolean);
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const id = '#' + entry.target.id;
+        navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === id));
+      });
+    }, { rootMargin: '-20% 0px -65% 0px', threshold: 0.01 });
+
+    sections.forEach(section => observer.observe(section));
   </script>
 </body>
 </html>
