@@ -1,21 +1,21 @@
 {
-  "primaryGoal": "\u00a320,000 passive income in 3 months",
+  "primaryGoal": "£20,000 passive income in 3 months",
   "systemStatus": "Operational",
   "metrics": {
-    "ideas": 12,
-    "research": 4,
-    "launch": 4,
-    "mrr": "\u00a30"
+    "ideas": 2,
+    "research": 1,
+    "launch": 2,
+    "mrr": "£0"
   },
   "priorities": [
-    "1) finish sellable digital products",
-    "2) launch checkout and landing pages",
-    "3) wire follow-up email flow"
+    "Expand Mission Control into a clean multi-page command centre",
+    "Keep dashboard data shared across devices and updated every 2 hours",
+    "Add better agent visibility and activity tracking"
   ],
   "quickStatus": {
     "hosting": "GitHub Pages",
     "primaryModel": "GPT 5.4",
-    "projects": "Shared operating board",
+    "projects": "Repo-backed",
     "refresh": "2-hour job"
   }
 }

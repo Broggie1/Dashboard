@@ -1,45 +1,45 @@
 [
   {
     "id": "main",
-    "name": "Lancelot \u2694\ufe0f",
+    "name": "Lancelot ⚔️",
     "status": "amber",
     "statusLabel": "Thinking",
-    "task": "Coordinating launches, Mission Control, and execution priorities",
-    "lastActive": "active today",
+    "task": "Coordinating Mission Control, shaping architecture, and deciding what should be delegated next",
+    "lastActive": "just now",
     "model": "GPT 5.4",
     "workstream": "Coordinator",
     "summary": "Knightly coordinator, concise, direct, delegates real task work instead of doing it by hand"
-  },
-  {
-    "id": "dashboard-refresh",
-    "name": "Dashboard Refresh Job",
-    "status": "green",
-    "statusLabel": "Available",
-    "task": "Rebuilds dashboard data every 2 hours using a free model for routine upkeep",
-    "lastActive": "scheduled",
-    "model": "Gemini 2.5 Flash Lite",
-    "workstream": "Mission Control",
-    "summary": "Quiet housekeeping agent, keeps the dashboard current and sanitised"
   },
   {
     "id": "daily-initiative",
     "name": "Daily Initiative Engine",
     "status": "green",
     "statusLabel": "Available",
-    "task": "Runs daily to pick a high-impact move toward revenue goals",
-    "lastActive": "scheduled",
+    "task": "Waiting for the next scheduled initiative run to pick one high-impact revenue move",
+    "lastActive": "today",
     "model": "Gemini 2.5 Flash Lite",
     "workstream": "Revenue initiatives",
     "summary": "Finds one practical move that pushes revenue goals forward without wasting spend"
+  },
+  {
+    "id": "dashboard-refresh",
+    "name": "Dashboard Refresh Job",
+    "status": "green",
+    "statusLabel": "Available",
+    "task": "Rebuilds dashboard data on a 2-hour cadence using a free model for routine upkeep",
+    "lastActive": "scheduled",
+    "model": "Gemini 2.5 Flash Lite",
+    "workstream": "Mission Control",
+    "summary": "Quiet housekeeping agent, keeps the dashboard current and sanitised"
   },
   {
     "id": "opportunity-engine",
     "name": "Opportunity Engine",
     "status": "red",
     "statusLabel": "Busy",
-    "task": "Scanning and ranking opportunities across active workstreams",
+    "task": "Scanning and ranking live opportunities across active workstreams",
     "lastActive": "active cadence",
-    "model": "Gemini 2.5 Flash Lite",
+    "model": "Mixed by task",
     "workstream": "Opportunities",
     "summary": "Relentless scout, hunts for revenue angles and surfaces promising openings"
   }
