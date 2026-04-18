@@ -485,6 +485,14 @@
       margin-top: 18px;
     }
 
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
     .kpi-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -536,7 +544,8 @@
     </aside>
 
     <main class="wrap">
-      <section class="hero" id="overview">
+      <section class="tab-panel active" id="overview">
+        <section class="hero">
         <div>
           <div class="eyebrow">Mission Control • Niall</div>
           <h1>Personal command centre for life, revenue, and product execution.</h1>
@@ -556,9 +565,9 @@
             <div class="value">£20,000 passive income in 3 months</div>
           </div>
         </div>
-      </section>
+        </section>
 
-      <section class="grid metrics">
+        <section class="grid metrics">
         <div class="card">
           <div class="label">Ideas</div>
           <div class="metric-value">2</div>
@@ -579,10 +588,12 @@
           <div class="metric-value">£0</div>
           <div class="metric-foot">Revenue tracking baseline, last updated 2026-03-24</div>
         </div>
+        </section>
       </section>
 
-      <section class="grid two-col">
-        <div class="card" id="initiatives">
+      <section class="tab-panel" id="initiatives">
+        <div class="grid two-col">
+          <div class="card">
           <div class="section-title">
             <h2>Key initiatives</h2>
             <span class="pill status-warn">Execution in progress</span>
@@ -631,7 +642,42 @@
           </div>
         </div>
 
-        <div class="card" id="governance">
+          <div class="card" id="governance-card">
+          <div class="section-title">
+            <h2>Governance and infrastructure</h2>
+            <span class="pill status-good">GitHub Pages</span>
+          </div>
+          <div class="list">
+            <li>Hosting path confirmed, <strong>Broggie1/Dashboard</strong>, GitHub Pages root.</li>
+            <li>Primary Discord channel in cron workflows, <strong>1485296459502059672</strong>.</li>
+            <li>Earlier failing cron jobs were moved off the broken OpenRouter route.</li>
+            <li>Active Memory is enabled for the main agent only, recent mode, balanced prompt style, 15 second timeout.</li>
+          </div>
+
+          <div class="kpi-grid">
+            <div class="kpi">
+              <div class="label">Hosting</div>
+              <div class="value">GitHub Pages</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Primary model</div>
+              <div class="value">GPT 5.4</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Dashboard type</div>
+              <div class="value">Single HTML file</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Refresh model</div>
+              <div class="value">Hourly target</div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="governance">
+        <div class="card">
           <div class="section-title">
             <h2>Governance and infrastructure</h2>
             <span class="pill status-good">GitHub Pages</span>
@@ -664,8 +710,9 @@
         </div>
       </section>
 
-      <section class="grid two-col">
-        <div class="card" id="revenue">
+      <section class="tab-panel" id="revenue">
+        <div class="grid two-col">
+          <div class="card">
           <div class="section-title">
             <h2>Revenue targets</h2>
             <span class="pill">Current baseline</span>
@@ -686,7 +733,23 @@
           </div>
         </div>
 
-        <div class="card" id="next-steps">
+          <div class="card" id="next-steps-card">
+          <div class="section-title">
+            <h2>Immediate next steps</h2>
+            <span class="pill status-warn">Actionable now</span>
+          </div>
+          <ul class="actions">
+            <li>Wire dashboard sections to repo-backed JSON or markdown for lighter updates.</li>
+            <li>Add automated publishing so cron summaries can update visible dashboard state hourly.</li>
+            <li>Replace placeholder ESG links with committed briefs inside the Dashboard repo if you want them public.</li>
+            <li>Decide whether to keep this GitHub Pages version public or move to private later.</li>
+          </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="next-steps">
+        <div class="card">
           <div class="section-title">
             <h2>Immediate next steps</h2>
             <span class="pill status-warn">Actionable now</span>
@@ -700,7 +763,8 @@
         </div>
       </section>
 
-      <section class="card" id="projects" style="margin-top:18px;">
+      <section class="tab-panel" id="projects">
+        <section class="card" style="margin-top:18px;">
         <div class="section-title">
           <h2>Projects</h2>
           <span class="pill">Repo-backed</span>
@@ -728,9 +792,11 @@
             <div class="project-list" data-column="done"></div>
           </div>
         </div>
+        </section>
       </section>
 
-      <section class="card" id="daily-logs" style="margin-top:18px;">
+      <section class="tab-panel" id="daily-logs">
+        <section class="card" style="margin-top:18px;">
         <div class="section-title">
           <h2>Daily log summary</h2>
           <span class="pill">Latest 20</span>
@@ -738,9 +804,11 @@
         <div class="log-list" id="dailyLogsList">
           <div class="project-empty">Loading daily logs...</div>
         </div>
+        </section>
       </section>
 
-      <section class="card" id="pipeline" style="margin-top:18px;">
+      <section class="tab-panel" id="pipeline">
+        <section class="card" style="margin-top:18px;">
         <div class="section-title">
           <h2>Workflow pipeline</h2>
           <span class="pill">Snapshot</span>
@@ -769,10 +837,11 @@
             <div class="item">No live revenue entries yet<small>Waiting on launch conversion</small></div>
           </div>
         </div>
+        </section>
       </section>
 
-      <section class="grid two-col">
-        <div class="card" id="blockers">
+      <section class="tab-panel" id="blockers">
+        <div class="card">
           <div class="section-title">
             <h2>Open blockers</h2>
             <span class="pill status-bad">3 open</span>
@@ -783,7 +852,11 @@
             <li><strong>Approve: Install email-handler skill</strong>, medium priority.</li>
           </div>
         </div>
-        <div class="card" id="links">
+        </div>
+      </section>
+
+      <section class="tab-panel" id="links">
+        <div class="card">
           <div class="section-title">
             <h2>Useful links</h2>
             <span class="pill">Repo sources</span>
@@ -816,19 +889,27 @@
     setInterval(tick, 1000);
 
     const navLinks = [...document.querySelectorAll('#nav a')];
-    const sections = navLinks
+    const panels = navLinks
       .map(link => document.querySelector(link.getAttribute('href')))
       .filter(Boolean);
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const id = '#' + entry.target.id;
-        navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === id));
-      });
-    }, { rootMargin: '-20% 0px -65% 0px', threshold: 0.01 });
+    function setActivePanel(id) {
+      navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + id));
+      panels.forEach(panel => panel.classList.toggle('active', panel.id === id));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-    sections.forEach(section => observer.observe(section));
+    navLinks.forEach(link => {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        const id = link.getAttribute('href').replace('#', '');
+        setActivePanel(id);
+        history.replaceState(null, '', '#' + id);
+      });
+    });
+
+    const initialPanel = location.hash.replace('#', '');
+    setActivePanel(initialPanel || 'overview');
 
     let projects = {
       backlog: [],
