@@ -1,22 +1,17 @@
 [
   {
+    "time": "2026-04-18 17:39",
+    "title": "Dashboard data generator added",
+    "detail": "Mission Control pages can now be regenerated from workspace state using a shared script."
+  },
+  {
+    "time": "2026-04-18 17:39",
+    "title": "Operating board unified",
+    "detail": "Mission Control and Projects now share a single operating-board.json source."
+  },
+  {
     "time": "2026-04-18 16:40",
     "title": "Dashboard refactored into multi-page architecture",
     "detail": "Overview, Projects, Daily Logs, Revenue, Governance, Pipeline, Blockers, and Links now live as separate pages."
-  },
-  {
-    "time": "2026-04-18 16:33",
-    "title": "Projects board switched to repo-backed shared data",
-    "detail": "Project state now loads from repo JSON so it is visible across devices."
-  },
-  {
-    "time": "2026-04-18 16:28",
-    "title": "Daily log summary page added",
-    "detail": "Latest 20 daily logs are listed with one-line summaries and full expandable content."
-  },
-  {
-    "time": "2026-04-18 16:22",
-    "title": "Two-hour dashboard refresh job created",
-    "detail": "Mission Control data refreshes on a 2-hour cycle with secret sanitisation."
   }
 ]

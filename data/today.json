@@ -1,0 +1,13 @@
+{
+  "focus": "Launch UK Tax Navigator, prepare Business Cash Flow Forecaster, keep Mission Control in support mode.",
+  "nextJobs": [
+    "Mission Control dashboard refresh (2-hour cycle)",
+    "Daily Opportunities Ranking",
+    "Daily initiative engine"
+  ],
+  "urgentBlockers": [
+    "Shared editing on Projects page needs a backend",
+    "Legacy external integrations still need credentials"
+  ],
+  "lastMeaningfulChange": "Mission Control and Projects now share one operating board data source."
+}
