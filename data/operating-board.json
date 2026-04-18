@@ -191,7 +191,7 @@
     {
       "id": "op-review-1",
       "title": "Mission Control live-state auto feed",
-      "description": "Pages now share data sources, next step is deeper auto-generation from workspace and session state.",
+      "description": "Next step is deciding how much should auto-pull from sessions, cron, memory, and KANBAN sources.",
       "priority": "medium",
       "created": "2026-04-18",
       "category": "Mission Control"

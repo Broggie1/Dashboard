@@ -10,5 +10,5 @@
     "Legacy external integrations still need credentials",
     "Refine dashboard data sources for live agent state"
   ],
-  "lastMeaningfulChange": "Dashboard data now merges KANBAN, launch priorities, and manual backlog items."
+  "lastMeaningfulChange": "Dashboard data generation script updated to merge all backlog items."
 }

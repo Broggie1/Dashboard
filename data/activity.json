@@ -1,8 +1,8 @@
 [
   {
-    "time": "2026-04-18 17:44",
-    "title": "Dashboard data generator updated",
-    "detail": "Added explicit merging of manual backlog items into operating-board.json and refined agent/activity data generation."
+    "time": "2026-04-18 17:47",
+    "title": "Dashboard data generation refined",
+    "detail": "Updated script to correctly merge KANBAN items with manual backlog and launch priorities into operating-board.json."
   },
   {
     "time": "2026-04-18 17:37",
