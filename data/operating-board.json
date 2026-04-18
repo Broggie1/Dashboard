@@ -1,116 +1,179 @@
 {
   "backlog": [
     {
-      "id": "op-backlog-1",
-      "title": "5-model 24/7 debating R&D team",
-      "description": "Deferred until product launches are live and revenue validation is underway.",
+      "id": "backlog-1",
+      "title": "Configure Discord channels (#general, #research, #media-research, #automations, #briefings, #tasks)",
+      "description": "Imported from KANBAN.md",
       "priority": "low",
       "created": "2026-04-18",
-      "category": "Strategy"
+      "category": "KANBAN"
     },
     {
-      "id": "op-backlog-2",
-      "title": "Daily microapp factory",
-      "description": "Useful later, but not before the current product launch path ships.",
+      "id": "backlog-2",
+      "title": "Model routing per Discord channel (Opus/Sonnet/Haiku)",
+      "description": "Imported from KANBAN.md",
       "priority": "low",
       "created": "2026-04-18",
-      "category": "Innovation"
+      "category": "KANBAN"
     },
     {
-      "id": "op-backlog-3",
-      "title": "Expanded prompt-driven capability programme",
-      "description": "Captured for later phase when core product sales flow is live and stable.",
+      "id": "backlog-3",
+      "title": "GitHub private backup repo setup (needs repo URL from Niall)",
+      "description": "Imported from KANBAN.md",
       "priority": "low",
       "created": "2026-04-18",
-      "category": "Capability"
+      "category": "KANBAN"
+    },
+    {
+      "id": "backlog-4",
+      "title": "4:30am backup cron job (blocked on GitHub repo)",
+      "description": "Imported from KANBAN.md",
+      "priority": "low",
+      "created": "2026-04-18",
+      "category": "KANBAN"
+    },
+    {
+      "id": "backlog-5",
+      "title": "Email integration setup (needs credentials)",
+      "description": "Imported from KANBAN.md",
+      "priority": "low",
+      "created": "2026-04-18",
+      "category": "KANBAN"
+    },
+    {
+      "id": "backlog-6",
+      "title": "Google Calendar integration (needs auth)",
+      "description": "Imported from KANBAN.md",
+      "priority": "low",
+      "created": "2026-04-18",
+      "category": "KANBAN"
+    },
+    {
+      "id": "backlog-7",
+      "title": "WhatsApp setup for Jen (family calendar)",
+      "description": "Imported from KANBAN.md",
+      "priority": "low",
+      "created": "2026-04-18",
+      "category": "KANBAN"
+    },
+    {
+      "id": "backlog-8",
+      "title": "VPS SSH access setup (needs connection details)",
+      "description": "Imported from KANBAN.md",
+      "priority": "low",
+      "created": "2026-04-18",
+      "category": "KANBAN"
+    },
+    {
+      "id": "backlog-9",
+      "title": "Coolify API monitoring (needs API token)",
+      "description": "Imported from KANBAN.md",
+      "priority": "low",
+      "created": "2026-04-18",
+      "category": "KANBAN"
+    },
+    {
+      "id": "backlog-10",
+      "title": "Excalidraw MCP tool setup",
+      "description": "Imported from KANBAN.md",
+      "priority": "low",
+      "created": "2026-04-18",
+      "category": "KANBAN"
+    },
+    {
+      "id": "backlog-11",
+      "title": "Evaluate Ollama (local LLM on Apple Silicon)",
+      "description": "Imported from KANBAN.md",
+      "priority": "low",
+      "created": "2026-04-18",
+      "category": "KANBAN"
+    },
+    {
+      "id": "backlog-12",
+      "title": "Security tightening (groupPolicy, sender allowlists)",
+      "description": "Imported from KANBAN.md",
+      "priority": "low",
+      "created": "2026-04-18",
+      "category": "KANBAN"
     }
   ],
   "inProgress": [
     {
-      "id": "op-progress-1",
+      "id": "inProgress-overlay-4",
+      "title": "Business Cash Flow Forecaster follow-on launch",
+      "description": "Second release being prepared behind UK Tax Navigator, with launch assets underway.",
+      "priority": "medium",
+      "created": "2026-04-18",
+      "category": "Launch"
+    },
+    {
+      "id": "inProgress-overlay-3",
       "title": "UK Tax Navigator launch",
-      "description": "GTM, landing page, Gumroad listing, launch posts, and email sequence prepared for first live validation push.",
+      "description": "GTM, landing page, Gumroad listing, launch posts, and email sequence prepared for the first validation push.",
       "priority": "high",
       "created": "2026-04-18",
       "category": "Launch"
     },
     {
-      "id": "op-progress-2",
-      "title": "Business Cash Flow Forecaster follow-on launch",
-      "description": "Second release being prepared behind UK Tax Navigator, with landing page and launch assets underway.",
+      "id": "inProgress-1",
+      "title": "Discord connectivity \u2014 bot logs in but disconnects every 10min, no messages received",
+      "description": "Imported from KANBAN.md",
       "priority": "medium",
       "created": "2026-04-18",
-      "category": "Launch"
+      "category": "KANBAN"
     },
     {
-      "id": "op-progress-3",
-      "title": "Mission Control dashboard evolution",
-      "description": "Multi-page structure, Agents page, and operating board improvements are live and continuing.",
+      "id": "inProgress-2",
+      "title": "Telegram pairing \u2014 pairing code expired, needs retry",
+      "description": "Imported from KANBAN.md",
       "priority": "medium",
       "created": "2026-04-18",
-      "category": "Mission Control"
+      "category": "KANBAN"
     }
   ],
   "inReview": [
     {
-      "id": "op-review-1",
+      "id": "inReview-overlay-4",
       "title": "Mission Control live-state auto feed",
-      "description": "Next step is deciding how much should auto-pull from sessions, cron, memory, and KANBAN sources.",
+      "description": "Pages now share data sources, next step is deeper auto-generation from workspace and session state.",
       "priority": "medium",
       "created": "2026-04-18",
       "category": "Mission Control"
     },
     {
-      "id": "op-review-2",
-      "title": "Product launch sequencing",
-      "description": "Current recommendation is Tax first, Cash Flow second, but early buyer feedback should confirm that ordering.",
+      "id": "inReview-1",
+      "title": "Discord issues: Bot connects to guild but health-monitor keeps restarting (disconnected). Need to check Discord Developer Portal: is Message Content Intent enabled?",
+      "description": "Imported from KANBAN.md",
       "priority": "medium",
       "created": "2026-04-18",
-      "category": "Launch"
-    }
-  ],
-  "completed": [
-    {
-      "id": "op-complete-1",
-      "title": "GitHub Pages dashboard published",
-      "description": "Mission Control is live as a multi-page dashboard and visible across devices.",
-      "priority": "low",
-      "created": "2026-04-18",
-      "category": "Mission Control"
+      "category": "KANBAN"
     },
     {
-      "id": "op-complete-2",
-      "title": "Agents page added",
-      "description": "Dedicated agent tab live with RAG status signals and SOUL-style summaries.",
-      "priority": "low",
+      "id": "inReview-2",
+      "title": "Telegram: Need to re-pair (send /start, paste code quickly)",
+      "description": "Imported from KANBAN.md",
+      "priority": "medium",
       "created": "2026-04-18",
-      "category": "Mission Control"
+      "category": "KANBAN"
     },
     {
-      "id": "op-complete-3",
-      "title": "Daily logs page added",
-      "description": "Latest 20 logs are listed with one-line summaries and full expandable content.",
-      "priority": "low",
+      "id": "inReview-3",
+      "title": "Security: OpenClaw flagged 5 critical issues (open groupPolicy on Telegram + Discord). Recommend tightening. Need your OK before changing.",
+      "description": "Imported from KANBAN.md",
+      "priority": "medium",
       "created": "2026-04-18",
-      "category": "Mission Control"
+      "category": "KANBAN"
     }
   ],
+  "completed": [],
   "blocked": [
     {
-      "id": "op-blocked-1",
-      "title": "Shared editing on Projects page",
-      "description": "Static GitHub Pages can read shared repo data, but not safely write synced edits without a backend layer.",
+      "id": "blocked-overlay-1",
+      "title": "Shared editing for Projects page",
+      "description": "Static GitHub Pages can read shared repo data, but cannot safely write synced edits without a backend layer.",
       "priority": "high",
       "created": "2026-04-18",
       "category": "Platform"
-    },
-    {
-      "id": "op-blocked-2",
-      "title": "Legacy external integrations",
-      "description": "Email, Calendar, VPS, Coolify and other older KANBAN items still need credentials or connection details.",
-      "priority": "medium",
-      "created": "2026-04-18",
-      "category": "Infrastructure"
     }
   ]
 }
