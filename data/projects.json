@@ -2,66 +2,27 @@
   "backlog": [
     {
       "id": "proj-backlog-1",
-      "title": "5-model 24/7 debating R&D team",
-      "description": "Captured for later phase, once product launches are live and revenue validation is underway.",
-      "priority": "low",
-      "created": "2026-04-18"
-    },
-    {
-      "id": "proj-backlog-2",
-      "title": "Daily microapp factory",
-      "description": "Strong idea for continuous improvement, but not before the current product launch path ships.",
-      "priority": "low",
+      "title": "Wire hourly dashboard refresh",
+      "description": "Connect repo-backed dashboard data updates so Mission Control stays current without manual page edits.",
+      "priority": "high",
       "created": "2026-04-18"
     }
   ],
   "inProgress": [
     {
       "id": "proj-progress-1",
-      "title": "UK Tax Navigator launch",
-      "description": "GTM, landing page, Gumroad listing, launch posts, and email sequence are being assembled for the first live validation push.",
-      "priority": "high",
-      "created": "2026-04-18"
-    },
-    {
-      "id": "proj-progress-2",
-      "title": "Business Cash Flow Forecaster follow-on launch",
-      "description": "Second release being prepared behind UK Tax Navigator, with landing page and launch assets underway.",
+      "title": "Mission Control UI expansion",
+      "description": "Add sidebar navigation and split detailed views into dedicated pages linked from the summary dashboard.",
       "priority": "medium",
       "created": "2026-04-18"
     }
   ],
-  "inReview": [
+  "done": [
     {
-      "id": "proj-review-1",
-      "title": "Mission Control live operating board",
-      "description": "Structure is in place. Next question is how much of it should be auto-fed from workspace state versus manually curated.",
-      "priority": "medium",
-      "created": "2026-04-18"
-    }
-  ],
-  "completed": [
-    {
-      "id": "proj-complete-1",
+      "id": "proj-done-1",
       "title": "GitHub Pages dashboard published",
-      "description": "Mission Control is now live as a multi-page dashboard and visible across devices.",
+      "description": "Initial Mission Control dashboard is live on Broggie1/Dashboard and visible across devices.",
       "priority": "low",
-      "created": "2026-04-18"
-    },
-    {
-      "id": "proj-complete-2",
-      "title": "Agents page added",
-      "description": "Dedicated agent tab live with status signals and SOUL-style summaries.",
-      "priority": "low",
-      "created": "2026-04-18"
-    }
-  ],
-  "blocked": [
-    {
-      "id": "proj-blocked-1",
-      "title": "Shared editing for Projects page",
-      "description": "Static GitHub Pages can read shared repo data, but cannot safely write synced edits without a backend layer.",
-      "priority": "high",
       "created": "2026-04-18"
     }
   ]
