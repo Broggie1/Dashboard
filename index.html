@@ -531,7 +531,7 @@
       </nav>
       <div class="sidebar-foot">
         Recommended refresh cadence, <strong>hourly</strong>.<br>
-        Current mode, <strong>manual push</strong> until I wire repo-backed data updates.
+        Projects and daily logs now load from <strong>repo-backed data files</strong>.
       </div>
     </aside>
 
@@ -703,27 +703,27 @@
       <section class="card" id="projects" style="margin-top:18px;">
         <div class="section-title">
           <h2>Projects</h2>
-          <span class="pill">Local storage</span>
+          <span class="pill">Repo-backed</span>
         </div>
         <div class="kanban projects-board projects-board-3" id="projectsBoard">
           <div class="col">
             <div class="section-title" style="margin-bottom:12px;">
               <h3>Backlog</h3>
-              <button class="tab-btn" data-add-column="backlog" aria-label="Add backlog task">+ Add</button>
+              <span class="pill">Shared</span>
             </div>
             <div class="project-list" data-column="backlog"></div>
           </div>
           <div class="col">
             <div class="section-title" style="margin-bottom:12px;">
               <h3>In Progress</h3>
-              <button class="tab-btn" data-add-column="inProgress" aria-label="Add in progress task">+ Add</button>
+              <span class="pill">Shared</span>
             </div>
             <div class="project-list" data-column="inProgress"></div>
           </div>
           <div class="col">
             <div class="section-title" style="margin-bottom:12px;">
               <h3>Done</h3>
-              <button class="tab-btn" data-add-column="done" aria-label="Add done task">+ Add</button>
+              <span class="pill">Shared</span>
             </div>
             <div class="project-list" data-column="done"></div>
           </div>
@@ -830,39 +830,11 @@
 
     sections.forEach(section => observer.observe(section));
 
-    const projectsStorageKey = 'mission-control-projects-v1';
-    const defaultProjects = {
-      backlog: [
-        { id: crypto.randomUUID(), title: 'Wire hourly dashboard refresh', description: 'Connect repo-backed data updates so the dashboard can refresh on a schedule.', priority: 'high', created: '2026-04-18' }
-      ],
-      inProgress: [
-        { id: crypto.randomUUID(), title: 'Mission Control UI expansion', description: 'Add side navigation and tabbed project management to improve scanning and control.', priority: 'medium', created: '2026-04-18' }
-      ],
-      done: [
-        { id: crypto.randomUUID(), title: 'GitHub Pages dashboard published', description: 'Initial Mission Control single-file dashboard is live on Broggie1/Dashboard.', priority: 'low', created: '2026-04-18' }
-      ]
+    let projects = {
+      backlog: [],
+      inProgress: [],
+      done: []
     };
-
-    function loadProjects() {
-      try {
-        const raw = localStorage.getItem(projectsStorageKey);
-        if (!raw) return structuredClone(defaultProjects);
-        const parsed = JSON.parse(raw);
-        return {
-          backlog: parsed.backlog || [],
-          inProgress: parsed.inProgress || [],
-          done: parsed.done || []
-        };
-      } catch {
-        return structuredClone(defaultProjects);
-      }
-    }
-
-    function saveProjects(data) {
-      localStorage.setItem(projectsStorageKey, JSON.stringify(data));
-    }
-
-    const projects = loadProjects();
 
     function previewText(text) {
       return (text || '').length > 90 ? text.slice(0, 90) + '…' : (text || 'No description yet.');
@@ -877,7 +849,7 @@
           return;
         }
         list.innerHTML = items.map(task => `
-          <article class="project-card" data-id="${task.id}" data-column="${column}" role="button" tabindex="0" aria-label="Edit ${task.title}">
+          <article class="project-card">
             <div class="project-top">
               <div class="project-title">${escapeHtml(task.title)}</div>
               <span class="priority-badge priority-${task.priority}">${task.priority}</span>
@@ -885,7 +857,7 @@
             <div class="project-preview">${escapeHtml(previewText(task.description))}</div>
             <div class="project-meta">
               <span>${escapeHtml(task.created || '')}</span>
-              <span>Click to edit</span>
+              <span>Repo-backed shared view</span>
             </div>
           </article>
         `).join('');
@@ -901,72 +873,23 @@
         .replaceAll("'", '&#39;');
     }
 
-    function openTaskEditor(column, task = null) {
-      const title = prompt('Task title', task?.title || '');
-      if (title === null) return;
-      const description = prompt('Task description', task?.description || '');
-      if (description === null) return;
-      const priorityInput = prompt('Priority: high, medium, or low', task?.priority || 'medium');
-      if (priorityInput === null) return;
-      const priority = ['high', 'medium', 'low'].includes(priorityInput.toLowerCase()) ? priorityInput.toLowerCase() : 'medium';
-
-      if (task) {
-        const action = prompt('Type save to update, move to change column, or delete to remove', 'save');
-        if (action === null) return;
-        if (action.toLowerCase() === 'delete') {
-          projects[column] = projects[column].filter(item => item.id !== task.id);
-        } else {
-          let targetColumn = column;
-          if (action.toLowerCase() === 'move') {
-            const newColumn = prompt('Move to: backlog, inProgress, or done', column);
-            if (newColumn && ['backlog', 'inProgress', 'done'].includes(newColumn)) {
-              targetColumn = newColumn;
-              projects[column] = projects[column].filter(item => item.id !== task.id);
-            }
-          } else {
-            projects[column] = projects[column].filter(item => item.id !== task.id);
-          }
-
-          const updated = { ...task, title, description, priority };
-          projects[targetColumn].unshift(updated);
-        }
-      } else {
-        projects[column].unshift({
-          id: crypto.randomUUID(),
-          title,
-          description,
-          priority,
-          created: new Date().toISOString().slice(0, 10)
-        });
+    async function loadProjects() {
+      try {
+        const response = await fetch('./data/projects.json', { cache: 'no-store' });
+        if (!response.ok) throw new Error('Failed to load projects');
+        const data = await response.json();
+        projects = {
+          backlog: data.backlog || [],
+          inProgress: data.inProgress || [],
+          done: data.done || []
+        };
+      } catch (error) {
+        projects = { backlog: [], inProgress: [], done: [] };
       }
-
-      saveProjects(projects);
       renderProjects();
     }
 
-    document.querySelectorAll('[data-add-column]').forEach(btn => {
-      btn.addEventListener('click', () => openTaskEditor(btn.dataset.addColumn));
-    });
-
-    document.addEventListener('click', (event) => {
-      const card = event.target.closest('.project-card');
-      if (!card) return;
-      const column = card.dataset.column;
-      const task = (projects[column] || []).find(item => item.id === card.dataset.id);
-      if (task) openTaskEditor(column, task);
-    });
-
-    document.addEventListener('keydown', (event) => {
-      if (event.key !== 'Enter' && event.key !== ' ') return;
-      const card = event.target.closest('.project-card');
-      if (!card) return;
-      event.preventDefault();
-      const column = card.dataset.column;
-      const task = (projects[column] || []).find(item => item.id === card.dataset.id);
-      if (task) openTaskEditor(column, task);
-    });
-
-    renderProjects();
+    loadProjects();
 
     async function loadDailyLogs() {
       const container = document.getElementById('dailyLogsList');
