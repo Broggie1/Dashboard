@@ -1,8 +1,8 @@
 [
   {
-    "time": "2026-04-18 17:49",
-    "title": "Dashboard data generation refined",
-    "detail": "Updated script to correctly merge KANBAN items with manual backlog and launch priorities into operating-board.json."
+    "time": "2026-04-18 17:51",
+    "title": "Dashboard data generation refined again",
+    "detail": "Updated script to correctly merge KANBAN items, manual backlog from ideas_backlog.md, and launch priorities into operating-board.json."
   },
   {
     "time": "2026-04-18 17:37",

@@ -12,17 +12,13 @@ def read(path, default=''):
     try:
         return Path(path).read_text(encoding='utf-8', errors='replace')
     except Exception as e:
-        # print(f'Error reading {path}: {e}') # Suppress print for cleaner output
         return default
 
 def write_json(path, data):
     try:
         path.write_text(json.dumps(data, indent=2), encoding='utf-8')
-        # print(f'Successfully wrote to {path}') # Suppress print for cleaner output
     except Exception as e:
-        # print(f'Error writing to {path}: {e}') # Suppress print for cleaner output
         pass
-
 
 def extract_bullets(section_text):
     bullets = []
@@ -88,16 +84,82 @@ merged_board = json.loads(existing_board_content) if existing_board_content else
 # Merge KANBAN items, avoiding duplicates based on title
 for key in keys:
     for kanban_item in kanban_board_items[key]:
-        if not any(x['title'] == kanban_item['title'] for x in merged_board[key]):
-            merged_board[key].append(kanban_item)
+        if not any(x['title'] == kanban_item['title'] for x in merged_board.get(key, [])):
+            merged_board.setdefault(key, []).append(kanban_item)
 
 # --- Add/Update Specific Manual Backlog Items & Launch Priorities ---
+# These are items explicitly added or updated through conversation, including from ideas_backlog.md
+manual_backlog_items_content = read(ROOT / 'ideas_backlog.md')
+ideas_backlog_processed = {
+    'backlog': [], 'inProgress': [], 'inReview': [], 'completed': [], 'blocked': []
+}
+
+current_section = None
+section_data = None
+
+for line in manual_backlog_items_content.splitlines():
+    if line.strip().startswith('# '): # New section header
+        if current_section and section_data:
+            ideas_backlog_processed[current_section] = section_data
+        
+        section_header = line.strip()[2:].split(':')[0].strip().lower()
+        if section_header == 'idea': current_section = 'backlog'
+        elif section_header == 'project': current_section = 'inProgress' # Assuming Project status maps to inProgress
+        elif section_header == 'status: backlogged': current_section = 'backlog'
+        elif section_header == 'status: active r&d phase': current_section = 'inProgress'
+        else: current_section = None # Ignore unknown sections
+
+        section_data = []
+        
+    elif current_section and line.strip().startswith('- '):
+        item_text = line.strip()[2:].strip()
+        # Basic parsing for title and description. More complex structures would need better parsing.
+        parts = item_text.split(' - ', 1)
+        title = parts[0]
+        description = parts[1] if len(parts) > 1 else ''
+        
+        # Attempt to extract priority/category if present in specific formats
+        priority, category = 'low', 'General'
+        if 'priority:' in item_text.lower():
+            priority_match = re.search(r'priority: (low|medium|high)', item_text, flags=re.IGNORECASE)
+            if priority_match: priority = priority_match.group(1).lower()
+        if 'category:' in item_text.lower():
+            category_match = re.search(r'category: ([\w\s]+)', item_text, flags=re.IGNORECASE)
+            if category_match: category = category_match.group(1).strip()
+        
+        # For simplicity, assume all extracted from ideas_backlog go to backlog unless 'Project' status implies otherwise
+        target_key = current_section if current_section in ['inProgress', 'inReview', 'completed', 'blocked'] else 'backlog'
+        if target_key == 'inProgress' and 'active r&d phase' in item_text.lower(): target_key = 'inProgress'
+        elif target_key == 'backlog' and 'backlogged for later phase' in item_text.lower(): target_key = 'backlog'
+
+        ideas_backlog_processed.setdefault(target_key, []).append({
+            'id': f'idea-{target_key}-{len(ideas_backlog_processed[target_key])+1}',
+            'title': title,
+            'description': description,
+            'priority': priority,
+            'created': datetime.now().date().isoformat(),
+            'category': category
+        })
+
+if current_section and section_data: # Add the last section
+    ideas_backlog_processed[current_section] = section_data
+
+# Merge items from ideas_backlog.md into the main board, avoiding duplicates by title
+for key in keys:
+    for idea_item in ideas_backlog_processed.get(key, []):
+        if not any(x['title'] == idea_item['title'] for x in merged_board.get(key, [])):
+            merged_board.setdefault(key, []).append(idea_item)
+        else:
+            # Update existing item if the title matches, to incorporate new descriptions/priorities from ideas_backlog
+            for existing_item in merged_board[key]:
+                if existing_item['title'] == idea_item['title']:
+                    existing_item.update(idea_item)
+                    break
+
+# --- Overlay Current Launch Priorities & Manual Backlog Items ---
 # These are items explicitly added or updated through conversation
-manual_and_launch_items = {
+manual_and_launch_items_specific = {
     'backlog': [
-        {'id': 'op-backlog-1', 'title': '5-model 24/7 debating R&D team', 'description': 'Captured for later phase, once product launches are live and revenue validation is underway.', 'priority': 'low', 'created': datetime.now().date().isoformat(), 'category': 'Strategy'},
-        {'id': 'op-backlog-2', 'title': 'Daily microapp factory', 'description': 'Useful later, but not before the current product launch path ships.', 'priority': 'low', 'created': datetime.now().date().isoformat(), 'category': 'Innovation'},
-        {'id': 'op-backlog-3', 'title': 'Expanded prompt-driven capability programme', 'description': 'Captured for later phase when core product sales flow is live and stable.', 'priority': 'low', 'created': datetime.now().date().isoformat(), 'category': 'Capability'},
         {'id': 'op-backlog-4', 'title': 'n8n revenue workflow implementation', 'description': 'Stage n8n adoption properly, Phase 1 should focus on Launch Sequence Manager, Income Event Logger, and Product Demand Validator once live product execution needs automation support.', 'priority': 'medium', 'created': datetime.now().date().isoformat(), 'category': 'Automation'},
         {'id': 'op-backlog-5', 'title': 'Dashboard Data Generation & Linking', 'description': 'Auto-generate dashboard data (operating-board.json, agents.json, etc.) from workspace state. Link project launch tasks to the operating board.', 'priority': 'high', 'created': datetime.now().date().isoformat(), 'category': 'Dashboard'},
         {'id': 'op-backlog-6', 'title': 'Website Domain SEO Analysis', 'description': 'Analyze SEO potential for business ideas derived from WebsiteDomain.md and add to back.log. Sub-agent evaluation completed.', 'priority': 'medium', 'created': datetime.now().date().isoformat(), 'category': 'SEO'}
@@ -117,13 +179,13 @@ manual_and_launch_items = {
     ]
 }
 
-for key, items in manual_and_launch_items.items():
-    existing_titles = {x['title'] for x in merged_board.get(key, [])}
+for key, items in manual_and_launch_items_specific.items():
+    if key not in merged_board: merged_board[key] = []
+    existing_titles = {x['title'] for x in merged_board[key]}
     for item in items:
         if item['title'] not in existing_titles:
-            merged_board.setdefault(key, []).append(item)
+            merged_board[key].append(item)
         else:
-            # Update existing items if the title matches
             for existing_item in merged_board[key]:
                 if existing_item['title'] == item['title']:
                     existing_item.update(item)
@@ -162,7 +224,7 @@ write_json(DATA / 'agents.json', agents_data)
 
 # --- Activity Data Processing ---
 activity_data = [
-    {'time': datetime.now().strftime('%Y-%m-%d %H:%M'), 'title': 'Dashboard data generation refined', 'detail': 'Updated script to correctly merge KANBAN items with manual backlog and launch priorities into operating-board.json.'},
+    {'time': datetime.now().strftime('%Y-%m-%d %H:%M'), 'title': 'Dashboard data generation refined again', 'detail': 'Updated script to correctly merge KANBAN items, manual backlog from ideas_backlog.md, and launch priorities into operating-board.json.'},
     {'time': '2026-04-18 17:37', 'title': 'Dashboard reverted to stable state', 'detail': 'Reverted recent changes that caused rendering issues.'},
     {'time': '2026-04-18 17:34', 'title': 'Dashboard data generator added', 'detail': 'Mission Control pages can now be regenerated from workspace state using a shared script.'},
     {'time': '2026-04-18 17:34', 'title': 'Operating board unified', 'detail': 'Mission Control and Projects now share a single operating-board.json source.'},
